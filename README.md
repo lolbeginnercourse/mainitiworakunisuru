@@ -2,6 +2,8 @@
 
 このフォルダは、元の1枚HTMLを Codex に渡しやすいように分離したものです。
 
+本番URL: https://mainitiworakunisuru.com/
+
 ## ファイル構成
 
 - `index.html`：HTML構造だけ
