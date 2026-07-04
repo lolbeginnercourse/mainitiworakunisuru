@@ -4,6 +4,11 @@
       const STORAGE_KEY = "dailyQuestRpgState_v1";
       const EXP_TO_LEVEL = 100;
       const REBIRTH_LEVELS = [50, 100];
+      const HABIT_DIFFICULTY_VALUES = {
+        "低": { stars: "★", exp: 5, gold: 5, damage: 10 },
+        "中": { stars: "★★", exp: 15, gold: 15, damage: 25 },
+        "高": { stars: "★★★", exp: 35, gold: 35, damage: 50 }
+      };
       const JOBS = {
         warrior: {
           name: "戦士",
@@ -224,6 +229,11 @@
         next.tasks.habits = Array.isArray(next.tasks.habits) ? next.tasks.habits : [];
         next.tasks.dailies = Array.isArray(next.tasks.dailies) ? next.tasks.dailies : [];
         next.tasks.todos = Array.isArray(next.tasks.todos) ? next.tasks.todos : [];
+        next.tasks.habits = next.tasks.habits.map(habit => {
+          const difficulty = HABIT_DIFFICULTY_VALUES[habit?.difficulty] ? habit.difficulty : "低";
+          const values = HABIT_DIFFICULTY_VALUES[difficulty];
+          return { ...habit, difficulty, exp: values.exp, gold: values.gold, damage: values.damage };
+        });
         next.rewards = Array.isArray(next.rewards) ? next.rewards : [];
         next.log = Array.isArray(next.log) ? next.log : [];
         next.activeTab = ["habits", "dailies", "todos"].includes(next.activeTab) ? next.activeTab : "habits";
@@ -509,6 +519,10 @@
         return "ok";
       }
 
+      function habitDifficultyValues(difficulty) {
+        return HABIT_DIFFICULTY_VALUES[difficulty] || HABIT_DIFFICULTY_VALUES["低"];
+      }
+
       function renderStatus() {
         const p = state.player;
         const job = JOBS[p.job];
@@ -566,9 +580,10 @@
                 <span class="minus-label">－ ${escapeHtml(habit.minusText)}</span>
               </div>
               <div class="task-meta">
-                <span class="badge ok">EXP ${escapeHtml(habit.exp)}</span>
-                <span class="badge warn">G ${escapeHtml(habit.gold)}</span>
-                <span class="badge bad">DMG ${escapeHtml(habit.damage)}</span>
+                <span class="badge ${difficultyClass(habit.difficulty)}">${escapeHtml(habit.difficulty || "低")} ${escapeHtml(habitDifficultyValues(habit.difficulty).stars)}</span>
+                <span class="badge ok">EXP ${escapeHtml(habitDifficultyValues(habit.difficulty).exp)}</span>
+                <span class="badge warn">G ${escapeHtml(habitDifficultyValues(habit.difficulty).gold)}</span>
+                <span class="badge bad">DMG ${escapeHtml(habitDifficultyValues(habit.difficulty).damage)}</span>
               </div>
               <button class="delete-btn" data-action="delete-task" data-type="habits" data-id="${escapeHtml(habit.id)}" type="button" aria-label="習慣を削除">×</button>
             </div>
@@ -685,9 +700,7 @@
             <div class="form-grid">
               <div class="field"><label for="plusText">プラス行動</label><input id="plusText" name="plusText" required maxlength="40" placeholder="例：水を一杯飲んだ"></div>
               <div class="field"><label for="minusText">マイナス行動</label><input id="minusText" name="minusText" required maxlength="40" placeholder="例：現実逃避で2時間溶けた"></div>
-              <div class="field"><label for="habitExp">EXP</label><input id="habitExp" name="exp" type="number" min="1" max="100" value="5"></div>
-              <div class="field"><label for="habitGold">ゴールド</label><input id="habitGold" name="gold" type="number" min="0" max="999" value="5"></div>
-              <div class="field"><label for="habitDamage">マイナス時ダメージ</label><input id="habitDamage" name="damage" type="number" min="1" max="100" value="10"></div>
+              <div class="field"><label for="habitDifficulty">難易度</label><select id="habitDifficulty" name="difficulty"><option value="低">低（★） EXP5 / 5G / DMG10</option><option value="中">中（★★） EXP15 / 15G / DMG25</option><option value="高">高（★★★） EXP35 / 35G / DMG50</option></select></div>
             </div>
             <div class="form-actions"><button class="submit-btn" type="submit">保存</button><button class="ghost-btn" data-action="close-form" data-form="habits" type="button">閉じる</button></div>
           </form>`;
@@ -794,14 +807,17 @@
 
       function handleHabitSubmit(event) {
         event.preventDefault();
-        const fd = new FormData(event.currentTarget);
+        const fd = new FormData(event.target);
+        const difficulty = String(fd.get("difficulty") || "低");
+        const values = habitDifficultyValues(difficulty);
         state.tasks.habits.push({
           id: uid("habit"),
           plusText: String(fd.get("plusText") || "").trim(),
           minusText: String(fd.get("minusText") || "").trim(),
-          exp: clampNumber(fd.get("exp"), 1, 100, 5),
-          gold: clampNumber(fd.get("gold"), 0, 999, 5),
-          damage: clampNumber(fd.get("damage"), 1, 100, 10),
+          difficulty,
+          exp: values.exp,
+          gold: values.gold,
+          damage: values.damage,
           createdAt: Date.now()
         });
         addOpen.habits = false;
@@ -812,7 +828,7 @@
 
       function handleDailySubmit(event) {
         event.preventDefault();
-        const fd = new FormData(event.currentTarget);
+        const fd = new FormData(event.target);
         state.tasks.dailies.push({
           id: uid("daily"),
           title: String(fd.get("title") || "").trim(),
@@ -831,7 +847,7 @@
 
       function handleTodoSubmit(event) {
         event.preventDefault();
-        const fd = new FormData(event.currentTarget);
+        const fd = new FormData(event.target);
         state.tasks.todos.push({
           id: uid("todo"),
           title: String(fd.get("title") || "").trim(),
@@ -849,7 +865,7 @@
 
       function handleRewardSubmit(event) {
         event.preventDefault();
-        const fd = new FormData(event.currentTarget);
+        const fd = new FormData(event.target);
         state.rewards.push({
           id: uid("reward"),
           title: String(fd.get("title") || "").trim(),
@@ -924,13 +940,16 @@
 
         if (action === "habit-plus") {
           const habit = findById(state.tasks.habits, id);
-          if (habit) gain(Number(habit.exp), Number(habit.gold), habit.plusText);
+          if (habit) {
+            const values = habitDifficultyValues(habit.difficulty);
+            gain(values.exp, values.gold, habit.plusText);
+          }
           return;
         }
 
         if (action === "habit-minus") {
           const habit = findById(state.tasks.habits, id);
-          if (habit) takeDamage(Number(habit.damage), habit.minusText);
+          if (habit) takeDamage(habitDifficultyValues(habit.difficulty).damage, habit.minusText);
           return;
         }
 
