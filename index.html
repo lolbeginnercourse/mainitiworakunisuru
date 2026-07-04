@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>日常クエストRPG｜登録不要の習慣・日課・ToDo管理</title>
+  <meta name="description" content="登録不要・LocalStorage保存だけで使える、日常のゲーム化に特化したHabitica風RPGタスク管理Webアプリのプロトタイプです。" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero-status" aria-label="ステータスバー">
+      <div class="status-grid">
+        <div class="avatar-frame" aria-label="ダミーアバター">🧙</div>
+        <div class="hero-copy">
+          <div class="title-line">
+            <h1 class="app-title">日常クエストRPG</h1>
+            <div class="lv-chip">LV <span id="levelText">1</span></div>
+          </div>
+          <div class="meters">
+            <div class="meter-row">
+              <span>HP</span>
+              <div class="meter" aria-label="HP"><div class="meter-fill hp" id="hpBar"></div></div>
+              <span id="hpText">100/100</span>
+            </div>
+            <div class="meter-row">
+              <span>EXP</span>
+              <div class="meter" aria-label="EXP"><div class="meter-fill exp" id="expBar"></div></div>
+              <span id="expText">0/100</span>
+            </div>
+          </div>
+        </div>
+        <div class="gold-coin" id="goldText">0</div>
+      </div>
+    </header>
+
+    <section class="intro-strip" aria-labelledby="introTitle">
+      <h2 id="introTitle">布団から出たら、それはもう冒険</h2>
+      <p>習慣・日課・ToDo・ご褒美を4つのボードで横並び管理。登録なし、通信なし、データはこのブラウザのLocalStorageだけに保存されます。</p>
+    </section>
+
+    <main class="board-scroll" aria-label="クエストボード">
+      <div class="board">
+        <section class="column" aria-labelledby="habitsTitle">
+          <div class="column-head habits">
+            <div class="column-title-row">
+              <h2 class="column-title" id="habitsTitle">⚔️ 習慣</h2>
+              <span class="column-count" id="habitsCount">0</span>
+            </div>
+            <button class="quick-add-btn" id="toggleHabitForm" type="button">＋ 習慣を追加</button>
+          </div>
+          <div class="column-body">
+            <div id="addHabitArea"></div>
+            <div id="habitsList" class="task-list"></div>
+            <div class="ad-card" aria-label="習慣列の広告枠"><strong>AD SPACE</strong><br>習慣カラム下部<br>Googleアドセンス配置枠</div>
+          </div>
+        </section>
+
+        <section class="column" aria-labelledby="dailiesTitle">
+          <div class="column-head dailies">
+            <div class="column-title-row">
+              <h2 class="column-title" id="dailiesTitle">☀️ 日課</h2>
+              <span class="column-count" id="dailiesCount">0</span>
+            </div>
+            <button class="quick-add-btn" id="toggleDailyForm" type="button">＋ 日課を追加</button>
+          </div>
+          <div class="column-body">
+            <div id="addDailyArea"></div>
+            <div id="dailiesList" class="task-list"></div>
+            <div class="ad-card" aria-label="日課列の広告枠"><strong>AD SPACE</strong><br>日課カラム下部<br>Googleアドセンス配置枠</div>
+          </div>
+        </section>
+
+        <section class="column" aria-labelledby="todosTitle">
+          <div class="column-head todos">
+            <div class="column-title-row">
+              <h2 class="column-title" id="todosTitle">📜 ToDo</h2>
+              <span class="column-count" id="todosCount">0</span>
+            </div>
+            <button class="quick-add-btn" id="toggleTodoForm" type="button">＋ ToDoを追加</button>
+          </div>
+          <div class="column-body">
+            <div id="addTodoArea"></div>
+            <div id="todosList" class="task-list"></div>
+            <div class="ad-card" aria-label="ToDo列の広告枠"><strong>AD SPACE</strong><br>ToDoカラム下部<br>Googleアドセンス配置枠</div>
+          </div>
+        </section>
+
+        <section class="column" aria-labelledby="rewardsTitle">
+          <div class="column-head rewards">
+            <div class="column-title-row">
+              <h2 class="column-title" id="rewardsTitle">🪙 ご褒美</h2>
+              <span class="column-count" id="rewardsCount">0</span>
+            </div>
+            <button class="quick-add-btn" id="toggleRewardForm" type="button">＋ ご褒美を追加</button>
+          </div>
+          <div class="column-body">
+            <div id="addRewardArea"></div>
+            <div id="rewardList" class="reward-grid"></div>
+            <div class="ad-card" aria-label="ご褒美列の広告枠"><strong>AD SPACE</strong><br>ご褒美カラム下部<br>Googleアドセンス配置枠</div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <section class="log-panel" aria-labelledby="logTitle">
+      <h2 class="log-title" id="logTitle">冒険ログ</h2>
+      <div class="log-box" id="logBox"></div>
+    </section>
+
+    <footer class="footer-panel">
+      <div class="footer-links" aria-label="フッターリンク">
+        <a href="#terms">利用規約</a>
+        <a href="#privacy">プライバシーポリシー</a>
+        <a href="#contact">お問い合わせ</a>
+      </div>
+      <div class="seo-copy">
+        <h2>日常のゲーミフィケーション（行動経済学）効果について</h2>
+        <p>日常のゲーミフィケーションとは、歯みがき、片づけ、散歩、勉強、仕事探し、生活リズムの立て直しといった普通の行動に、レベル、経験値、報酬、達成演出などのゲーム的な仕組みを重ねる考え方です。人は大きすぎる目標を前にすると、何から始めればよいかわからなくなりがちです。しかし「まず布団から出る」「水を飲む」「スマホを充電する」のような小さな行動に分解され、さらに押した瞬間に経験値やゴールドが増えると、行動の手応えが目に見えます。この小さな手応えが、次の一歩を始めるきっかけになります。</p>
+        <p>行動経済学では、人は将来の大きな利益より、今すぐ得られる小さな快感に影響されやすいと考えられています。タスク管理が続かない理由のひとつは、完了しても得られる報酬が遠く、疲れている日ほど価値を感じにくいことです。そこで、達成直後にEXPやゴールドが増える仕組みを入れると、将来の理想だけでなく、今この瞬間の小さな満足を用意できます。これは完璧な自己管理を目指す仕組みではなく、低い気力でも行動を開始しやすくするための補助輪のようなものです。</p>
+        <p>特に日本のライト層や、生活リズムが崩れやすい人にとっては、真面目すぎるタスク管理アプリが逆に負担になる場合があります。毎日きちんと予定を組む、細かくカテゴリ分けする、達成率を分析する、といった作業そのものが面倒になるからです。このプロトタイプでは、登録やログインをなくし、初回からサンプルクエストを入れることで、始めるまでの抵抗を減らしています。「今日も生き抜いた」のような少し笑える日課は、自己管理の失敗を責めるためではなく、低いハードルでも自分の行動を認めるための言葉です。</p>
+        <p>また、HPが減るペナルティは、現実の自分を罰するためのものではありません。日課を忘れたときに少しだけ痛みを可視化し、翌日に戻ってくる理由を作るための演出です。失敗してもレベルが下がるだけで、データが消えるわけではなく、HPは回復して再開できます。これは、習慣化において重要な「一度崩れても戻れる設計」です。多くの人は一回サボった時点で全てが終わったように感じますが、ゲーム風にすると、負けイベントのあとにまた冒険を続ける感覚に置き換えられます。</p>
+        <p>ご褒美ショップは、自分に合った報酬を自分で設定できる点が重要です。高価な買い物である必要はなく、好きな動画を一話見る、コンビニで甘いものを買う、今日は早めに寝る、何もしない時間を許可する、といった小さな報酬で十分です。自分で報酬を決めることで、タスクは「やらされるもの」から「自分で選んだ冒険」に変わります。日常のゲーム化は、根性論ではなく、行動を始める摩擦を減らし、続いた結果を見える形にするための仕組みです。</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script defer src="./app.js"></script>
+</body>
+</html>
