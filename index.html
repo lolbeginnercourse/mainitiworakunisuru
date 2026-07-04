@@ -12,7 +12,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="日常クエストRPG" />
   <meta name="twitter:card" content="summary" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=20260704-rpg-systems" />
 </head>
 <body>
   <div class="app-shell">
@@ -30,12 +30,18 @@
               <div class="meter" aria-label="HP"><div class="meter-fill hp" id="hpBar"></div></div>
               <span id="hpText">100/100</span>
             </div>
+            <div class="meter-row mp-row" id="mpRow" hidden>
+              <span>MP</span>
+              <div class="meter" aria-label="MP"><div class="meter-fill mp" id="mpBar"></div></div>
+              <span id="mpText">50/100</span>
+            </div>
             <div class="meter-row">
               <span>EXP</span>
               <div class="meter" aria-label="EXP"><div class="meter-fill exp" id="expBar"></div></div>
               <span id="expText">0/100</span>
             </div>
           </div>
+          <div class="rpg-status-panel" id="rpgStatusPanel"></div>
         </div>
         <div class="gold-coin" id="goldText">0</div>
       </div>
@@ -103,6 +109,7 @@
           </div>
           <div class="column-body">
             <div id="addRewardArea"></div>
+            <div id="skillPanel"></div>
             <div id="rewardList" class="reward-grid"></div>
             <div class="ad-card" aria-label="ご褒美列の広告枠"><strong>AD SPACE</strong><br>ご褒美カラム下部<br>Googleアドセンス配置枠</div>
           </div>
@@ -133,6 +140,6 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script defer src="./app.js"></script>
+  <script defer src="./app.js?v=20260704-rpg-systems"></script>
 </body>
 </html>

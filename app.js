@@ -3,15 +3,54 @@
 
       const STORAGE_KEY = "dailyQuestRpgState_v1";
       const EXP_TO_LEVEL = 100;
+      const REBIRTH_LEVELS = [50, 100];
+      const JOBS = {
+        warrior: {
+          name: "戦士",
+          label: "Warrior",
+          passive: "日課サボり被ダメージ20%軽減",
+          skillName: "ガードスタンス",
+          skillCost: 20,
+          skillText: "消費MP20：HPを10回復し、20Gを獲得"
+        },
+        mage: {
+          name: "魔道士",
+          label: "Mage",
+          passive: "タスク達成EXP20%アップ",
+          skillName: "集中詠唱",
+          skillCost: 25,
+          skillText: "消費MP25：EXPを30獲得"
+        },
+        healer: {
+          name: "衛生兵",
+          label: "Healer",
+          passive: "ヒール使用可能",
+          skillName: "ヒール",
+          skillCost: 30,
+          skillText: "消費MP30：HPを20回復"
+        },
+        rogue: {
+          name: "盗賊",
+          label: "Rogue",
+          passive: "タスク達成ゴールド20%アップ",
+          skillName: "宝探し",
+          skillCost: 25,
+          skillText: "消費MP25：45Gを獲得"
+        }
+      };
 
       const $ = (selector) => document.querySelector(selector);
       const els = {
         levelText: $("#levelText"),
         goldText: $("#goldText"),
         hpText: $("#hpText"),
+        mpText: $("#mpText"),
         expText: $("#expText"),
         hpBar: $("#hpBar"),
+        mpBar: $("#mpBar"),
         expBar: $("#expBar"),
+        mpRow: $("#mpRow"),
+        rpgStatusPanel: $("#rpgStatusPanel"),
         habitsCount: $("#habitsCount"),
         dailiesCount: $("#dailiesCount"),
         todosCount: $("#todosCount"),
@@ -20,6 +59,7 @@
         dailiesList: $("#dailiesList"),
         todosList: $("#todosList"),
         rewardList: $("#rewardList"),
+        skillPanel: $("#skillPanel"),
         addHabitArea: $("#addHabitArea"),
         addDailyArea: $("#addDailyArea"),
         addTodoArea: $("#addTodoArea"),
@@ -78,7 +118,14 @@
             hp: 100,
             maxHp: 100,
             exp: 0,
-            gold: 0
+            gold: 0,
+            mp: 50,
+            maxMp: 100,
+            job: null,
+            points: 0,
+            str: 0,
+            vit: 0,
+            rebirths: 0
           },
           tasks: {
             habits: [
@@ -182,10 +229,17 @@
         next.activeTab = ["habits", "dailies", "todos"].includes(next.activeTab) ? next.activeTab : "habits";
         next.lastDailyCheck = next.lastDailyCheck || todayKey();
         next.player.maxHp = 100;
+        next.player.maxMp = 100;
         next.player.hp = clampNumber(next.player.hp, 0, 100, 100);
+        next.player.mp = clampNumber(next.player.mp, 0, 100, 50);
         next.player.exp = clampNumber(next.player.exp, 0, 9999, 0);
         next.player.gold = clampNumber(next.player.gold, 0, 999999, 0);
         next.player.level = clampNumber(next.player.level, 1, 999, 1);
+        next.player.job = JOBS[next.player.job] ? next.player.job : null;
+        next.player.points = clampNumber(next.player.points, 0, 999, 0);
+        next.player.str = clampNumber(next.player.str, 0, 999, 0);
+        next.player.vit = clampNumber(next.player.vit, 0, 999, 0);
+        next.player.rebirths = clampNumber(next.player.rebirths, 0, 999, 0);
         return next;
       }
 
@@ -221,26 +275,192 @@
         toastTimer = window.setTimeout(() => els.toast.classList.remove("show"), 2200);
       }
 
-      function gain(exp, gold, reason) {
-        const player = state.player;
-        player.exp += exp;
-        player.gold += gold;
-        addLog(`＋ ${reason}：EXP ${exp} / ${gold}G 獲得`);
+      function hasJob() {
+        return Boolean(state.player.job && JOBS[state.player.job]);
+      }
 
+      function jobName(job = state.player.job) {
+        return JOBS[job]?.name || "なし";
+      }
+
+      function taskExpValue(baseExp) {
+        const mageBonus = state.player.job === "mage" ? 0.2 : 0;
+        return Math.max(0, Math.round(Number(baseExp || 0) * (1 + mageBonus)));
+      }
+
+      function taskGoldValue(baseGold) {
+        const rogueBonus = state.player.job === "rogue" ? 0.2 : 0;
+        const strBonus = Number(state.player.str || 0) * 0.05;
+        return Math.max(0, Math.round(Number(baseGold || 0) * (1 + rogueBonus + strBonus)));
+      }
+
+      function recoverMp(amount) {
+        const player = state.player;
+        if (!hasJob()) return 0;
+        const before = player.mp;
+        player.mp = Math.min(player.maxMp, player.mp + amount);
+        return player.mp - before;
+      }
+
+      function applyDailyDamageReduction(amount) {
+        const warriorReduction = state.player.job === "warrior" ? 0.2 : 0;
+        const vitReduction = Number(state.player.vit || 0) * 0.05;
+        const totalReduction = Math.min(0.9, warriorReduction + vitReduction);
+        return Math.max(0, Math.ceil(Number(amount || 0) * (1 - totalReduction)));
+      }
+
+      function ensureRebirthOrb(level = state.player.level) {
+        if (!REBIRTH_LEVELS.includes(level)) return;
+        const exists = state.rewards.some(reward => reward.kind === "rebirth-orb" && reward.orbLevel === level);
+        if (exists) return;
+        state.rewards.unshift({
+          id: uid("rebirth"),
+          kind: "rebirth-orb",
+          orbLevel: level,
+          title: `転生のオーブ Lv${level}`,
+          cost: 0,
+          createdAt: Date.now()
+        });
+        addLog("転生のオーブがショップに出現した。新しい冒険の気配がする。");
+      }
+
+      function levelUpIfNeeded() {
+        const player = state.player;
         let levelUps = 0;
+        const rebirthUnlocks = [];
         while (player.exp >= EXP_TO_LEVEL) {
           player.exp -= EXP_TO_LEVEL;
           player.level += 1;
+          player.points += 1;
           player.hp = player.maxHp;
+          if (REBIRTH_LEVELS.includes(player.level)) rebirthUnlocks.push(player.level);
           levelUps += 1;
         }
 
         if (levelUps > 0) {
-          addLog(`LEVEL UP！ Lv.${player.level} になった。HP全回復。`);
-          showToast(`レベルアップ！ Lv.${player.level} / HP全回復`);
-        } else {
-          showToast(`EXP+${exp} / ${gold}G 獲得`);
+          addLog(`LEVEL UP！HPが全回復した！ Lv.${player.level} / 未割り当てポイント +${levelUps}`);
+          if (player.level >= 10 && !hasJob()) {
+            addLog("Lv10到達。転職が解放された。職業を選べるようになった！");
+          }
+          rebirthUnlocks.forEach(level => ensureRebirthOrb(level));
+          showToast(`LEVEL UP！HPが全回復した！ Lv.${player.level}`);
+          return true;
         }
+        ensureRebirthOrb();
+        return false;
+      }
+
+      function gain(exp, gold, reason) {
+        const player = state.player;
+        const finalExp = taskExpValue(exp);
+        const finalGold = taskGoldValue(gold);
+        player.exp += finalExp;
+        player.gold += finalGold;
+        const mpRecovered = recoverMp(5);
+        addLog(`＋ ${reason}：EXP ${finalExp} / ${finalGold}G 獲得${mpRecovered ? ` / MP ${mpRecovered}回復` : ""}`);
+
+        if (!levelUpIfNeeded()) {
+          showToast(`EXP+${finalExp} / ${finalGold}G 獲得`);
+        }
+        saveState();
+        render();
+      }
+
+      function gainRaw(exp, gold, reason) {
+        const player = state.player;
+        player.exp += Math.max(0, Number(exp || 0));
+        player.gold += Math.max(0, Number(gold || 0));
+        addLog(`スキル発動：${reason}`);
+        if (!levelUpIfNeeded()) {
+          showToast(reason);
+        }
+        saveState();
+        render();
+      }
+
+      function useMp(cost) {
+        const player = state.player;
+        if (!hasJob()) {
+          showToast("Lv10で職業を選ぶとスキルが使えます。");
+          return false;
+        }
+        if (player.mp < cost) {
+          showToast(`MP不足。あと ${cost - player.mp} 必要です。`);
+          return false;
+        }
+        player.mp -= cost;
+        return true;
+      }
+
+      function chooseJob(job) {
+        if (!JOBS[job] || state.player.level < 10 || hasJob()) return;
+        state.player.job = job;
+        state.player.mp = 50;
+        state.player.maxMp = 100;
+        addLog(`転職完了：${JOBS[job].name}になった。MPバーと固有スキルが解放された！`);
+        showToast(`${JOBS[job].name}に転職した！`);
+        saveState();
+        render();
+      }
+
+      function allocateStat(stat) {
+        const player = state.player;
+        if (!["str", "vit"].includes(stat) || player.points <= 0) return;
+        player[stat] += 1;
+        player.points -= 1;
+        addLog(`${stat === "str" ? "力" : "体"}に1ポイント振った。`);
+        saveState();
+        render();
+      }
+
+      function activateSkill() {
+        const player = state.player;
+        const job = JOBS[player.job];
+        if (!job || !useMp(job.skillCost)) return;
+
+        if (player.job === "warrior") {
+          player.hp = Math.min(player.maxHp, player.hp + 10);
+          gainRaw(0, 20, "ガードスタンス。HPを10回復し、20Gを得た。");
+          return;
+        }
+
+        if (player.job === "mage") {
+          gainRaw(30, 0, "集中詠唱。EXPを30獲得した。");
+          return;
+        }
+
+        if (player.job === "healer") {
+          const before = player.hp;
+          player.hp = Math.min(player.maxHp, player.hp + 20);
+          addLog(`スキル発動：ヒール。HP ${before} → ${player.hp}`);
+          showToast("ヒール！HPを20回復");
+          saveState();
+          render();
+          return;
+        }
+
+        if (player.job === "rogue") {
+          gainRaw(0, 45, "宝探し。45Gを獲得した。");
+        }
+      }
+
+      function rebirth(rewardId) {
+        const reward = findById(state.rewards, rewardId);
+        if (!reward || reward.kind !== "rebirth-orb") return;
+        const oldJobName = jobName();
+        const player = state.player;
+        player.level = 1;
+        player.hp = player.maxHp;
+        player.exp = 0;
+        player.mp = 50;
+        player.job = null;
+        player.points = 0;
+        player.str = 0;
+        player.vit = 0;
+        player.rebirths += 1;
+        state.rewards = state.rewards.filter(item => item.id !== rewardId);
+        addLog(`${oldJobName}としての旅を終え、新たなる強くてニューゲームが始まった！`);
+        showToast("強くてニューゲーム開始！");
         saveState();
         render();
       }
@@ -272,9 +492,10 @@
 
         const missed = state.tasks.dailies.filter(daily => daily.completedDate !== last);
         if (missed.length > 0) {
-          const totalDamage = missed.reduce((sum, daily) => sum + Number(daily.damage || 0), 0);
+          const rawDamage = missed.reduce((sum, daily) => sum + Number(daily.damage || 0), 0);
+          const totalDamage = applyDailyDamageReduction(rawDamage);
           const names = missed.map(daily => `「${daily.title}」`).join(" ");
-          takeDamage(totalDamage, `日付変更ペナルティ ${names}`);
+          takeDamage(totalDamage, `日付変更ペナルティ ${names}${totalDamage < rawDamage ? `（軽減 ${rawDamage}→${totalDamage}）` : ""}`);
         } else {
           addLog("日付が変わった。昨日の日課は全部クリア済み。偉業。");
         }
@@ -290,12 +511,36 @@
 
       function renderStatus() {
         const p = state.player;
+        const job = JOBS[p.job];
         els.levelText.textContent = p.level;
         els.goldText.textContent = p.gold;
         els.hpText.textContent = `${p.hp}/${p.maxHp}`;
+        els.mpText.textContent = `${p.mp}/${p.maxMp}`;
         els.expText.textContent = `${p.exp}/${EXP_TO_LEVEL}`;
         els.hpBar.style.width = `${Math.max(0, Math.min(100, (p.hp / p.maxHp) * 100))}%`;
+        els.mpBar.style.width = `${Math.max(0, Math.min(100, (p.mp / p.maxMp) * 100))}%`;
         els.expBar.style.width = `${Math.max(0, Math.min(100, (p.exp / EXP_TO_LEVEL) * 100))}%`;
+        els.mpRow.hidden = !hasJob();
+
+        const statusParts = [
+          `<span class="rpg-chip"><strong>${hasJob() ? `Lv${p.level} ${escapeHtml(job.name)}` : `Lv${p.level} 冒険者`}</strong>${hasJob() ? escapeHtml(job.passive) : "Lv10で転職解放"}</span>`,
+          `<span class="rpg-chip">未割り当てポイント：<strong>${p.points}</strong></span>`,
+          `<span class="stat-control">力 STR：<strong>${p.str}</strong><button class="stat-plus-btn" data-action="allocate-stat" data-stat="str" type="button" ${p.points <= 0 ? "disabled" : ""}>＋</button></span>`,
+          `<span class="stat-control">体 VIT：<strong>${p.vit}</strong><button class="stat-plus-btn" data-action="allocate-stat" data-stat="vit" type="button" ${p.points <= 0 ? "disabled" : ""}>＋</button></span>`
+        ];
+
+        if (p.level >= 10 && !hasJob()) {
+          statusParts.push(`
+            <div class="class-choice">
+              <div class="class-choice-title">Lv10解放：職業を選択</div>
+              <div class="class-choice-buttons">
+                ${Object.entries(JOBS).map(([key, item]) => `<button class="mini-btn" data-action="choose-job" data-job="${key}" type="button">${escapeHtml(item.name)}</button>`).join("")}
+              </div>
+            </div>
+          `);
+        }
+
+        els.rpgStatusPanel.innerHTML = statusParts.join("");
       }
 
       function renderCounts() {
@@ -393,22 +638,44 @@
         }).join("");
       }
 
+      function renderSkillPanel() {
+        const job = JOBS[state.player.job];
+        if (!job) {
+          els.skillPanel.hidden = true;
+          els.skillPanel.innerHTML = "";
+          return;
+        }
+
+        els.skillPanel.hidden = false;
+        els.skillPanel.className = "skill-panel";
+        els.skillPanel.innerHTML = `
+          <p class="skill-title">${escapeHtml(job.name)}スキル：${escapeHtml(job.skillName)}</p>
+          <p class="skill-text">${escapeHtml(job.skillText)} / 現在MP ${escapeHtml(state.player.mp)}</p>
+          <button class="skill-btn" data-action="activate-skill" type="button" ${state.player.mp < job.skillCost ? "disabled" : ""}>
+            MP${escapeHtml(job.skillCost)}で発動
+          </button>
+        `;
+      }
+
       function renderRewards() {
         if (state.rewards.length === 0) {
           els.rewardList.innerHTML = `<div class="empty empty--full">ご褒美がありません。<br>「5分だけ横になる」くらいの報酬からどうぞ。</div>`;
           return;
         }
 
-        els.rewardList.innerHTML = state.rewards.map(reward => `
-          <article class="reward-card">
-            <button class="delete-btn" data-action="delete-reward" data-id="${escapeHtml(reward.id)}" type="button" aria-label="ご褒美を削除">×</button>
+        els.rewardList.innerHTML = state.rewards.map(reward => {
+          const isRebirth = reward.kind === "rebirth-orb";
+          return `
+          <article class="reward-card ${isRebirth ? "rebirth-card" : ""}">
+            ${isRebirth ? "" : `<button class="delete-btn" data-action="delete-reward" data-id="${escapeHtml(reward.id)}" type="button" aria-label="ご褒美を削除">×</button>`}
             <div>
               <p class="reward-title">${escapeHtml(reward.title)}</p>
-              <p class="reward-cost">🪙 ${escapeHtml(reward.cost)}G</p>
+              <p class="reward-cost">${isRebirth ? "NEW GAME" : "🪙"} ${escapeHtml(reward.cost)}G</p>
             </div>
-            <button class="buy-btn" data-action="buy-reward" data-id="${escapeHtml(reward.id)}" type="button">購入</button>
+            <button class="buy-btn" data-action="buy-reward" data-id="${escapeHtml(reward.id)}" type="button">${isRebirth ? "転生" : "購入"}</button>
           </article>
-        `).join("");
+        `;
+        }).join("");
       }
 
       function habitFormHtml() {
@@ -496,6 +763,7 @@
         renderHabits();
         renderDailies();
         renderTodos();
+        renderSkillPanel();
         renderRewards();
         renderLog();
       }
@@ -602,6 +870,8 @@
         const id = target.dataset.id;
         const type = target.dataset.type;
         const formKey = target.dataset.form;
+        const job = target.dataset.job;
+        const stat = target.dataset.stat;
 
         if (target.id === "toggleHabitForm") {
           addOpen.habits = !addOpen.habits;
@@ -637,6 +907,21 @@
           return;
         }
 
+        if (action === "choose-job") {
+          chooseJob(job);
+          return;
+        }
+
+        if (action === "allocate-stat") {
+          allocateStat(stat);
+          return;
+        }
+
+        if (action === "activate-skill") {
+          activateSkill();
+          return;
+        }
+
         if (action === "habit-plus") {
           const habit = findById(state.tasks.habits, id);
           if (habit) gain(Number(habit.exp), Number(habit.gold), habit.plusText);
@@ -662,6 +947,10 @@
         if (action === "buy-reward") {
           const reward = findById(state.rewards, id);
           if (!reward) return;
+          if (reward.kind === "rebirth-orb") {
+            rebirth(id);
+            return;
+          }
           if (state.player.gold < Number(reward.cost)) {
             showToast(`ゴールド不足。あと ${Number(reward.cost) - state.player.gold}G 必要です。`);
             addLog(`ご褒美「${reward.title}」に手を伸ばしたが、財布が虚無だった。`);
@@ -727,6 +1016,7 @@
 
       state = loadState();
       checkDailyPenalty();
+      ensureRebirthOrb();
       saveState();
       render();
     })();
