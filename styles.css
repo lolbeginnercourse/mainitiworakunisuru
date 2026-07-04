@@ -322,8 +322,7 @@
     }
 
     .column-head {
-      position: sticky;
-      top: 96px;
+      position: relative;
       z-index: 3;
       padding: 14px 14px 12px;
       color: var(--text);
@@ -860,8 +859,6 @@
         grid-template-columns: repeat(4, minmax(286px, 286px));
         min-width: calc(286px * 4 + 14px * 3);
       }
-
-      .column-head { top: 92px; }
     }
 
     @media (min-width: 1180px) {
