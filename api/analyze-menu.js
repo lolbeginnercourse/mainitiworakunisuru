@@ -185,7 +185,31 @@ function buildPrompt(profile, imageMeta) {
   return [
     "You are Menu Safe Lens, a cautious Japanese menu risk checker for travelers.",
     "Analyze the menu photo. Extract visible menu items, Japanese names, English translations, prices in JPY when visible, visible allergen labels, and likely hidden ingredient risks.",
-    "Return JSON only. Do not include markdown.",
+    "Return JSON only. Do not include markdown. Use this exact shape:",
+    JSON.stringify({
+      menuType: "restaurant menu",
+      summary: "short English summary",
+      analysisStatus: "readable | partial | retake",
+      analysisNote: "short note",
+      items: [
+        {
+          id: 1,
+          status: "ok | ask | avoid",
+          section: "menu section if visible",
+          nameJa: "visible Japanese item name",
+          nameEn: "English translation",
+          price: 430,
+          tags: ["visible labels or likely risk terms"],
+          found: "exact visible text that supports this item",
+          reason: "why it has this status",
+          action: "what the traveler should do",
+          askJa: "staff question in Japanese",
+          askEn: "staff question in English",
+          orderJa: "order phrase in Japanese",
+          orderEn: "order phrase in English"
+        }
+      ]
+    }),
     "Never claim food is guaranteed safe. Use status 'ok' only for 'no obvious issue' based on the user's selected profile; use 'ask' when sauces, dashi, broth, shared fryers, unclear kanji, cross-contact, or hidden ingredients may matter; use 'avoid' for clear conflicts.",
     "If the photo is unreadable, return analysisStatus 'retake' and an empty items array.",
     "Profile:",
@@ -211,18 +235,18 @@ function normalizeForClient(result) {
     items: items.slice(0, 30).map((item, index) => ({
       id: Number(item.id || index + 1),
       status: ["ok", "ask", "avoid"].includes(item.status) ? item.status : "ask",
-      section: String(item.section || ""),
-      nameJa: String(item.nameJa || "読み取り不明"),
-      nameEn: String(item.nameEn || "Unknown item"),
-      price: Number(item.price || 0),
+      section: String(item.section || item.category || item.menuSection || ""),
+      nameJa: String(item.nameJa || item.name_ja || item.japaneseName || item.japanese_name || item.name || item.item || "読み取り不明"),
+      nameEn: String(item.nameEn || item.name_en || item.englishName || item.english_name || item.translation || item.name || "Unknown item"),
+      price: Number(item.price || item.priceJpy || item.price_jpy || item.jpy || 0),
       tags: Array.isArray(item.tags) ? item.tags.map(String).slice(0, 8) : [],
-      found: String(item.found || "Detected menu text"),
-      reason: String(item.reason || "This item needs review based on visible text or hidden-risk rules."),
-      action: String(item.action || "Ask staff before ordering if this matters to your profile."),
-      askJa: String(item.askJa || "この料理の材料と調理方法を確認してもらえますか？"),
-      askEn: String(item.askEn || "Could you please check the ingredients and preparation method?"),
-      orderJa: String(item.orderJa || "これを1つください。"),
-      orderEn: String(item.orderEn || "I'll have one of this, please.")
+      found: String(item.found || item.foundOnMenu || item.found_on_menu || item.visibleText || item.visible_text || "Detected menu text"),
+      reason: String(item.reason || item.why || item.riskReason || item.risk_reason || "This item needs review based on visible text or hidden-risk rules."),
+      action: String(item.action || item.whatToDo || item.what_to_do || "Ask staff before ordering if this matters to your profile."),
+      askJa: String(item.askJa || item.ask_ja || item.staffQuestionJa || item.staff_question_ja || "この料理の材料と調理方法を確認してもらえますか？"),
+      askEn: String(item.askEn || item.ask_en || item.staffQuestionEn || item.staff_question_en || "Could you please check the ingredients and preparation method?"),
+      orderJa: String(item.orderJa || item.order_ja || item.orderPhraseJa || item.order_phrase_ja || "これを1つください。"),
+      orderEn: String(item.orderEn || item.order_en || item.orderPhraseEn || item.order_phrase_en || "I'll have one of this, please.")
     }))
   };
 }
