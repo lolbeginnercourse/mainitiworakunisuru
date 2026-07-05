@@ -7,7 +7,7 @@ const vercelConfig = {
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions";
 
 async function handler(req, res) {
   setSecurityHeaders(res);
@@ -54,24 +54,22 @@ async function handler(req, res) {
 async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
   const prompt = buildPrompt(profile, imageMeta);
   const payload = {
-    contents: [
+    model: GEMINI_MODEL,
+    input: [
+      { type: "text", text: prompt },
       {
-        role: "user",
-        parts: [
-          { text: prompt },
-          {
-            inline_data: {
-              mime_type: image.contentType,
-              data: image.data.toString("base64")
-            }
-          }
-        ]
+        type: "image",
+        data: image.data.toString("base64"),
+        mime_type: image.contentType
       }
     ],
-    generationConfig: {
-      responseMimeType: "application/json",
+    response_format: {
+      type: "text",
+      mime_type: "application/json"
+    },
+    generation_config: {
       temperature: 0.2,
-      maxOutputTokens: 4096
+      max_output_tokens: 4096
     }
   };
 
@@ -98,7 +96,7 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
   }
 
   const json = await response.json();
-  const text = json?.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("").trim();
+  const text = extractInteractionText(json);
   if (!text) {
     throw Object.assign(new Error("Gemini returned no text"), {
       statusCode: 502,
@@ -114,6 +112,20 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
       clientMessage: "Analysis result was malformed. Try again."
     });
   }
+}
+
+function extractInteractionText(json) {
+  if (typeof json?.output_text === "string") return json.output_text.trim();
+  if (typeof json?.outputText === "string") return json.outputText.trim();
+  if (typeof json?.text === "string") return json.text.trim();
+  const output = Array.isArray(json?.output) ? json.output : [];
+  const parts = output.flatMap(item => {
+    if (typeof item?.text === "string") return [item.text];
+    if (Array.isArray(item?.content)) return item.content.map(part => part?.text || "").filter(Boolean);
+    if (Array.isArray(item?.parts)) return item.parts.map(part => part?.text || "").filter(Boolean);
+    return [];
+  });
+  return parts.join("").trim();
 }
 
 async function readGeminiError(response) {
