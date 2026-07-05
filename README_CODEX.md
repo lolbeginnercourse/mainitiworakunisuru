@@ -26,6 +26,8 @@ Production URL: https://mainitiworakunisuru.com/
 
 ## Production tasks for Codex
 
+Current launch state: menu scanning is paused before public operation. The browser flag is `window.MENU_SAFE_LENS_LAUNCH_PAUSED = true` in `assets/js/config.js`, and the serverless API has `ANALYSIS_PAUSED = true` in `api/analyze-menu.js`. While these are true, Gemini API calls are not made.
+
 1. Set the Gemini API key only on the server/Vercel side:
 
 ```txt

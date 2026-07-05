@@ -4,7 +4,8 @@ const $ = (selector, root = document) => root.querySelector(selector);
     const CONFIG = {
       apiEndpoint: window.MENU_SAFE_LENS_API || '',
       stripeCheckoutUrl: window.MENU_SAFE_LENS_STRIPE_URL || '',
-      demoMode: Boolean(window.MENU_SAFE_LENS_DEMO) || new URLSearchParams(location.search).has('demo')
+      demoMode: Boolean(window.MENU_SAFE_LENS_DEMO) || new URLSearchParams(location.search).has('demo'),
+      launchPaused: Boolean(window.MENU_SAFE_LENS_LAUNCH_PAUSED)
     };
 
     const state = {
@@ -44,6 +45,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
       updateUsageCopy();
       $('#currencySelect').value = state.currency;
       bindEvents();
+      updateLaunchState();
       if (CONFIG.demoMode) toast('Demo preview mode. Real production should use the analysis API.');
     }
 
@@ -172,7 +174,12 @@ const $ = (selector, root = document) => root.querySelector(selector);
       $('#readoutTitle').textContent = 'Photo ready';
       $('#readoutHint').textContent = state.imageMeta.width ? `${state.imageMeta.width}×${state.imageMeta.height}` : 'Image selected';
       renderQualityChips();
-      toast('Photo selected. Tap Scan menu.');
+      if (CONFIG.launchPaused) {
+        $('#checkMenu').disabled = true;
+        toast('Menu scanning opens in about one week.');
+      } else {
+        toast('Photo selected. Tap Scan menu.');
+      }
     }
 
     function renderQualityChips() {
@@ -186,7 +193,9 @@ const $ = (selector, root = document) => root.querySelector(selector);
         chips.push(['is-good', 'Text should be readable']);
       }
       chips.push(hasProfile ? ['is-good', 'Profile set'] : ['is-warn', 'Profile recommended']);
-      chips.push([CONFIG.apiEndpoint ? 'is-good' : CONFIG.demoMode ? 'is-warn' : 'is-bad', CONFIG.apiEndpoint ? 'API connected' : CONFIG.demoMode ? 'Demo mode' : 'API required']);
+      chips.push(CONFIG.launchPaused
+        ? ['is-warn', 'Launch soon']
+        : [CONFIG.apiEndpoint ? 'is-good' : CONFIG.demoMode ? 'is-warn' : 'is-bad', CONFIG.apiEndpoint ? 'API connected' : CONFIG.demoMode ? 'Demo mode' : 'API required']);
       $('#qualityChips').innerHTML = chips.map(([cls, text]) => `<b class="${cls}">${text}</b>`).join('');
     }
 
@@ -207,6 +216,11 @@ const $ = (selector, root = document) => root.querySelector(selector);
     }
 
     async function checkMenu(options = {}) {
+      if (CONFIG.launchPaused) {
+        renderAnalysisFailure('Menu scanning is paused before launch. Full service is planned to start in about one week.');
+        toast('Menu scanning opens in about one week.');
+        return;
+      }
       if (!state.file) {
         toast('Choose a menu photo first.');
         return;
@@ -255,6 +269,16 @@ const $ = (selector, root = document) => root.querySelector(selector);
         return JSON.parse(JSON.stringify(window.MENU_SAFE_LENS_DEMO_DATA));
       }
       throw new Error('Analysis API is not connected yet. Connect Gemini / Vision API before production launch.');
+    }
+
+    function updateLaunchState() {
+      if (!CONFIG.launchPaused) return;
+      $('#checkMenu').disabled = true;
+      $('#checkMenu').textContent = 'Coming soon';
+      $('#dockNote').textContent = 'Menu scanning is paused before launch. Full service is planned to start in about one week.';
+      $('#emptyState h1').textContent = 'Menu scanning opens soon.';
+      $('#emptyState p').textContent = 'Menu Safe Lens is in final preparation. Photo scanning and Gemini analysis are paused until launch.';
+      renderQualityChips();
     }
 
     function normalizeResult(result) {

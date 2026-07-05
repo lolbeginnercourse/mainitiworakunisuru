@@ -8,6 +8,7 @@ const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const GEMINI_MODEL = "gemini-2.5-flash";
 const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions";
+const ANALYSIS_PAUSED = true;
 
 async function handler(req, res) {
   setSecurityHeaders(res);
@@ -15,6 +16,13 @@ async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  if (ANALYSIS_PAUSED) {
+    return res.status(503).json({
+      error: "Menu scanning is temporarily paused before launch.",
+      launchPaused: true
+    });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
