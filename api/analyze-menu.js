@@ -118,6 +118,8 @@ function extractInteractionText(json) {
   if (typeof json?.output_text === "string") return json.output_text.trim();
   if (typeof json?.outputText === "string") return json.outputText.trim();
   if (typeof json?.text === "string") return json.text.trim();
+  const candidateText = json?.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("").trim();
+  if (candidateText) return candidateText;
   const output = Array.isArray(json?.output) ? json.output : [];
   const parts = output.flatMap(item => {
     if (typeof item?.text === "string") return [item.text];
@@ -125,7 +127,22 @@ function extractInteractionText(json) {
     if (Array.isArray(item?.parts)) return item.parts.map(part => part?.text || "").filter(Boolean);
     return [];
   });
-  return parts.join("").trim();
+  const joined = parts.join("").trim();
+  if (joined) return joined;
+  return findFirstTextValue(json);
+}
+
+function findFirstTextValue(value) {
+  if (!value || typeof value !== "object") return "";
+  if (typeof value.text === "string" && value.text.trim()) return value.text.trim();
+  if (typeof value.output_text === "string" && value.output_text.trim()) return value.output_text.trim();
+  if (typeof value.outputText === "string" && value.outputText.trim()) return value.outputText.trim();
+  const nextValues = Array.isArray(value) ? value : Object.values(value);
+  for (const next of nextValues) {
+    const found = findFirstTextValue(next);
+    if (found) return found;
+  }
+  return "";
 }
 
 async function readGeminiError(response) {
