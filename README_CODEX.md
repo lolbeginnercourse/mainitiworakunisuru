@@ -26,23 +26,39 @@ Production URL: https://mainitiworakunisuru.com/
 
 ## Production tasks for Codex
 
-1. Connect the real analysis API in `assets/js/config.js` by setting:
+1. Set the Gemini API key only on the server/Vercel side:
 
-```js
-window.MENU_SAFE_LENS_API = 'https://YOUR_DOMAIN/api/analyze-menu';
+```txt
+GEMINI_API_KEY=your_real_key
 ```
 
-2. Connect Stripe Checkout by setting:
+Optional:
+
+```txt
+GEMINI_MODEL=gemini-3.5-flash
+```
+
+Do not put a real key in `assets/js/config.js`, HTML, or any browser-loaded file.
+
+2. The browser calls the serverless route:
+
+```js
+window.MENU_SAFE_LENS_API = '/api/analyze-menu';
+```
+
+The implementation is in `api/analyze-menu.js`. It reads `process.env.GEMINI_API_KEY` and forwards the image to Gemini from the server only.
+
+3. Connect Stripe Checkout by setting:
 
 ```js
 window.MENU_SAFE_LENS_STRIPE_URL = 'https://YOUR_STRIPE_CHECKOUT_URL';
 ```
 
-3. Do not expose Gemini, OpenAI, Google Cloud, or Stripe secret keys in the browser. Use a backend route or Cloudflare Worker.
+4. Do not expose Gemini, OpenAI, Google Cloud, or Stripe secret keys in the browser. Use a backend route or Cloudflare Worker.
 
-4. Keep `preview.html`, `config.preview.js`, and `demo-data.js` out of production deployment if the public product should not include demo mode.
+5. Keep `preview.html`, `config.preview.js`, and `demo-data.js` out of production deployment if the public product should not include demo mode.
 
-5. Serve static files with long cache headers for CSS/JS and Brotli or gzip compression.
+6. Serve static files with long cache headers for CSS/JS and Brotli or gzip compression.
 
 Recommended cache policy:
 
