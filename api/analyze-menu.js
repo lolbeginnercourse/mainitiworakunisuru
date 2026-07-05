@@ -6,42 +6,8 @@ const vercelConfig = {
 
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-
-const responseSchema = {
-  type: "OBJECT",
-  properties: {
-    menuType: { type: "STRING" },
-    summary: { type: "STRING" },
-    analysisStatus: { type: "STRING", enum: ["readable", "partial", "retake"] },
-    analysisNote: { type: "STRING" },
-    items: {
-      type: "ARRAY",
-      items: {
-        type: "OBJECT",
-        properties: {
-          id: { type: "INTEGER" },
-          status: { type: "STRING", enum: ["ok", "ask", "avoid"] },
-          section: { type: "STRING" },
-          nameJa: { type: "STRING" },
-          nameEn: { type: "STRING" },
-          price: { type: "NUMBER" },
-          tags: { type: "ARRAY", items: { type: "STRING" } },
-          found: { type: "STRING" },
-          reason: { type: "STRING" },
-          action: { type: "STRING" },
-          askJa: { type: "STRING" },
-          askEn: { type: "STRING" },
-          orderJa: { type: "STRING" },
-          orderEn: { type: "STRING" }
-        },
-        required: ["id", "status", "nameJa", "nameEn", "price", "tags", "found", "reason", "action", "askJa", "askEn", "orderJa", "orderEn"]
-      }
-    }
-  },
-  required: ["menuType", "summary", "analysisStatus", "analysisNote", "items"]
-};
 
 async function handler(req, res) {
   setSecurityHeaders(res);
@@ -104,7 +70,6 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
     ],
     generationConfig: {
       responseMimeType: "application/json",
-      responseSchema,
       temperature: 0.2,
       maxOutputTokens: 4096
     }
@@ -120,9 +85,15 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
   });
 
   if (!response.ok) {
+    const details = await readGeminiError(response);
+    console.error("Gemini request failed", {
+      status: response.status,
+      model: GEMINI_MODEL,
+      message: details
+    });
     throw Object.assign(new Error("Gemini request failed"), {
-      statusCode: 502,
-      clientMessage: "Analysis service is temporarily unavailable."
+      statusCode: response.status === 429 ? 429 : 502,
+      clientMessage: geminiClientMessage(response.status, details)
     });
   }
 
@@ -143,6 +114,36 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
       clientMessage: "Analysis result was malformed. Try again."
     });
   }
+}
+
+async function readGeminiError(response) {
+  try {
+    const json = await response.json();
+    return json?.error?.message || JSON.stringify(json).slice(0, 500);
+  } catch {
+    try {
+      return (await response.text()).slice(0, 500);
+    } catch {
+      return "No error body";
+    }
+  }
+}
+
+function geminiClientMessage(status, details) {
+  const text = String(details || "").toLowerCase();
+  if (status === 400 && (text.includes("model") || text.includes("not found"))) {
+    return "Analysis model is not available for this API key. Check GEMINI_MODEL in Vercel.";
+  }
+  if (status === 400) {
+    return "Analysis request was rejected by Gemini. Try another photo, or check the model setting.";
+  }
+  if (status === 401 || status === 403) {
+    return "Gemini API key is not authorized. Check the API key and Gemini API access.";
+  }
+  if (status === 429) {
+    return "Gemini API limit was reached. Try again later or check quota/billing.";
+  }
+  return "Analysis service is temporarily unavailable.";
 }
 
 function buildPrompt(profile, imageMeta) {
