@@ -6,7 +6,7 @@ const vercelConfig = {
 
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions";
 
 async function handler(req, res) {
