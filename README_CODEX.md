@@ -35,7 +35,7 @@ GEMINI_API_KEY=your_real_key
 Optional:
 
 ```txt
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.5-flash
 ```
 
 Do not put a real key in `assets/js/config.js`, HTML, or any browser-loaded file.
