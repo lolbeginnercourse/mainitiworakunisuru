@@ -32,12 +32,6 @@ Production URL: https://mainitiworakunisuru.com/
 GEMINI_API_KEY=your_real_key
 ```
 
-Optional:
-
-```txt
-GEMINI_MODEL=gemini-2.5-flash
-```
-
 Do not put a real key in `assets/js/config.js`, HTML, or any browser-loaded file.
 
 2. The browser calls the serverless route:
@@ -46,7 +40,7 @@ Do not put a real key in `assets/js/config.js`, HTML, or any browser-loaded file
 window.MENU_SAFE_LENS_API = '/api/analyze-menu';
 ```
 
-The implementation is in `api/analyze-menu.js`. It reads `process.env.GEMINI_API_KEY` and forwards the image to Gemini from the server only.
+The implementation is in `api/analyze-menu.js`. It reads `process.env.GEMINI_API_KEY` and forwards the image to Gemini from the server only. The Gemini model is fixed in code to `gemini-2.5-flash`.
 
 3. Connect Stripe Checkout by setting:
 
