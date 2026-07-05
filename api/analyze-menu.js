@@ -144,10 +144,10 @@ async function readGeminiError(response) {
 function geminiClientMessage(status, details) {
   const text = String(details || "").toLowerCase();
   if (status === 400 && (text.includes("model") || text.includes("not found"))) {
-    return "Analysis model is not available for this API key. Check GEMINI_MODEL in Vercel.";
+    return `Analysis model is not available for this API key. ${safeErrorDetail(details)}`;
   }
   if (status === 400) {
-    return "Analysis request was rejected by Gemini. Try another photo, or check the model setting.";
+    return `Analysis request was rejected by Gemini. ${safeErrorDetail(details)}`;
   }
   if (status === 401 || status === 403) {
     return "Gemini API key is not authorized. Check the API key and Gemini API access.";
@@ -156,6 +156,12 @@ function geminiClientMessage(status, details) {
     return "Gemini API limit was reached. Try again later or check quota/billing.";
   }
   return "Analysis service is temporarily unavailable.";
+}
+
+function safeErrorDetail(details) {
+  return String(details || "Check Gemini API settings.")
+    .replace(/AIza[0-9A-Za-z\-_]{20,}/g, "[redacted-api-key]")
+    .slice(0, 220);
 }
 
 function buildPrompt(profile, imageMeta) {
