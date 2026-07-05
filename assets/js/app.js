@@ -60,6 +60,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
       $$('[data-close-sheet]').forEach(el => el.addEventListener('click', closeProfileSheet));
       $('#saveProfile').addEventListener('click', saveProfileFromControls);
       $('#resetProfile').addEventListener('click', resetProfile);
+      $('#skipProfile').addEventListener('click', skipProfileAndScan);
       $('#currencySelect').addEventListener('change', event => {
         state.currency = event.target.value;
         localStorage.setItem('msl.currency', state.currency);
@@ -136,6 +137,12 @@ const $ = (selector, root = document) => root.querySelector(selector);
       if (state.results) renderResults();
     }
 
+    function skipProfileAndScan() {
+      closeProfileSheet();
+      toast('Scanning without a food profile.');
+      checkMenu({ allowNoProfile: true });
+    }
+
     function handleFileInput(event) {
       const file = event.target.files && event.target.files[0];
       event.target.value = '';
@@ -165,7 +172,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
       $('#readoutTitle').textContent = 'Photo ready';
       $('#readoutHint').textContent = state.imageMeta.width ? `${state.imageMeta.width}×${state.imageMeta.height}` : 'Image selected';
       renderQualityChips();
-      toast('Photo selected. Tap Check menu.');
+      toast('Photo selected. Tap Scan menu.');
     }
 
     function renderQualityChips() {
@@ -199,12 +206,12 @@ const $ = (selector, root = document) => root.querySelector(selector);
       toast('Ready for a new menu photo.');
     }
 
-    async function checkMenu() {
+    async function checkMenu(options = {}) {
       if (!state.file) {
         toast('Choose a menu photo first.');
         return;
       }
-      if (!hasFoodProfile()) {
+      if (!hasFoodProfile() && !options.allowNoProfile) {
         openProfileSheet(true);
         toast('Set a food profile before checking.');
         return;

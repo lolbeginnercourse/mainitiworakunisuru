@@ -66,7 +66,7 @@
           </div>
 
           <div class="loader" role="status" aria-live="assertive">
-            <strong>Checking menu…</strong>
+            <strong>Scanning menu…</strong>
             <span>Reading visible text, prices, allergens, and hidden ingredient risks.</span>
           </div>
         </div>
@@ -79,7 +79,7 @@
             </div>
             <div class="primary-row">
               <button class="button button--soft" id="choosePhoto" type="button">Choose photo</button>
-              <button class="round-button" id="checkMenu" type="button" disabled>Check menu</button>
+              <button class="round-button" id="checkMenu" type="button" disabled>Scan menu</button>
               <button class="button button--soft" id="takePhoto" type="button">Take photo</button>
             </div>
             <p class="dock-note" id="dockNote">Unreadable photos should not count as a paid check. Severe allergies still need staff confirmation.</p>
@@ -198,6 +198,7 @@
       </div>
       <div class="sheet-actions">
         <button class="button" id="resetProfile" type="button">Reset</button>
+        <button class="button button--secondary-muted" id="skipProfile" type="button">Skip and scan</button>
         <button class="button button--accent" id="saveProfile" type="button">Save profile</button>
       </div>
     </div>

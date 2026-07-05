@@ -362,7 +362,7 @@
     .strictness-card strong, .strictness-card small { display: block; }
     .strictness-card small { margin-top: 4px; color: var(--muted); line-height: 1.35; }
     .strictness-card input:checked + span { background: var(--primary-soft); box-shadow: inset 0 0 0 2px rgba(11,104,113,.55); }
-    .sheet-actions { position: sticky; bottom: -28px; display: grid; grid-template-columns: .8fr 1.2fr; gap: 10px; margin: 18px -28px -28px; padding: 14px 28px calc(env(safe-area-inset-bottom) + 14px); background: rgba(255,253,248,.94); backdrop-filter: blur(16px); box-shadow: 0 -16px 34px rgba(17,24,39,.11); }
+    .sheet-actions { position: sticky; bottom: -28px; display: grid; grid-template-columns: .8fr 1fr 1.2fr; gap: 10px; margin: 18px -28px -28px; padding: 14px 28px calc(env(safe-area-inset-bottom) + 14px); background: rgba(255,253,248,.94); backdrop-filter: blur(16px); box-shadow: 0 -16px 34px rgba(17,24,39,.11); }
     .sheet-actions .button { color: var(--ink); background: #f0ebe2; }
     .sheet-actions .button--accent { color: #1e170b; background: var(--accent); }
 
@@ -431,7 +431,7 @@
       .sheet-header { position: sticky; top: calc(-1 * env(safe-area-inset-top)); z-index: 2; margin: calc(-1 * env(safe-area-inset-top)) -14px 14px; padding: calc(env(safe-area-inset-top) + 14px) 14px 12px; background: rgba(255,253,248,.96); backdrop-filter: blur(16px); box-shadow: 0 10px 24px rgba(17,24,39,.06); }
       .sheet-header p { display: none; }
       .chip-grid, .strictness-grid { grid-template-columns: 1fr; }
-      .sheet-actions { position: fixed; left: 0; right: 0; bottom: 0; margin: 0; padding: 12px 14px calc(env(safe-area-inset-bottom) + 12px); }
+      .sheet-actions { position: fixed; left: 0; right: 0; bottom: 0; grid-template-columns: 1fr; margin: 0; padding: 12px 14px calc(env(safe-area-inset-bottom) + 12px); }
       .dialog { width: 100vw; max-width: 100vw; height: 100svh; max-height: 100svh; border-radius: 0; }
       .dialog-content { min-height: 100svh; display: grid; align-content: center; padding: calc(env(safe-area-inset-top) + 24px) 16px calc(env(safe-area-inset-bottom) + 24px); }
       .dialog-actions { grid-template-columns: 1fr; }
