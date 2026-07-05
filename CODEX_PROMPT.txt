@@ -1,0 +1,5 @@
+Codex task:
+
+Use this static Menu Safe Lens package as the base. Keep the current UI, but connect a real backend analysis endpoint and Stripe checkout. Do not expose API keys in client code. Preserve the three result states only: Avoid, Ask staff, No obvious issue. Add robust unreadable-image and partial-read states. Keep demo files out of production deployment.
+
+Start by reading README_CODEX.md, index.html, assets/js/app.js, and assets/js/demo-data.js.

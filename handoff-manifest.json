@@ -1,0 +1,17 @@
+{
+  "source": "menu-safe-lens-production-complete.html",
+  "entrypoints": [
+    "index.html",
+    "preview.html"
+  ],
+  "css": [
+    "assets/css/styles.css"
+  ],
+  "js": [
+    "assets/js/config.js",
+    "assets/js/app.js",
+    "assets/js/config.preview.js",
+    "assets/js/demo-data.js"
+  ],
+  "notes": "Single-file prototype split for Codex handoff and faster loading via external cached assets."
+}
