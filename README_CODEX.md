@@ -42,7 +42,7 @@ Do not put a real key in `assets/js/config.js`, HTML, or any browser-loaded file
 window.MENU_SAFE_LENS_API = '/api/analyze-menu';
 ```
 
-The implementation is in `api/analyze-menu.js`. It reads `process.env.GEMINI_API_KEY` and forwards the image to Gemini from the server only. The Gemini model is fixed in code to `gemini-2.5-flash`.
+The implementation is in `api/analyze-menu.js`. It reads `process.env.GEMINI_API_KEY` and forwards the compressed image to Gemini from the server only. The Gemini model is fixed in code to `gemini-2.5-flash`.
 
 3. Connect Stripe Checkout by setting:
 
@@ -79,8 +79,7 @@ Request:
     "allergies": ["wheat", "egg"],
     "foodRules": ["halal", "no_pork"],
     "strictness": "careful",
-    "severeAllergyMode": true,
-    "currency": "USD"
+    "severeAllergyMode": true
   }
 }
 ```
@@ -91,6 +90,6 @@ Important response rules:
 
 - Use only `avoid`, `ask_staff`, or `no_obvious_issue` as result levels.
 - Never return `safe`.
-- Always include `foundOnMenu`, `hiddenRisk`, and `whatToDo` where possible.
+- Keep output concise. Production scanning asks for at most 10 items and keeps Japanese only for staff-facing `askJa` / `orderJa` phrases.
 - If the image is unreadable, return a clear error state instead of guessed dishes.
 - For severe allergy mode, prefer `ask_staff` when hidden ingredients or cross-contact cannot be confirmed.

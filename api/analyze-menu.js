@@ -4,7 +4,7 @@ const vercelConfig = {
   }
 };
 
-const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const GEMINI_MODEL = "gemini-2.5-flash";
 const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions";
@@ -50,8 +50,7 @@ async function handler(req, res) {
     }
 
     const profile = safeJson(form.fields.profile, {});
-    const imageMeta = safeJson(form.fields.imageMeta, {});
-    const result = await analyzeWithGemini({ image, profile, imageMeta, apiKey });
+    const result = await analyzeWithGemini({ image, profile, apiKey });
     return res.status(200).json(normalizeForClient(result));
   } catch (error) {
     const message = error?.clientMessage || "Menu analysis failed. Try a clearer photo.";
@@ -59,8 +58,8 @@ async function handler(req, res) {
   }
 }
 
-async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
-  const prompt = buildPrompt(profile, imageMeta);
+async function analyzeWithGemini({ image, profile, apiKey }) {
+  const prompt = buildPrompt(profile);
   const payload = {
     model: GEMINI_MODEL,
     input: [
@@ -77,7 +76,7 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
     },
     generation_config: {
       temperature: 0.2,
-      max_output_tokens: 8192
+      max_output_tokens: 4096
     }
   };
 
@@ -215,32 +214,25 @@ function safeErrorDetail(details) {
     .slice(0, 220);
 }
 
-function buildPrompt(profile, imageMeta) {
+function buildPrompt(profile) {
   return [
     "You are Menu Safe Lens, a cautious Japanese menu risk checker for travelers.",
     "Analyze the menu photo. Read Japanese text internally, but return concise English output. Only askJa and orderJa should be Japanese because they are shown to restaurant staff.",
-    "Keep the response concise. Return at most 12 menu items, prioritizing clearly readable food items.",
+    "Keep the response concise. Return at most 10 menu items, prioritizing clearly readable food items.",
     "Return JSON only. Do not include markdown. Use this exact shape:",
     JSON.stringify({
-      menuType: "restaurant menu",
-      summary: "short English summary",
       analysisStatus: "readable | partial | retake",
-      analysisNote: "short note",
       items: [
         {
           id: 1,
           status: "ok | ask | avoid",
-          section: "menu section if visible",
           nameEn: "English translation",
           price: 430,
           tags: ["visible labels or likely risk terms"],
-          found: "short English note about the visible menu text",
-          reason: "why it has this status",
-          action: "what the traveler should do",
+          reason: "short risk reason",
+          action: "short action",
           askJa: "short Japanese staff question to show staff",
-          askEn: "staff question in English",
-          orderJa: "short Japanese order phrase to show staff",
-          orderEn: "order phrase in English"
+          orderJa: "short Japanese order phrase to show staff"
         }
       ]
     }),
@@ -251,11 +243,8 @@ function buildPrompt(profile, imageMeta) {
       allergies: Array.isArray(profile?.allergies) ? profile.allergies : [],
       rules: Array.isArray(profile?.rules) ? profile.rules : [],
       strictness: profile?.strictness || "careful",
-      severe: Boolean(profile?.severe),
-      currency: profile?.currency || "USD"
-    }),
-    "Image metadata:",
-    JSON.stringify(imageMeta || {})
+      severe: Boolean(profile?.severe)
+    })
   ].join("\n");
 }
 
@@ -266,20 +255,16 @@ function normalizeForClient(result) {
     summary: String(result?.summary || "Menu items were extracted from the photo."),
     analysisStatus: ["readable", "partial", "retake"].includes(result?.analysisStatus) ? result.analysisStatus : (items.length ? "partial" : "retake"),
     analysisNote: String(result?.analysisNote || "Ask staff for severe allergies or unclear ingredients."),
-    items: items.slice(0, 30).map((item, index) => ({
+    items: items.slice(0, 10).map((item, index) => ({
       id: Number(item.id || index + 1),
       status: ["ok", "ask", "avoid"].includes(item.status) ? item.status : "ask",
-      section: String(item.section || item.category || item.menuSection || ""),
       nameEn: String(item.nameEn || item.name_en || item.englishName || item.english_name || item.translation || item.name || "Unknown item"),
       price: Number(item.price || item.priceJpy || item.price_jpy || item.jpy || 0),
       tags: Array.isArray(item.tags) ? item.tags.map(String).slice(0, 8) : [],
-      found: String(item.found || item.foundOnMenu || item.found_on_menu || item.visibleText || item.visible_text || "Detected menu text"),
       reason: String(item.reason || item.why || item.riskReason || item.risk_reason || "This item needs review based on visible text or hidden-risk rules."),
       action: String(item.action || item.whatToDo || item.what_to_do || "Ask staff before ordering if this matters to your profile."),
       askJa: String(item.askJa || item.ask_ja || item.staffQuestionJa || item.staff_question_ja || "この料理の材料と調理方法を確認してもらえますか？"),
-      askEn: String(item.askEn || item.ask_en || item.staffQuestionEn || item.staff_question_en || "Could you please check the ingredients and preparation method?"),
-      orderJa: String(item.orderJa || item.order_ja || item.orderPhraseJa || item.order_phrase_ja || "これを1つください。"),
-      orderEn: String(item.orderEn || item.order_en || item.orderPhraseEn || item.order_phrase_en || "I'll have one of this, please.")
+      orderJa: String(item.orderJa || item.order_ja || item.orderPhraseJa || item.order_phrase_ja || "これを1つください。")
     }))
   };
 }

@@ -145,7 +145,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
       checkMenu({ allowNoProfile: true });
     }
 
-    function handleFileInput(event) {
+    async function handleFileInput(event) {
       const file = event.target.files && event.target.files[0];
       event.target.value = '';
       if (!file) return;
@@ -153,7 +153,46 @@ const $ = (selector, root = document) => root.querySelector(selector);
         toast('Please choose an image file.');
         return;
       }
-      setSelectedPhoto(file);
+      const preparedFile = await compressImageForUpload(file);
+      setSelectedPhoto(preparedFile);
+    }
+
+    async function compressImageForUpload(file) {
+      const maxSide = 1200;
+      if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return file;
+
+      const meta = await readImageMeta(file);
+      if (!meta.width || Math.max(meta.width, meta.height) <= maxSide) return file;
+
+      return new Promise(resolve => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          const scale = maxSide / Math.max(img.naturalWidth, img.naturalHeight);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.naturalWidth * scale);
+          canvas.height = Math.round(img.naturalHeight * scale);
+          const context = canvas.getContext('2d');
+          if (!context) {
+            resolve(file);
+            return;
+          }
+          context.drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(blob => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+          }, 'image/jpeg', 0.82);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          resolve(file);
+        };
+        img.src = url;
+      });
     }
 
     async function setSelectedPhoto(file) {
@@ -237,7 +276,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
       $('#scanner').classList.add('is-busy');
       $('#checkMenu').disabled = true;
       try {
-        const result = await analyzeMenu(state.file, state.profile, state.imageMeta);
+        const result = await analyzeMenu(state.file, state.profile);
         const normalized = normalizeResult(result);
         state.results = applyProfileToResult(normalized);
         renderResults();
@@ -253,12 +292,11 @@ const $ = (selector, root = document) => root.querySelector(selector);
       }
     }
 
-    async function analyzeMenu(file, profile, imageMeta) {
+    async function analyzeMenu(file, profile) {
       if (CONFIG.apiEndpoint) {
         const form = new FormData();
         form.append('image', file);
         form.append('profile', JSON.stringify(profile));
-        form.append('imageMeta', JSON.stringify(imageMeta || {}));
         const response = await fetch(CONFIG.apiEndpoint, { method: 'POST', body: form });
         if (!response.ok) throw new Error('Analysis service is unavailable. Please try again.');
         return await response.json();
@@ -300,17 +338,13 @@ const $ = (selector, root = document) => root.querySelector(selector);
         items: items.map((item, index) => ({
           id: item.id || index + 1,
           status: ['ok', 'ask', 'avoid'].includes(item.status) ? item.status : 'ask',
-          section: item.section || '',
           nameEn: item.nameEn || item.name_en || 'Unknown item',
           price: Number(item.price || item.price_jpy || 0),
           tags: Array.isArray(item.tags) ? item.tags : [],
-          found: item.found || item.foundOnMenu || item.found_on_menu || 'Detected menu text',
           reason: item.reason || item.why || 'This item needs review based on visible text or hidden-risk rules.',
           action: item.action || item.whatToDo || item.what_to_do || 'Ask staff before ordering if this matters to your profile.',
           askJa: item.askJa || item.staff_question_ja || 'この料理の材料と調理方法を確認してもらえますか？',
-          askEn: item.askEn || item.staff_question_en || 'Could you please check the ingredients and preparation method?',
-          orderJa: item.orderJa || item.order_phrase_ja || 'これを1つください。',
-          orderEn: item.orderEn || item.order_phrase_en || 'I’ll have one of this, please.'
+          orderJa: item.orderJa || item.order_phrase_ja || 'これを1つください。'
         }))
       };
     }
@@ -323,7 +357,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
       const severe = Boolean(state.profile.severe);
 
       copy.items = copy.items.map(item => {
-        const text = [item.nameEn, item.found, item.reason, item.action, ...(item.tags || [])].join(' ').toLowerCase();
+        const text = [item.nameEn, item.reason, item.action, ...(item.tags || [])].join(' ').toLowerCase();
         let status = item.status;
         const directAvoid =
           (allergySet.has('milk') && /乳|milk|cheese|cream|latte|chowder/.test(text)) ||
@@ -446,7 +480,6 @@ const $ = (selector, root = document) => root.querySelector(selector);
             ${priceMarkup(item.price)}
           </div>
           <div class="tags">${(item.tags || []).map(tag => `<span class="tag ${tagClass(tag)}">${escapeHtml(tag)}</span>`).join('')}</div>
-          <div class="reason-box"><strong>Found on menu</strong><span class="found-japanese">${escapeHtml(item.found || 'Menu text detected')}</span></div>
           <div class="reason-box"><strong>Possible hidden risk</strong><span>${escapeHtml(item.reason)}</span></div>
           <div class="reason-box"><strong>What to do</strong><span class="what-to-do">${escapeHtml(item.action)}</span></div>
           <div class="card-actions">${primary}</div>
@@ -481,7 +514,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
         <p class="eyebrow">Show this to staff</p>
         <h2>${title}</h2>
         <p>${escapeHtml(item.nameEn)}</p>
-        <div class="staff-card"><strong>Show this to staff</strong><span class="ja-large">${escapeHtml(item.askJa)}</span><span class="en-small">${escapeHtml(item.askEn)}</span></div>
+        <div class="staff-card"><strong>Show this to staff</strong><span class="ja-large">${escapeHtml(item.askJa)}</span></div>
         <div class="dialog-actions"><button class="button button--accent" type="button" id="copyStaff">Copy Japanese</button></div>
       `;
       $('#staffDialog').showModal();
@@ -496,7 +529,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
         <h2>Order</h2>
         <p>${escapeHtml(item.nameEn)} · ${priceText(item.price)}</p>
         ${item.status === 'ask' ? '<div class="status-panel status-panel--dialog is-visible is-warn"><strong>Confirm first</strong><span>This item had an Ask staff result. Use the staff question before ordering.</span></div>' : ''}
-        <div class="staff-card"><strong>Show this to staff</strong><span class="ja-large">${escapeHtml(item.orderJa)}</span><span class="en-small">${escapeHtml(item.orderEn)}</span></div>
+        <div class="staff-card"><strong>Show this to staff</strong><span class="ja-large">${escapeHtml(item.orderJa)}</span></div>
         <div class="dialog-actions"><button class="button button--accent" type="button" id="copyOrder">Copy Japanese</button></div>
       `;
       $('#staffDialog').showModal();
