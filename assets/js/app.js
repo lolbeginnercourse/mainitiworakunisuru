@@ -301,7 +301,6 @@ const $ = (selector, root = document) => root.querySelector(selector);
           id: item.id || index + 1,
           status: ['ok', 'ask', 'avoid'].includes(item.status) ? item.status : 'ask',
           section: item.section || '',
-          nameJa: item.nameJa || item.name_ja || '読み取り不明',
           nameEn: item.nameEn || item.name_en || 'Unknown item',
           price: Number(item.price || item.price_jpy || 0),
           tags: Array.isArray(item.tags) ? item.tags : [],
@@ -324,7 +323,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
       const severe = Boolean(state.profile.severe);
 
       copy.items = copy.items.map(item => {
-        const text = [item.nameJa, item.nameEn, item.found, item.reason, item.action, ...(item.tags || [])].join(' ').toLowerCase();
+        const text = [item.nameEn, item.found, item.reason, item.action, ...(item.tags || [])].join(' ').toLowerCase();
         let status = item.status;
         const directAvoid =
           (allergySet.has('milk') && /乳|milk|cheese|cream|latte|chowder/.test(text)) ||
@@ -434,16 +433,15 @@ const $ = (selector, root = document) => root.querySelector(selector);
       const riskClass = item.status === 'avoid' ? 'dish-card--avoid' : item.status === 'ask' ? 'dish-card--ask' : '';
       const orderDisabled = item.status === 'avoid' || (item.status === 'ask' && state.profile.severe);
       const primary = item.status === 'ok'
-        ? `<button class="small-button small-button--primary" type="button" data-order-id="${item.id}">Show order phrase</button><button class="small-button" type="button" data-staff-id="${item.id}">Ask staff in Japanese</button>`
-        : `<button class="small-button ${item.status === 'avoid' ? 'small-button--danger' : 'small-button--primary'}" type="button" data-staff-id="${item.id}">Ask staff in Japanese</button><button class="small-button" type="button" data-order-id="${item.id}" ${orderDisabled ? 'disabled' : ''}>${item.status === 'avoid' ? 'Do not order' : 'Order after confirmation'}</button>`;
+        ? `<button class="small-button small-button--primary" type="button" data-order-id="${item.id}">Show order phrase</button><button class="small-button" type="button" data-staff-id="${item.id}">Ask staff question</button>`
+        : `<button class="small-button ${item.status === 'avoid' ? 'small-button--danger' : 'small-button--primary'}" type="button" data-staff-id="${item.id}">Ask staff question</button><button class="small-button" type="button" data-order-id="${item.id}" ${orderDisabled ? 'disabled' : ''}>${item.status === 'avoid' ? 'Do not order' : 'Order after confirmation'}</button>`;
       return `
         <article class="dish-card ${riskClass}" tabindex="0">
           ${badge}
           <div class="dish-head">
             <div class="dish-title-box">
               <span class="dish-index">#${item.id}</span>
-              <h3 class="dish-ja">${escapeHtml(item.nameJa)}</h3>
-              <p class="dish-en">${escapeHtml(item.nameEn)}</p>
+              <h3 class="dish-ja">${escapeHtml(item.nameEn)}</h3>
             </div>
             ${priceMarkup(item.price)}
           </div>
@@ -483,12 +481,11 @@ const $ = (selector, root = document) => root.querySelector(selector);
         <p class="eyebrow">Show this to staff</p>
         <h2>${title}</h2>
         <p>${escapeHtml(item.nameEn)}</p>
-        <div class="staff-card"><strong>Japanese</strong><span class="ja-large">${escapeHtml(item.askJa)}</span><span class="en-small">${escapeHtml(item.askEn)}</span></div>
-        <div class="dialog-actions"><button class="button button--accent" type="button" id="copyStaff">Copy Japanese</button><button class="button button--secondary-muted" type="button" id="speakStaff">Speak</button></div>
+        <div class="staff-card"><strong>Show this to staff</strong><span class="ja-large">${escapeHtml(item.askJa)}</span><span class="en-small">${escapeHtml(item.askEn)}</span></div>
+        <div class="dialog-actions"><button class="button button--accent" type="button" id="copyStaff">Copy Japanese</button></div>
       `;
       $('#staffDialog').showModal();
       $('#copyStaff').addEventListener('click', () => copyText(item.askJa));
-      $('#speakStaff').addEventListener('click', () => speakJapanese(item.askJa));
     }
 
     function openOrderDialog(id) {
@@ -499,12 +496,11 @@ const $ = (selector, root = document) => root.querySelector(selector);
         <h2>Order</h2>
         <p>${escapeHtml(item.nameEn)} · ${priceText(item.price)}</p>
         ${item.status === 'ask' ? '<div class="status-panel status-panel--dialog is-visible is-warn"><strong>Confirm first</strong><span>This item had an Ask staff result. Use the staff question before ordering.</span></div>' : ''}
-        <div class="staff-card"><strong>Japanese</strong><span class="ja-large">${escapeHtml(item.orderJa)}</span><span class="en-small">${escapeHtml(item.orderEn)}</span></div>
-        <div class="dialog-actions"><button class="button button--accent" type="button" id="copyOrder">Copy Japanese</button><button class="button button--secondary-muted" type="button" id="speakOrder">Speak</button></div>
+        <div class="staff-card"><strong>Show this to staff</strong><span class="ja-large">${escapeHtml(item.orderJa)}</span><span class="en-small">${escapeHtml(item.orderEn)}</span></div>
+        <div class="dialog-actions"><button class="button button--accent" type="button" id="copyOrder">Copy Japanese</button></div>
       `;
       $('#staffDialog').showModal();
       $('#copyOrder').addEventListener('click', () => copyText(item.orderJa));
-      $('#speakOrder').addEventListener('click', () => speakJapanese(item.orderJa));
     }
 
     function priceText(price) {
@@ -557,16 +553,8 @@ const $ = (selector, root = document) => root.querySelector(selector);
     }
 
     function copyText(text) {
-      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(() => toast('Japanese copied.'));
+      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(() => toast('Copied.'));
       else toast('Copy is not available in this browser.');
-    }
-    function speakJapanese(text) {
-      if (!('speechSynthesis' in window)) { toast('Speech is not available in this browser.'); return; }
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ja-JP';
-      utterance.rate = .86;
-      speechSynthesis.cancel();
-      speechSynthesis.speak(utterance);
     }
     function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
     function toast(message) {

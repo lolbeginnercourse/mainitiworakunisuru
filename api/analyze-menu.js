@@ -218,7 +218,7 @@ function safeErrorDetail(details) {
 function buildPrompt(profile, imageMeta) {
   return [
     "You are Menu Safe Lens, a cautious Japanese menu risk checker for travelers.",
-    "Analyze the menu photo. Extract visible menu items, Japanese names, English translations, prices in JPY when visible, visible allergen labels, and likely hidden ingredient risks.",
+    "Analyze the menu photo. Read Japanese text internally, but return concise English output. Only askJa and orderJa should be Japanese because they are shown to restaurant staff.",
     "Keep the response concise. Return at most 12 menu items, prioritizing clearly readable food items.",
     "Return JSON only. Do not include markdown. Use this exact shape:",
     JSON.stringify({
@@ -231,16 +231,15 @@ function buildPrompt(profile, imageMeta) {
           id: 1,
           status: "ok | ask | avoid",
           section: "menu section if visible",
-          nameJa: "visible Japanese item name",
           nameEn: "English translation",
           price: 430,
           tags: ["visible labels or likely risk terms"],
-          found: "exact visible text that supports this item",
+          found: "short English note about the visible menu text",
           reason: "why it has this status",
           action: "what the traveler should do",
-          askJa: "staff question in Japanese",
+          askJa: "short Japanese staff question to show staff",
           askEn: "staff question in English",
-          orderJa: "order phrase in Japanese",
+          orderJa: "short Japanese order phrase to show staff",
           orderEn: "order phrase in English"
         }
       ]
@@ -271,7 +270,6 @@ function normalizeForClient(result) {
       id: Number(item.id || index + 1),
       status: ["ok", "ask", "avoid"].includes(item.status) ? item.status : "ask",
       section: String(item.section || item.category || item.menuSection || ""),
-      nameJa: String(item.nameJa || item.name_ja || item.japaneseName || item.japanese_name || item.name || item.item || "読み取り不明"),
       nameEn: String(item.nameEn || item.name_en || item.englishName || item.english_name || item.translation || item.name || "Unknown item"),
       price: Number(item.price || item.priceJpy || item.price_jpy || item.jpy || 0),
       tags: Array.isArray(item.tags) ? item.tags.map(String).slice(0, 8) : [],
