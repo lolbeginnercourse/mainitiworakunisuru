@@ -2,4 +2,4 @@
 window.MENU_SAFE_LENS_API = '/api/analyze-menu';
 window.MENU_SAFE_LENS_STRIPE_URL = '';
 window.MENU_SAFE_LENS_DEMO = false;
-window.MENU_SAFE_LENS_LAUNCH_PAUSED = true;
+window.MENU_SAFE_LENS_LAUNCH_PAUSED = false;
