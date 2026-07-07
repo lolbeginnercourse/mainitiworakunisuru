@@ -113,12 +113,38 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
   }
 
   try {
-    return JSON.parse(text);
+    return parseModelJson(text);
   } catch {
     throw Object.assign(new Error("Gemini returned invalid JSON"), {
       statusCode: 502,
       clientMessage: "Analysis result was malformed. Try again."
     });
+  }
+}
+
+function parseModelJson(text) {
+  const cleaned = String(text || "")
+    .trim()
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    const firstObject = cleaned.indexOf("{");
+    const lastObject = cleaned.lastIndexOf("}");
+    if (firstObject !== -1 && lastObject > firstObject) {
+      return JSON.parse(cleaned.slice(firstObject, lastObject + 1));
+    }
+
+    const firstArray = cleaned.indexOf("[");
+    const lastArray = cleaned.lastIndexOf("]");
+    if (firstArray !== -1 && lastArray > firstArray) {
+      return { items: JSON.parse(cleaned.slice(firstArray, lastArray + 1)) };
+    }
+
+    throw new Error("No JSON object or array found");
   }
 }
 
