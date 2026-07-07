@@ -117,7 +117,7 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
   } catch {
     throw Object.assign(new Error("Gemini returned invalid JSON"), {
       statusCode: 502,
-      clientMessage: "Analysis result was malformed. Try again."
+      clientMessage: `Analysis result was malformed. ${safeErrorDetail(text)}`
     });
   }
 }
