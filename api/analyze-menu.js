@@ -77,7 +77,7 @@ async function analyzeWithGemini({ image, profile, imageMeta, apiKey }) {
     },
     generation_config: {
       temperature: 0.2,
-      max_output_tokens: 4096
+      max_output_tokens: 8192
     }
   };
 
@@ -219,6 +219,7 @@ function buildPrompt(profile, imageMeta) {
   return [
     "You are Menu Safe Lens, a cautious Japanese menu risk checker for travelers.",
     "Analyze the menu photo. Extract visible menu items, Japanese names, English translations, prices in JPY when visible, visible allergen labels, and likely hidden ingredient risks.",
+    "Keep the response concise. Return at most 12 menu items, prioritizing clearly readable food items.",
     "Return JSON only. Do not include markdown. Use this exact shape:",
     JSON.stringify({
       menuType: "restaurant menu",
