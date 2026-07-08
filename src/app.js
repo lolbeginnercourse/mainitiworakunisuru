@@ -11,6 +11,8 @@ const state = {
   spinning: false
 };
 
+const SAMPLE_UNLOCKED_PREFECTURES = new Set(["Tokyo"]);
+
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
 
@@ -36,6 +38,10 @@ function getUnlocked() {
 
 function getFavorites() {
   return readArray(STORAGE_KEYS.favorites);
+}
+
+function isSampleUnlocked(route) {
+  return SAMPLE_UNLOCKED_PREFECTURES.has(route.prefecture);
 }
 
 function setLastDrawn(id) {
@@ -96,7 +102,16 @@ function renderResult(route) {
     tags.appendChild(span);
   });
 
-  $(".js-unlock", node).addEventListener("click", () => checkout("single", route.id));
+  const unlockButton = $(".js-unlock", node);
+  const finePrint = $(".fine-print", node);
+  if (isSampleUnlocked(route)) {
+    unlockButton.textContent = "Sample unlocked";
+    unlockButton.disabled = true;
+    unlockButton.classList.add("is-sample-unlocked");
+    finePrint.textContent = "Tokyo sample route. This preview is unlocked for free.";
+  } else {
+    unlockButton.addEventListener("click", () => checkout("single", route.id));
+  }
   $(".js-spin-again", node).addEventListener("click", spinRoute);
 
   const result = $("#result");
@@ -121,6 +136,7 @@ function renderDeck() {
   drawn.slice().reverse().forEach(id => {
     const route = ROUTES.find(item => item.id === id);
     if (!route) return;
+    const isUnlocked = unlocked.has(route.id) || isSampleUnlocked(route);
     const card = document.createElement("article");
     card.className = "route-mini-card";
     card.innerHTML = `
@@ -129,7 +145,7 @@ function renderDeck() {
       <p>${route.previewText}</p>
       <div class="mini-meta">
         <span>${route.routeType}</span>
-        <span>${unlocked.has(route.id) ? "Unlocked" : "Preview"}</span>
+        <span>${isUnlocked ? "Unlocked" : "Preview"}</span>
         <span>${favorites.has(route.id) ? "Favorite" : ""}</span>
       </div>
     `;

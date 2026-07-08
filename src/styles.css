@@ -192,6 +192,13 @@ h3 {
   transform: none;
 }
 
+.button.is-sample-unlocked {
+  color: #bbf7d0;
+  background: rgba(34, 197, 94, 0.18);
+  border: 1px solid rgba(34, 197, 94, 0.36);
+  opacity: 1;
+}
+
 .primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #211224;
