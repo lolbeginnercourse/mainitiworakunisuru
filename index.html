@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Japan Route Gacha | Pull a ready-made Japan route</title>
-  <meta name="description" content="A Japan travel gacha with 141 ready-made route cards across all 47 prefectures. Pull a free preview, unlock full route plans, and choose your next Japan trip faster." />
+  <meta name="description" content="A Japan travel gacha with 138 paid route cards across 46 prefectures, plus free Tokyo sample routes. Pull a route, avoid duplicates, and choose your next Japan trip faster." />
   <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -16,7 +16,7 @@
       </a>
       <nav class="nav" aria-label="Main navigation">
         <a href="#spin">Spin</a>
-        <a href="#sample">Sample</a>
+        <a href="#sample">Tokyo sample</a>
         <a href="#pricing">Pricing</a>
       </nav>
     </header>
@@ -26,52 +26,35 @@
         <div class="hero-copy">
           <p class="eyebrow">Japan route gacha</p>
           <h1>Pull a Japan route beyond the obvious stops.</h1>
-          <p class="lead">
-            Spin once and get a ready-made Japan route with places, food ideas, travel effort and useful planning notes — whether it is your first Japan trip or your next one.
-          </p>
           <div class="hero-actions">
-            <a class="button primary" href="#spin">Pull a free route</a>
-            <a class="button ghost" href="#sample">See sample route</a>
+            <a class="button primary" href="#spin">Turn the gacha</a>
+            <a class="button ghost" href="#sample">Free Tokyo sample</a>
           </div>
           <div class="hero-proof" aria-label="Product highlights">
-            <span>Free preview before payment</span>
-            <span>141 cards across all 47 prefectures</span>
+            <span>No Duplicates Guaranteed</span>
+            <span>138 paid cards across 46 prefectures</span>
+            <span>Free Tokyo Sample Route</span>
             <span>Full routes include practical planning notes</span>
-          </div>
-        </div>
-        <div class="hero-card" aria-label="Sample travel card">
-          <div class="card-top">
-            <span class="pill">Sample pull</span>
-            <span class="pill muted">Free preview</span>
-          </div>
-          <div class="route-card-face">
-            <p class="small-label">You pulled</p>
-            <h2>Kagawa</h2>
-            <h3>Island Art Route</h3>
-            <p>A slow Setouchi island route with ferry timing, art stops, small towns and Sanuki udon — a preview of the kind of decision card you unlock.</p>
-            <div class="tag-row">
-              <span>Art</span><span>Island</span><span>Food</span>
-            </div>
           </div>
         </div>
       </section>
 
       <section class="stats-grid" aria-label="Site highlights">
         <article class="stat-card">
-          <strong id="routeCount">141</strong>
-          <span>route cards</span>
+          <strong id="routeCount">138</strong>
+          <span>paid route cards</span>
         </article>
         <article class="stat-card">
-          <strong>47</strong>
-          <span>prefectures</span>
+          <strong>46</strong>
+          <span>prefectures excluding Tokyo</span>
+        </article>
+        <article class="stat-card">
+          <strong>0</strong>
+          <span>duplicates until all paid cards are pulled</span>
         </article>
         <article class="stat-card">
           <strong>3</strong>
-          <span>route styles per prefecture</span>
-        </article>
-        <article class="stat-card">
-          <strong>1</strong>
-          <span>route from each pull</span>
+          <span>free Tokyo sample routes</span>
         </article>
       </section>
 
@@ -97,10 +80,10 @@
           <div class="spin-console">
             <div class="deck-status">
               <span><strong id="drawnCount">0</strong> pulled</span>
-              <span><strong id="remainingCount">141</strong> left</span>
+              <span><strong id="remainingCount">138</strong> left</span>
             </div>
             <button id="spinButton" class="button primary spin-button">Turn the gacha</button>
-            <p class="console-note">Free preview first. Unlock only the route you want to keep.</p>
+            <p class="console-note">No duplicates until all 138 paid cards have been pulled.</p>
           </div>
         </div>
 
@@ -111,31 +94,28 @@
 
       <section id="sample" class="panel">
         <div class="section-heading">
-          <p class="eyebrow">Free sample</p>
-          <h2>See what a full route includes.</h2>
-          <p>A route card is built to help you decide quickly: where to go, how hard it is to reach, what to eat, what to skip, and how to fit it into a real trip.</p>
+          <p class="eyebrow">Free Tokyo Sample Route</p>
+          <h2>Tokyo is unlocked before you pay.</h2>
+          <p>Use these Tokyo sample cards to see the format. The paid gacha covers the other 46 prefectures.</p>
         </div>
-        <div class="sample-layout">
+        <div class="sample-layout tokyo-sample-layout">
           <article class="sample-route">
-            <p class="small-label">Sample full route</p>
-            <h3>Kagawa — Island Art Route</h3>
-            <p>A compact 2-day Setouchi route for travelers based in Osaka or Kyoto who want art islands, local ferries, small towns and Sanuki udon without overplanning.</p>
-            <ol class="sample-steps">
-              <li><strong>Day 1:</strong> Travel to Takamatsu, eat udon, check ferry timing, then cross to an art island.</li>
-              <li><strong>Day 2:</strong> Choose one main island, keep the schedule slow, return before the last ferry window feels stressful.</li>
-              <li><strong>Skip if short on time:</strong> Trying to stack too many islands in one day.</li>
-            </ol>
+            <p class="small-label">Unlocked Tokyo sample</p>
+            <h3>Tokyo Neighborhood Route</h3>
+            <p>A structured 2–3 day Tokyo route with pacing, local food ideas, transport effort, and what to skip if your schedule is tight.</p>
+            <div class="tag-row"><span>City</span><span>Food</span><span>Easy transport</span></div>
           </article>
           <article class="sample-route">
-            <p class="small-label">Full route includes</p>
-            <ul class="value-list">
-              <li>Day-by-day itinerary structure</li>
-              <li>Train, ferry or bus planning notes</li>
-              <li>Food stops and local search keywords</li>
-              <li>Best season and weather cautions</li>
-              <li>What to skip when the trip is too short</li>
-              <li>Simple difficulty label for first-time and repeat visitors</li>
-            </ul>
+            <p class="small-label">Unlocked Tokyo sample</p>
+            <h3>Tiny Bars & Food Streets Route</h3>
+            <p>A food-led Tokyo route built around meals, walkable streets, small bars, and practical pacing for a short stay.</p>
+            <div class="tag-row"><span>Food</span><span>Night streets</span><span>Walkable</span></div>
+          </article>
+          <article class="sample-route">
+            <p class="small-label">Unlocked Tokyo sample</p>
+            <h3>Retro Subculture Route</h3>
+            <p>A less-obvious Tokyo route for retro shops, subculture areas, side streets, and easy detours from the main city plan.</p>
+            <div class="tag-row"><span>Retro</span><span>Subculture</span><span>Detour</span></div>
           </article>
         </div>
       </section>
@@ -144,7 +124,7 @@
         <div class="section-heading">
           <p class="eyebrow">Unlock routes</p>
           <h2>Pay only when a route feels useful.</h2>
-          <p>Spin for free, preview the idea, then unlock the full planning card when you want the complete route.</p>
+          <p>Tokyo is free. Spin the paid gacha for the remaining 138 route cards, then unlock the full planning card when a route feels useful.</p>
         </div>
         <div class="pricing-grid">
           <article class="price-card">

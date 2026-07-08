@@ -115,10 +115,10 @@ input {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(22px, 5vw, 56px);
   align-items: center;
-  min-height: 640px;
+  min-height: 480px;
 }
 
 .eyebrow,
@@ -762,6 +762,10 @@ h3 {
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   gap: 18px;
   align-items: start;
+}
+
+.tokyo-sample-layout {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .how-grid,

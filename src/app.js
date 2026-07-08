@@ -44,6 +44,10 @@ function isSampleUnlocked(route) {
   return SAMPLE_UNLOCKED_PREFECTURES.has(route.prefecture);
 }
 
+function paidRoutes() {
+  return ROUTES.filter(route => !isSampleUnlocked(route));
+}
+
 function setLastDrawn(id) {
   localStorage.setItem(STORAGE_KEYS.last, id);
 }
@@ -53,7 +57,7 @@ function getLastDrawn() {
 }
 
 function filteredRoutes() {
-  return ROUTES;
+  return paidRoutes();
 }
 
 function availableRoutes() {
@@ -74,10 +78,13 @@ function setText(selector, value) {
 
 function updateCounts() {
   const drawn = getDrawn();
-  const remaining = Math.max(ROUTES.length - drawn.length, 0);
+  const paid = paidRoutes();
+  const paidIds = new Set(paid.map(route => route.id));
+  const paidDrawn = drawn.filter(id => paidIds.has(id));
+  const remaining = Math.max(paid.length - paidDrawn.length, 0);
 
-  setText("#routeCount", ROUTES.length);
-  setText("#drawnCount", drawn.length);
+  setText("#routeCount", paid.length);
+  setText("#drawnCount", paidDrawn.length);
   setText("#remainingCount", remaining);
 }
 
@@ -156,12 +163,12 @@ function renderDeck() {
 function renderPrefectureGrid() {
   const drawn = getDrawn();
   const counts = {};
-  ROUTES.forEach(route => {
+  paidRoutes().forEach(route => {
     counts[route.prefecture] = counts[route.prefecture] || { total: 0, drawn: 0 };
     counts[route.prefecture].total += 1;
   });
   drawn.forEach(id => {
-    const route = ROUTES.find(item => item.id === id);
+    const route = paidRoutes().find(item => item.id === id);
     if (route) counts[route.prefecture].drawn += 1;
   });
 
