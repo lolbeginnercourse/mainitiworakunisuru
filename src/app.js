@@ -136,7 +136,7 @@ function renderDeck() {
   list.innerHTML = "";
 
   if (!drawn.length) {
-    list.innerHTML = `<article class="route-mini-card"><p>まだルートカードを引いていません。ガチャを回すと、ここに履歴が表示されます。</p></article>`;
+    list.innerHTML = `<article class="route-mini-card"><p>No routes drawn yet. Spin the gacha to start your route history.</p></article>`;
     return;
   }
 
