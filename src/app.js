@@ -201,16 +201,7 @@ async function spinRoute() {
   $("#spinButton").disabled = true;
   $(".machine").classList.add("spinning");
 
-  const slotText = $("#slotText");
-  const names = candidates.map(route => route.prefecture);
-  let tick = 0;
-  const interval = setInterval(() => {
-    slotText.textContent = names[tick % names.length].toUpperCase();
-    tick += 1;
-  }, 70);
-
   await new Promise(resolve => setTimeout(resolve, 1250));
-  clearInterval(interval);
 
   const route = pickRandom(candidates);
   const drawn = getDrawn();
@@ -220,7 +211,6 @@ async function spinRoute() {
   }
   setLastDrawn(route.id);
 
-  slotText.textContent = route.prefecture.toUpperCase();
   $(".machine").classList.remove("spinning");
   $("#spinButton").disabled = false;
   state.spinning = false;
@@ -235,7 +225,6 @@ function resetDeck() {
   Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
   $("#result").className = "result-area empty";
   $("#result").innerHTML = `<p class="small-label">Your route card will appear here.</p>`;
-  $("#slotText").textContent = "READY";
   refreshAll();
 }
 
