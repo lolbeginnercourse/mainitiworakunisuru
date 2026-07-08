@@ -754,6 +754,9 @@ h3 {
 
 @media (max-width: 920px) {
   .site-header {
+    position: static;
+    top: auto;
+    z-index: auto;
     align-items: flex-start;
     border-radius: 24px;
     flex-direction: column;
