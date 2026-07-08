@@ -2,251 +2,219 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Menu Safe Lens | Japan Menu Risk Checker</title>
-  <meta name="description" content="Check Japan menu photos for visible allergens, hidden ingredient risks, staff-ready questions, order phrases, and about-price conversion before eating in Japan." />
-  <meta name="theme-color" content="#071015" />
-  <link rel="canonical" href="https://mainitiworakunisuru.com/" />
-  <meta property="og:url" content="https://mainitiworakunisuru.com/" />
-  <meta property="og:title" content="Menu Safe Lens | Japan Menu Risk Checker" />
-  <meta property="og:description" content="Check Japan menu photos for visible allergens, hidden ingredient risks, staff-ready questions, order phrases, and about-price conversion before eating in Japan." />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Menu Safe Lens" />
-  <meta name="twitter:card" content="summary" />
-  
-<link rel="preload" href="./assets/css/styles.css" as="style" />
-<link rel="stylesheet" href="./assets/css/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Japan Route Gacha | Pull a ready-made Japan route</title>
+  <meta name="description" content="A Japan travel gacha with 141 ready-made route cards across all 47 prefectures. Pull a free preview, unlock full route plans, and choose your next Japan trip faster." />
+  <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
-  <main class="app-shell" id="app">
-    <section class="scanner" id="scanner" aria-label="Menu scanner">
-      <div class="topbar">
-        <div class="brand" aria-label="Menu Safe Lens">
-          <span class="brand-mark" aria-hidden="true">🍱</span>
-          <div>
-            <strong>Menu Safe Lens</strong>
-            <small>Menu risk checker</small>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Japan Route Gacha home">
+        <span class="brand-mark">JRG</span>
+        <span>Japan Route Gacha</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#spin">Spin</a>
+        <a href="#sample">Sample</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Japan route gacha</p>
+          <h1>Pull a Japan route beyond the obvious stops.</h1>
+          <p class="lead">
+            Spin once and get a ready-made Japan route with places, food ideas, travel effort and useful planning notes — whether it is your first Japan trip or your next one.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#spin">Pull a free route</a>
+            <a class="button ghost" href="#sample">See sample route</a>
+          </div>
+          <div class="hero-proof" aria-label="Product highlights">
+            <span>Free preview before payment</span>
+            <span>141 cards across all 47 prefectures</span>
+            <span>Full routes include practical planning notes</span>
           </div>
         </div>
-        <div class="top-actions">
-          <button class="top-pill" id="profileStatus" type="button">Set food profile</button>
-          <button class="icon-button" id="openInfo" type="button" aria-label="Open safety notes">?</button>
-        </div>
-      </div>
-
-      <div class="hero">
-        <div class="stage">
-          <img id="photoPreview" class="photo-preview" alt="Selected menu photo" />
-          <div class="empty-state" id="emptyState">
-            <div class="empty-icon" aria-hidden="true">📷</div>
-            <h1>Check Japanese menus before ordering.</h1>
-            <p>Set your food profile, upload a menu photo, then get clear actions: avoid, ask staff, or order.</p>
-            <div class="proof-chips" aria-label="Key features">
-              <span>Hidden dashi / sauce</span>
-              <span>Staff-ready questions</span>
-              <span>About price</span>
+        <div class="hero-card" aria-label="Sample travel card">
+          <div class="card-top">
+            <span class="pill">Sample pull</span>
+            <span class="pill muted">Free preview</span>
+          </div>
+          <div class="route-card-face">
+            <p class="small-label">You pulled</p>
+            <h2>Kagawa</h2>
+            <h3>Island Art Route</h3>
+            <p>A slow Setouchi island route with ferry timing, art stops, small towns and Sanuki udon — a preview of the kind of decision card you unlock.</p>
+            <div class="tag-row">
+              <span>Art</span><span>Island</span><span>Food</span>
             </div>
           </div>
-
-          <div class="readout is-hidden" id="readout" aria-live="polite">
-            <div class="readout-row">
-              <strong id="readoutTitle">Photo ready</strong>
-              <span id="readoutHint">Check before ordering</span>
-            </div>
-            <div class="quality-chips" id="qualityChips" aria-label="Photo guidance"></div>
-          </div>
-
-          <div class="frame-overlay" aria-hidden="true">
-            <div class="frame-box">
-              <span class="corner corner--tl"></span>
-              <span class="corner corner--tr"></span>
-              <span class="corner corner--bl"></span>
-              <span class="corner corner--br"></span>
-            </div>
-          </div>
-
-          <div class="loader" role="status" aria-live="assertive">
-            <strong>Scanning menu…</strong>
-            <span>Reading visible text, prices, allergens, and hidden ingredient risks.</span>
-          </div>
         </div>
+      </section>
 
-        <div>
-          <div class="dock" aria-label="Scanner controls">
-            <div class="photo-actions is-hidden" id="photoActions">
-              <button class="button button--soft" id="clearPhoto" type="button">← Back</button>
-              <button class="button button--soft" id="newPhoto" type="button">Use another photo</button>
-            </div>
-            <div class="primary-row">
-              <button class="button button--soft" id="choosePhoto" type="button">Choose photo</button>
-              <button class="round-button" id="checkMenu" type="button" disabled>Scan menu</button>
-              <button class="button button--soft" id="takePhoto" type="button">Take photo</button>
-            </div>
-            <p class="dock-note" id="dockNote">Unreadable photos should not count as a paid check. Severe allergies still need staff confirmation.</p>
-          </div>
-          <div class="trust-strip" aria-label="Safety notes">
-            <span>No “safe” guarantee</span>
-            <span>Cross-contact cannot be confirmed</span>
-            <span>Ask staff for severe allergies</span>
-          </div>
-        </div>
-      </div>
-
-      <input id="photoInput" type="file" accept="image/*" />
-      <input id="cameraInput" type="file" accept="image/*" capture="environment" />
-    </section>
-
-    <section class="result-area" id="results" aria-label="Menu results">
-      <div class="result-top">
-        <div>
-          <p class="eyebrow">Menu checked</p>
-          <h2 id="resultTitle">Review before ordering.</h2>
-          <p id="resultIntro">Items are grouped by visible menu text and your food profile. When something is unclear, ask staff before eating.</p>
-        </div>
-        <div class="summary-card">
-          <strong id="menuSummaryTitle">0 items found</strong>
-          <span id="menuSummaryText">Menu structure and visible labels will appear here.</span>
-          <small id="scanStatusPill">Readable</small>
-        </div>
-      </div>
-
-      <div class="status-panel" id="analysisStatus" aria-live="polite"></div>
-      <div class="stats" id="stats" aria-label="Result summary"></div>
-
-      <div class="toolbar" aria-label="Result tools">
-        <div class="tabs" id="tabs" role="tablist" aria-label="Filter results"></div>
-        <select class="currency-select" id="currencySelect" aria-label="Select currency">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <option value="AUD">AUD</option>
-          <option value="CAD">CAD</option>
-        </select>
-      </div>
-
-      <div id="groupedCards"></div>
-
-      <div class="info-section" id="infoSection">
-        <article class="notice-card">
-          <h3>What this checks</h3>
-          <ul>
-            <li>Visible allergens, pork, beef, alcohol, fish, egg, wheat, milk, soy, sesame, soba, and shellfish terms</li>
-            <li>Common hidden risks such as dashi, mirin, cooking sake, soy sauce wheat, broth, batter, gelatin, and shared fryer oil</li>
-            <li>Staff-ready questions and simple order phrases</li>
-          </ul>
+      <section class="stats-grid" aria-label="Site highlights">
+        <article class="stat-card">
+          <strong id="routeCount">141</strong>
+          <span>route cards</span>
         </article>
-        <article class="notice-card">
-          <h3>What it cannot confirm</h3>
-          <ul>
-            <li>Kitchen procedures, cross-contact, shared utensils, staff mistakes, or unlisted ingredients</li>
-            <li>For severe allergies or strict religious rules, show the staff question before ordering</li>
-            <li>If the photo is unreadable, the scan should fail instead of guessing</li>
-          </ul>
+        <article class="stat-card">
+          <strong>47</strong>
+          <span>prefectures</span>
         </article>
-        <article class="pay-card">
-          <h3>Trip pass model</h3>
-          <p>Designed for travelers: 3 free menu checks, then a 7-day or 14-day pass. Unreadable photos should not count.</p>
-          <div class="pricing-row">
-            <div class="price-option"><strong>Free</strong><span>3 readable checks</span></div>
-            <div class="price-option"><strong>Trip Pass</strong><span>Unlimited readable checks during your trip</span></div>
-          </div>
-          <button class="button button--accent button--full-spaced" id="openPaywall" type="button">View trip pass</button>
+        <article class="stat-card">
+          <strong>3</strong>
+          <span>route styles per prefecture</span>
         </article>
-        <article class="notice-card">
-          <h3>Privacy position</h3>
-          <p>Menu photos should be used only for analysis. Avoid storing images unless the user explicitly saves a scan. API keys and payment status must be handled server-side.</p>
+        <article class="stat-card">
+          <strong>1</strong>
+          <span>route from each pull</span>
         </article>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <section class="sheet" id="profileSheet" aria-hidden="true" aria-label="Food profile settings">
-    <div class="sheet-backdrop" data-close-sheet></div>
-    <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
-      <div class="sheet-header">
-        <div>
-          <p class="eyebrow">Food profile</p>
-          <h2 id="profileTitle">Tell us what you cannot eat.</h2>
-          <p>Set this before scanning. Allergy conflicts are treated more seriously than preferences or general food rules.</p>
+      <section id="spin" class="spin-section panel">
+        <div class="section-heading">
+          <p class="eyebrow">Spin the deck</p>
+          <h2>Pull one Japan route.</h2>
+          <p>No setup, no long questionnaire. Turn the gacha, preview one route idea, and unlock the full plan only when it feels useful.</p>
         </div>
-        <button class="close-button" type="button" data-close-sheet aria-label="Close profile">×</button>
-      </div>
-      <p class="gate-note" id="profileGateNote">Before checking a menu, set allergies or food rules. You can skip only if you want general translation-style help.</p>
-      <div class="profile-grid">
-        <div class="profile-card profile-card--danger">
-          <h3>Allergies</h3>
-          <p>Used for Avoid or Ask staff decisions.</p>
-          <div class="chip-grid" id="allergyGrid"></div>
-        </div>
-        <div class="profile-card">
-          <h3>Food rules</h3>
-          <p>Used to check pork, beef, alcohol, dashi, gelatin, and shared preparation risks.</p>
-          <div class="chip-grid" id="ruleGrid"></div>
-        </div>
-        <div class="profile-card">
-          <h3>Check level</h3>
-          <p>Choose how cautious the app should be when sauce, broth, or preparation is unclear.</p>
-          <div class="strictness-grid" id="strictnessGrid"></div>
-        </div>
-        <div class="profile-card profile-card--danger">
-          <h3>Severe allergy mode</h3>
-          <p>For serious allergies, the app will push staff confirmation more strongly and avoid casual order prompts.</p>
-          <div class="chip-grid">
-            <label class="choice-chip"><input type="checkbox" id="severeMode"><span>Severe allergy</span></label>
+
+        <div class="gacha-board production-board">
+          <div class="machine" aria-hidden="true">
+            <div class="machine-window">
+              <span id="slotText">READY</span>
+            </div>
+            <div class="machine-handle"></div>
+            <div class="capsule-tray">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="capsule-drop"></div>
+          </div>
+
+          <div class="spin-console">
+            <div class="deck-status">
+              <span><strong id="drawnCount">0</strong> pulled</span>
+              <span><strong id="remainingCount">141</strong> left</span>
+            </div>
+            <button id="spinButton" class="button primary spin-button">Turn the gacha</button>
+            <p class="console-note">Free preview first. Unlock only the route you want to keep.</p>
           </div>
         </div>
-      </div>
-      <div class="sheet-actions">
-        <button class="button" id="resetProfile" type="button">Reset</button>
-        <button class="button button--secondary-muted" id="skipProfile" type="button">Skip and scan</button>
-        <button class="button button--accent" id="saveProfile" type="button">Save profile</button>
-      </div>
-    </div>
-  </section>
 
-  <dialog class="dialog" id="staffDialog">
-    <form method="dialog">
-      <button class="close-button close-button--floating" value="cancel" aria-label="Close">×</button>
-    </form>
-    <div class="dialog-content" id="dialogContent"></div>
-  </dialog>
+        <div id="result" class="result-area empty">
+          <p class="small-label">Your route card will appear here.</p>
+        </div>
+      </section>
 
-  <dialog class="dialog" id="infoDialog">
-    <form method="dialog">
-      <button class="close-button close-button--floating" value="cancel" aria-label="Close">×</button>
-    </form>
-    <div class="dialog-content">
-      <p class="eyebrow">Safety note</p>
-      <h2 class="limit-title">Not a guarantee.</h2>
-      <p>This app helps identify visible menu text and common hidden risks. It cannot confirm kitchen procedures or cross-contact.</p>
-      <div class="staff-card">
-        <strong>Staff phrase</strong>
-        <span class="en-small">I have a severe allergy. Could you please check the ingredients and preparation method?</span>
-      </div>
-    </div>
-  </dialog>
+      <section id="sample" class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Free sample</p>
+          <h2>See what a full route includes.</h2>
+          <p>A route card is built to help you decide quickly: where to go, how hard it is to reach, what to eat, what to skip, and how to fit it into a real trip.</p>
+        </div>
+        <div class="sample-layout">
+          <article class="sample-route">
+            <p class="small-label">Sample full route</p>
+            <h3>Kagawa — Island Art Route</h3>
+            <p>A compact 2-day Setouchi route for travelers based in Osaka or Kyoto who want art islands, local ferries, small towns and Sanuki udon without overplanning.</p>
+            <ol class="sample-steps">
+              <li><strong>Day 1:</strong> Travel to Takamatsu, eat udon, check ferry timing, then cross to an art island.</li>
+              <li><strong>Day 2:</strong> Choose one main island, keep the schedule slow, return before the last ferry window feels stressful.</li>
+              <li><strong>Skip if short on time:</strong> Trying to stack too many islands in one day.</li>
+            </ol>
+          </article>
+          <article class="sample-route">
+            <p class="small-label">Full route includes</p>
+            <ul class="value-list">
+              <li>Day-by-day itinerary structure</li>
+              <li>Train, ferry or bus planning notes</li>
+              <li>Food stops and local search keywords</li>
+              <li>Best season and weather cautions</li>
+              <li>What to skip when the trip is too short</li>
+              <li>Simple difficulty label for first-time and repeat visitors</li>
+            </ul>
+          </article>
+        </div>
+      </section>
 
-  <dialog class="dialog" id="payDialog">
-    <form method="dialog">
-      <button class="close-button close-button--floating" value="cancel" aria-label="Close">×</button>
-    </form>
-    <div class="dialog-content">
-      <p class="eyebrow">Trip pass</p>
-      <h2>Use it during your Japan trip.</h2>
-      <p>3 free readable checks, then choose a pass. Unreadable photos and failed scans should not count.</p>
-      <div class="pricing-row pricing-row--large">
-        <div class="price-option"><strong>7-day pass</strong><span>For short trips and city stays</span></div>
-        <div class="price-option"><strong>14-day pass</strong><span>For longer Japan travel</span></div>
-      </div>
-      <div class="dialog-actions">
-        <button class="button button--accent" type="button" id="startCheckout">Continue</button>
-        <button class="button button--secondary-muted" type="button" id="restorePass">Restore pass</button>
-      </div>
-    </div>
-  </dialog>
+      <section id="pricing" class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Unlock routes</p>
+          <h2>Pay only when a route feels useful.</h2>
+          <p>Spin for free, preview the idea, then unlock the full planning card when you want the complete route.</p>
+        </div>
+        <div class="pricing-grid">
+          <article class="price-card">
+            <p class="small-label">Single route</p>
+            <h3>$3</h3>
+            <p>Unlock the full route you just pulled, including pacing notes, food ideas, transport effort and what to skip.</p>
+            <button class="button ghost checkout-plan" data-plan="single">Unlock one route</button>
+          </article>
+          <article class="price-card featured">
+            <p class="small-label">Gacha pack</p>
+            <h3>$9</h3>
+            <p>Unlock five pulled routes. Best for comparing several directions for a 7–10 day Japan trip.</p>
+            <button class="button primary checkout-plan" data-plan="five_pack">Get 5 unlocks</button>
+          </article>
+          <article class="price-card">
+            <p class="small-label">Full deck pass</p>
+            <h3>$29</h3>
+            <p>Designed for deep planners who want access to every prefecture route in the deck.</p>
+            <button class="button ghost checkout-plan" data-plan="full_deck">Get full deck</button>
+          </article>
+        </div>
+      </section>
+    </main>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="./assets/js/config.js" defer></script>
-  <script src="./assets/js/app.js" defer></script>
+    <footer class="site-footer">
+      <p>Japan Route Gacha sells digital route content, not bookings or travel arrangement services. Always confirm transport, weather and opening hours before you travel.</p>
+      <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/refund-policy">Refund policy</a>
+        <a href="/contact">Contact</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </footer>
+  </div>
+
+  <template id="resultTemplate">
+    <article class="pulled-card">
+      <div class="card-top">
+        <span class="pill js-region"></span>
+        <span class="pill muted js-type"></span>
+      </div>
+      <p class="small-label">You pulled</p>
+      <h2 class="js-prefecture"></h2>
+      <h3 class="js-name"></h3>
+      <p class="js-preview"></p>
+      <div class="meta-list">
+        <span class="js-days"></span>
+        <span class="js-start"></span>
+        <span class="js-difficulty"></span>
+      </div>
+      <div class="tag-row js-tags"></div>
+      <div class="unlock-includes">
+        <h4>Full route includes</h4>
+        <ul class="unlock-list">
+          <li>Day-by-day route structure</li>
+          <li>Train, ferry or bus planning notes</li>
+          <li>Food stops and local search keywords</li>
+          <li>Best season, travel effort and what to skip if short on time</li>
+        </ul>
+      </div>
+      <div class="card-actions">
+        <button class="button primary js-unlock">Unlock this route — $3</button>
+        <button class="button subtle js-spin-again">Spin again</button>
+      </div>
+      <p class="fine-print">Preview only. Unlock the full route when you want the complete planning card.</p>
+    </article>
+  </template>
+
+  <script src="src/routes.js"></script>
+  <script src="src/app.js"></script>
 </body>
 </html>
