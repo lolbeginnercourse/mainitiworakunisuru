@@ -357,79 +357,79 @@ h3 {
 
 .gacha-board {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: minmax(240px, 340px) 1fr;
   gap: 20px;
-  align-items: stretch;
+  align-items: center;
 }
 
 .machine {
   position: relative;
-  min-height: 280px;
-  border-radius: 34px;
-  padding: 20px;
-  background: linear-gradient(180deg, #ff6b6b, #b93b63);
-  box-shadow: inset 0 0 0 10px rgba(255,255,255,0.08), var(--shadow);
+  width: min(100%, 340px);
+  margin: 0 auto;
+  aspect-ratio: 747 / 1536;
+  border-radius: 28px;
+  background: transparent;
+  filter: drop-shadow(0 28px 34px rgba(0, 0, 0, 0.34));
 }
 
-.machine::before {
-  content: "";
+.machine-body {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.machine-handle-image {
   position: absolute;
-  left: 50%;
-  bottom: 18px;
-  width: 90px;
-  height: 90px;
-  transform: translateX(-50%);
+  left: 66.8%;
+  top: 53.4%;
+  z-index: 3;
+  width: 16%;
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: rgba(255,255,255,0.16);
-  border: 14px solid rgba(40, 20, 50, 0.35);
+  transform: translate(-50%, -50%) rotate(0deg);
+  transform-origin: 50% 50%;
+  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.32));
+  user-select: none;
+  pointer-events: none;
 }
 
-.machine-window {
+.machine-window-label {
   display: grid;
   place-items: center;
-  height: 120px;
-  border-radius: 26px;
-  background: rgba(16, 13, 26, 0.9);
-  border: 1px solid rgba(255,255,255,0.22);
+  position: absolute;
+  left: 17.5%;
+  right: 17.5%;
+  top: 19.1%;
+  z-index: 2;
+  min-height: 9%;
   color: var(--accent);
   font-weight: 900;
   letter-spacing: 0.08em;
   text-align: center;
-  padding: 16px;
+  text-shadow: 0 2px 7px rgba(0, 0, 0, 0.72);
+  pointer-events: none;
 }
 
-.capsule-tray {
-  position: absolute;
-  left: 28px;
-  right: 28px;
-  bottom: 30px;
-  display: flex;
-  justify-content: space-between;
+.machine.spinning .machine-handle-image {
+  animation: handle-spin 1.12s cubic-bezier(.22, .8, .2, 1) infinite;
 }
 
-.capsule-tray span {
-  width: 46px;
-  height: 46px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--mint), var(--accent));
-  opacity: 0.95;
+.machine.spinning {
+  animation: machine-wobble 0.34s ease-in-out infinite alternate;
 }
 
-.machine.spinning .capsule-tray span {
-  animation: bounce 0.48s ease-in-out infinite alternate;
+@keyframes handle-spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  72% { transform: translate(-50%, -50%) rotate(360deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.machine.spinning .capsule-tray span:nth-child(2) {
-  animation-delay: 0.12s;
-}
-
-.machine.spinning .capsule-tray span:nth-child(3) {
-  animation-delay: 0.24s;
-}
-
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-18px); }
+@keyframes machine-wobble {
+  from { transform: translateY(0) rotate(-0.25deg); }
+  to { transform: translateY(-2px) rotate(0.25deg); }
 }
 
 .spin-console {
@@ -672,63 +672,6 @@ h3 {
   margin: 5px 0;
 }
 
-.machine-handle {
-  position: absolute;
-  right: 24px;
-  top: 150px;
-  width: 82px;
-  height: 82px;
-  border-radius: 50%;
-  background: #fff8ef;
-  border: 12px solid rgba(40, 20, 50, 0.32);
-  box-shadow: inset 0 0 0 8px rgba(255,255,255,0.46), 0 18px 28px rgba(0,0,0,0.24);
-}
-
-.machine-handle::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 58px;
-  border-radius: 999px;
-  background: rgba(33, 18, 36, 0.82);
-  transform: translate(-50%, -50%);
-}
-
-.machine-handle::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 58px;
-  height: 16px;
-  border-radius: 999px;
-  background: rgba(33, 18, 36, 0.82);
-  transform: translate(-50%, -50%);
-}
-
-.machine.spinning .machine-handle {
-  animation: turnHandle 0.62s ease-in-out 2;
-}
-
-.capsule-drop {
-  position: absolute;
-  left: 50%;
-  bottom: 84px;
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  opacity: 0;
-  transform: translateX(-50%) scale(0.7);
-  background: linear-gradient(135deg, var(--accent), var(--mint));
-  box-shadow: 0 10px 24px rgba(0,0,0,0.28);
-}
-
-.machine.spinning .capsule-drop {
-  animation: capsuleDrop 1.18s ease-in-out forwards;
-}
-
 .pulled-card {
   animation: cardReveal 0.42s ease-out both;
 }
@@ -809,18 +752,6 @@ h3 {
   color: var(--text);
   text-decoration: underline;
   text-underline-offset: 4px;
-}
-
-@keyframes turnHandle {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes capsuleDrop {
-  0% { opacity: 0; transform: translate(-50%, -70px) scale(0.7); }
-  35% { opacity: 1; transform: translate(-50%, -22px) scale(1); }
-  76% { opacity: 1; transform: translate(-50%, 18px) scale(1.06); }
-  100% { opacity: 0; transform: translate(-50%, 34px) scale(0.92); }
 }
 
 @keyframes cardReveal {
