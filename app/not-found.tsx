@@ -1,0 +1,2 @@
+import Link from "next/link";import SubShell from "./components/SubShell";
+export default function NotFound(){return <SubShell><main><section className="subhero"><div className="site-container"><p className="eyebrow">404 NOT FOUND</p><h1>お探しのページが見つかりません</h1><p>劇場名やエリア名で検索するか、劇場一覧からお探しください。</p><div className="booking-buttons"><Link className="primary-button" href="/">トップへ戻る</Link><Link className="outline-button" href="/theaters">劇場一覧を見る</Link></div></div></section></main></SubShell>}
