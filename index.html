@@ -240,9 +240,9 @@
         <span>ステージ<span style="color:var(--primary)">泊</span><small>観劇遠征ホテルガイド</small></span>
       </a>
       <nav class="nav" aria-label="メインナビゲーション">
-        <a href="#theaters">劇場から探す</a>
-        <a href="#areas">地域から探す</a>
-        <a href="#purpose">目的から探す</a>
+        <a href="/theaters">劇場から探す</a>
+        <a href="/areas">地域から探す</a>
+        <a href="/search">目的から探す</a>
       </nav>
     </div>
   </header>
@@ -253,7 +253,7 @@
         <p class="eyebrow">2.5次元ミュージカル・舞台 遠征ホテルガイド</p>
         <h1>観劇する劇場から、<br><span>泊まりやすいホテル</span>を探す。</h1>
         <p class="lead">2.5次元ミュージカル・舞台の遠征向けに、劇場までの移動、終演後の戻りやすさ、荷物預かり、料金帯を比較できます。</p>
-        <form class="search-card" action="#theaters">
+        <form class="search-card" action="/search">
           <input type="search" placeholder="劇場名・エリア・ホテル名で検索">
           <button class="button" type="submit">検索する</button>
         </form>
@@ -262,23 +262,23 @@
 
     <section class="container section">
       <div class="grid entry-grid">
-        <a class="card entry-card primary" href="#theaters">
+        <a class="card entry-card primary" href="/theaters">
           <span>01</span>
           <h2>劇場から探す</h2>
           <p>観劇する劇場を起点に、泊まりやすいエリアとホテル候補を確認。</p>
           <b>劇場一覧を見る →</b>
         </a>
-        <a class="card entry-card soft" href="#areas">
+        <a class="card entry-card soft" href="/areas">
           <span>02</span>
           <h2>宿泊エリアから探す</h2>
           <p>東京駅、品川、新宿、梅田など、移動拠点から逆引き。</p>
           <b>エリアを見る →</b>
         </a>
-        <a class="card entry-card" href="#purpose">
+        <a class="card entry-card" href="/search">
           <span>03</span>
           <h2>目的から探す</h2>
           <p>近さ、料金、女性一人、荷物預かりなど重視条件で比較。</p>
-          <b>条件を選ぶ ↓</b>
+          <b>条件を選ぶ →</b>
         </a>
       </div>
     </section>
@@ -295,19 +295,19 @@
           <div class="tag-row"><span>天王洲・品川</span><span>東京都</span></div>
           <h3>天王洲 銀河劇場</h3>
           <p>駅直結。品川泊なら新幹線移動も組みやすい劇場です。</p>
-          <a class="outline" href="#">ホテルを見る <span>→</span></a>
+          <a class="outline" href="/theaters/tennozu-galaxy-theatre">ホテルを見る <span>→</span></a>
         </article>
         <article class="card theater-card">
           <div class="tag-row"><span>池袋</span><span>東京都</span></div>
           <h3>東京建物 Brillia HALL</h3>
           <p>終演後も選択肢の多い池袋エリア。徒歩圏ホテルも比較。</p>
-          <a class="outline" href="#">ホテルを見る <span>→</span></a>
+          <a class="outline" href="/theaters/brillia-hall">ホテルを見る <span>→</span></a>
         </article>
         <article class="card theater-card">
           <div class="tag-row"><span>梅田</span><span>大阪府</span></div>
           <h3>SkyシアターMBS</h3>
           <p>大阪駅直結。新幹線利用とのバランスも確認できます。</p>
-          <a class="outline" href="#">ホテルを見る <span>→</span></a>
+          <a class="outline" href="/theaters/sky-theater-mbs">ホテルを見る <span>→</span></a>
         </article>
       </div>
     </section>
@@ -317,12 +317,12 @@
         <p class="eyebrow">SEARCH BY AREA</p>
         <h2>地域から探す</h2>
         <div class="grid region-grid" style="margin-top:24px">
-          <a href="#">北海道・東北 <span>→</span></a>
-          <a href="#">関東 <span>→</span></a>
-          <a href="#">東海 <span>→</span></a>
-          <a href="#">関西 <span>→</span></a>
-          <a href="#">中国・四国 <span>→</span></a>
-          <a href="#">九州 <span>→</span></a>
+          <a href="/theaters?region=hokkaido-tohoku">北海道・東北 <span>→</span></a>
+          <a href="/theaters?region=kanto">関東 <span>→</span></a>
+          <a href="/theaters?region=tokai">東海 <span>→</span></a>
+          <a href="/theaters?region=kansai">関西 <span>→</span></a>
+          <a href="/theaters?region=chugoku-shikoku">中国・四国 <span>→</span></a>
+          <a href="/theaters?region=kyushu">九州 <span>→</span></a>
         </div>
       </div>
     </section>
@@ -332,12 +332,12 @@
         <p class="eyebrow">CHOOSE YOUR PRIORITY</p>
         <h2>遠征で重視したいことから探す</h2>
         <div class="grid purpose-grid" style="margin-top:24px">
-          <a href="#">劇場への近さ優先 <span>→</span></a>
-          <a href="#">宿泊料金を抑えたい <span>→</span></a>
-          <a href="#">女性一人で選びやすい <span>→</span></a>
-          <a href="#">マチソワ間に戻りやすい <span>→</span></a>
-          <a href="#">新幹線駅へ移動しやすい <span>→</span></a>
-          <a href="#">荷物を預けやすい <span>→</span></a>
+          <a href="/search?purpose=near">劇場への近さ優先 <span>→</span></a>
+          <a href="/search?purpose=budget">宿泊料金を抑えたい <span>→</span></a>
+          <a href="/search?purpose=solo">女性一人で選びやすい <span>→</span></a>
+          <a href="/search?purpose=matinee-soiree">マチソワ間に戻りやすい <span>→</span></a>
+          <a href="/search?purpose=station">新幹線駅へ移動しやすい <span>→</span></a>
+          <a href="/search?purpose=luggage">荷物を預けやすい <span>→</span></a>
         </div>
       </div>
     </section>

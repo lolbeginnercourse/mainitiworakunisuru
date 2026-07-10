@@ -28,8 +28,20 @@ export default async function TheaterPage({ params }: { params: Promise<{ slug: 
   const theater = theaters.find((item) => item.slug === slug);
   if (!theater) notFound();
 
-  const venueData = getVenueHotelEntries(slug);
-  if (!venueData) notFound();
+  const venueData = getVenueHotelEntries(slug) ?? {
+    slug,
+    venueAddress: `${theater.prefecture} ${theater.area}`,
+    intro: "この劇場周辺のホテル情報は準備中です。掲載準備ができ次第、徒歩圏と電車アクセスのホテルを追加します。",
+    walkingSectionLabel: "徒歩で行ける近くのホテル",
+    transitSectionLabel: "電車でのアクセスに便利なホテル",
+    hotelEntries: [],
+    choiceCards: [
+      { title: "劇場までの移動時間", text: "終演後に戻りやすいよう、徒歩時間と乗り換えの少なさを優先して確認します。" },
+      { title: "最寄り駅からの近さ", text: "大きな荷物がある場合は、駅からホテルまでの徒歩時間も重要です。" },
+      { title: "料金の変動", text: "公演日や週末は料金が変わりやすいため、日程ごとに確認します。" },
+      { title: "観劇前後の使いやすさ", text: "荷物預かり、チェックイン時間、翌日の移動しやすさも見ます。" },
+    ],
+  };
 
   const venueAddress = venueData.venueAddress;
   const stationWalkMinutes = 1;
@@ -104,20 +116,34 @@ export default async function TheaterPage({ params }: { params: Promise<{ slug: 
 
           <section id="walking-hotels" className="venue-section">
             <h2 className="section-title">{venueData.walkingSectionLabel}</h2>
-            <div className="hotel-list is-vertical">
-              {walkingHotels.map(({ entry, hotel }) => (
-                <HotelCard key={entry.hotelId} hotel={hotel} entry={entry} venueAddress={venueAddress} />
-              ))}
-            </div>
+            {walkingHotels.length > 0 ? (
+              <div className="hotel-list is-vertical">
+                {walkingHotels.map(({ entry, hotel }) => (
+                  <HotelCard key={entry.hotelId} hotel={hotel} entry={entry} venueAddress={venueAddress} />
+                ))}
+              </div>
+            ) : (
+              <div className="content-card empty-state">
+                <h3>ホテル情報を準備中です</h3>
+                <p>この劇場の徒歩圏ホテルは、確認でき次第追加します。</p>
+              </div>
+            )}
           </section>
 
           <section id="transit-hotels" className="venue-section">
             <h2 className="section-title">{venueData.transitSectionLabel}</h2>
-            <div className="hotel-list is-vertical">
-              {transitHotels.map(({ entry, hotel }) => (
-                <HotelCard key={entry.hotelId} hotel={hotel} entry={entry} venueAddress={venueAddress} />
-              ))}
-            </div>
+            {transitHotels.length > 0 ? (
+              <div className="hotel-list is-vertical">
+                {transitHotels.map(({ entry, hotel }) => (
+                  <HotelCard key={entry.hotelId} hotel={hotel} entry={entry} venueAddress={venueAddress} />
+                ))}
+              </div>
+            ) : (
+              <div className="content-card empty-state">
+                <h3>電車アクセスのホテル情報を準備中です</h3>
+                <p>主要駅周辺や翌日移動しやすいホテルは、確認でき次第追加します。</p>
+              </div>
+            )}
           </section>
 
           <section id="choice-points" className="venue-section">
