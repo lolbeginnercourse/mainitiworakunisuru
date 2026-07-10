@@ -1,191 +1,66 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Japan Route Gacha | Pull a ready-made Japan route</title>
-  <meta name="description" content="A Japan travel gacha with 138 paid route cards across 46 prefectures, plus free Tokyo sample routes. Pull a route, avoid duplicates, and choose your next Japan trip faster." />
-  <link rel="stylesheet" href="src/styles.css" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>mainitiworakunisuru.com</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8f6f0;
+      --text: #1e1b16;
+      --muted: #6f675e;
+      --line: #ded8cd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      margin: 0;
+      place-items: center;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(100% - 32px, 640px);
+      padding: 40px 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fffdf8;
+      padding: clamp(24px, 6vw, 48px);
+      box-shadow: 0 20px 60px rgba(31, 26, 18, 0.08);
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+  </style>
 </head>
 <body>
-  <div class="shell">
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="Japan Route Gacha home">
-        <span class="brand-mark">JRG</span>
-        <span>Japan Route Gacha</span>
-      </a>
-      <nav class="nav" aria-label="Main navigation">
-        <a href="#spin">Gacha</a>
-        <a href="#sample">Tokyo sample</a>
-        <a href="#pricing">Pricing</a>
-      </nav>
-    </header>
-
-    <main id="top">
-      <section class="hero panel">
-        <div class="hero-copy">
-          <p class="eyebrow">Japan route gacha</p>
-          <h1>Pull a Japan route beyond the obvious stops.</h1>
-          <div class="hero-actions">
-            <a class="button primary" href="#spin">Spin the gacha</a>
-            <a class="button ghost" href="#sample">View Tokyo sample</a>
-          </div>
-          <div class="hero-proof" aria-label="Product highlights">
-            <span>No duplicates. The paid deck includes 138 route cards across 46 prefectures outside Tokyo. Tokyo routes are free sample cards.</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="stats-grid" aria-label="Site highlights">
-        <article class="stat-card">
-          <strong id="routeCount">138</strong>
-          <span>paid route cards</span>
-        </article>
-        <article class="stat-card">
-          <strong>46</strong>
-          <span>prefectures excluding Tokyo</span>
-        </article>
-        <article class="stat-card">
-          <strong>0</strong>
-          <span>No duplicates until every paid card is pulled</span>
-        </article>
-        <article class="stat-card">
-          <strong>3</strong>
-          <span>free Tokyo sample routes</span>
-        </article>
-      </section>
-
-      <section id="spin" class="spin-section panel">
-        <div class="section-heading">
-          <p class="eyebrow">Route gacha</p>
-          <h2>Spin the gacha and pull one Japan route card.</h2>
-          <p>No setup and no long questionnaire. Pull one card first, then only buy a route if you want to keep it.</p>
-        </div>
-
-        <div class="gacha-board production-board">
-          <div class="machine" aria-hidden="true">
-            <img class="machine-body" src="assets/images/gacha-machine.png" alt="" />
-            <img class="machine-handle-image" src="assets/images/gacha-handle.png" alt="" />
-          </div>
-
-          <div class="spin-console">
-            <div class="deck-status">
-              <span>Pulled <strong id="drawnCount">0</strong></span>
-              <span>Left <strong id="remainingCount">138</strong></span>
-            </div>
-            <button id="spinButton" class="button primary spin-button">Spin the gacha</button>
-            <p class="console-note">No paid card repeats until all 138 cards have been pulled.</p>
-          </div>
-        </div>
-
-        <div id="result" class="result-area empty">
-          <p class="small-label">Your route card will appear here.</p>
-        </div>
-      </section>
-
-      <section id="sample" class="panel">
-        <div class="section-heading">
-          <p class="eyebrow">Free Tokyo sample</p>
-          <h2>Tokyo routes are free to view before you buy.</h2>
-          <p>Use the Tokyo sample cards to see the format. The paid gacha includes routes from the other 46 prefectures.</p>
-        </div>
-        <div class="sample-layout tokyo-sample-layout">
-          <article class="sample-route">
-            <p class="small-label">Unlocked Tokyo sample</p>
-            <h3>Tokyo Neighborhood Route</h3>
-            <p>A structured 2–3 day Tokyo route with pacing, local food ideas, transport effort, and what to skip if your schedule is tight.</p>
-            <div class="tag-row"><span>City</span><span>Food</span><span>Easy transport</span></div>
-          </article>
-          <article class="sample-route">
-            <p class="small-label">Unlocked Tokyo sample</p>
-            <h3>Tiny Bars & Food Streets Route</h3>
-            <p>A food-led Tokyo route built around meals, walkable streets, small bars, and practical pacing for a short stay.</p>
-            <div class="tag-row"><span>Food</span><span>Night streets</span><span>Walkable</span></div>
-          </article>
-          <article class="sample-route">
-            <p class="small-label">Unlocked Tokyo sample</p>
-            <h3>Retro Subculture Route</h3>
-            <p>A less-obvious Tokyo route for retro shops, subculture areas, side streets, and easy detours from the main city plan.</p>
-            <div class="tag-row"><span>Retro</span><span>Subculture</span><span>Detour</span></div>
-          </article>
-        </div>
-      </section>
-
-      <section id="pricing" class="panel">
-        <div class="section-heading">
-          <p class="eyebrow">Unlock routes</p>
-          <h2>Only buy when you find a route you want to keep.</h2>
-          <p>Tokyo routes are free samples. The paid gacha lets you pull from the remaining 138 route cards.</p>
-        </div>
-        <div class="pricing-grid">
-          <article class="price-card">
-            <p class="small-label">Single route</p>
-            <h3>$4.99</h3>
-            <p>Unlock the full route you just pulled, including pacing notes, food ideas, transport effort and what to skip.</p>
-            <button class="button ghost checkout-plan" data-plan="single">Unlock one route</button>
-          </article>
-          <article class="price-card featured">
-            <p class="small-label">Gacha pack</p>
-            <h3>$14.99</h3>
-            <p>Unlock five pulled routes. Best for comparing several directions for a 7–10 day Japan trip.</p>
-            <button class="button primary checkout-plan" data-plan="five_pack">Get 5 unlocks</button>
-          </article>
-          <article class="price-card">
-            <p class="small-label">Full deck pass</p>
-            <h3>$29</h3>
-            <p>Designed for deep planners who want access to every prefecture route in the deck.</p>
-            <button class="button ghost checkout-plan" data-plan="full_deck">Get full deck</button>
-          </article>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <p>Japan Route Gacha sells digital route content, not bookings or travel arrangement services. Always confirm transport, weather and opening hours before you travel.</p>
-      <div class="footer-links">
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
-        <a href="/refund-policy">Refund policy</a>
-        <a href="/contact">Contact</a>
-        <a href="#top">Back to top</a>
-      </div>
-    </footer>
-  </div>
-
-  <template id="resultTemplate">
-    <article class="pulled-card">
-      <div class="card-top">
-        <span class="pill js-region"></span>
-        <span class="pill muted js-type"></span>
-      </div>
-      <p class="small-label">You pulled</p>
-      <h2 class="js-prefecture"></h2>
-      <h3 class="js-name"></h3>
-      <p class="js-preview"></p>
-      <div class="meta-list">
-        <span class="js-days"></span>
-        <span class="js-start"></span>
-        <span class="js-difficulty"></span>
-      </div>
-      <div class="tag-row js-tags"></div>
-      <div class="unlock-includes">
-        <h4>Full route includes</h4>
-        <ul class="unlock-list">
-          <li>Day-by-day route structure</li>
-          <li>Train, ferry or bus planning notes</li>
-          <li>Food stops and local search keywords</li>
-          <li>Best season, travel effort and what to skip if short on time</li>
-        </ul>
-      </div>
-      <div class="card-actions">
-        <button class="button primary js-unlock">Unlock this route — $4.99</button>
-        <button class="button subtle js-spin-again">Spin again</button>
-      </div>
-      <p class="fine-print">Preview only. Unlock the full route when you want the complete planning card.</p>
-    </article>
-  </template>
-
-  <script src="src/routes.js"></script>
-  <script src="src/app.js"></script>
+  <main>
+    <section class="card" aria-label="準備中">
+      <h1>新しいサイトを準備中です</h1>
+      <p>mainitiworakunisuru.com は現在、新しい内容へ切り替え作業中です。</p>
+    </section>
+  </main>
 </body>
 </html>
