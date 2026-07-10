@@ -1,25 +1,152 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
-import {notFound} from "next/navigation";
+import { notFound } from "next/navigation";
+import HotelCard from "../../components/HotelCard";
 import SubShell from "../../components/SubShell";
-import {areas,hotelOptions,theaters} from "../../site-data";
+import { areas, theaters } from "../../site-data";
+import { getVenueHotelEntries } from "../../venue-hotel-data";
 
-export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{
-  const {slug}=await params;const theater=theaters.find(t=>t.slug===slug);if(!theater)return {};
-  return {title:`${theater.name}周辺のホテル候補｜観劇遠征向け`,description:`${theater.name}への観劇遠征で使いやすい宿泊エリアとホテル候補を、所要時間、乗り換え、荷物預かり、料金帯で比較できます。`};
+const tocItems = [
+  { id: "walking-hotels", label: "徒歩で行ける近くのホテル" },
+  { id: "transit-hotels", label: "電車でのアクセスに便利なホテル" },
+  { id: "choice-points", label: "ホテル選びのポイント" },
+];
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const theater = theaters.find((item) => item.slug === slug);
+  if (!theater) return {};
+
+  return {
+    title: `${theater.name}近くのホテル｜徒歩・電車で行きやすい宿`,
+    description: `${theater.name}近くのホテルを、徒歩で行ける宿と電車でアクセスしやすい宿に分けて比較できます。料金目安、最寄り駅、荷物預かり、劇場までのルートを確認できます。`,
+  };
 }
 
-export default async function TheaterPage({params}:{params:Promise<{slug:string}>}){
-  const {slug}=await params;const t=theaters.find(x=>x.slug===slug);if(!t)notFound();
-  const mapQuery=encodeURIComponent(`${t.name} ${t.prefecture}`);
-  const relatedAreas=areas.filter(area=>area.relations.some(relation=>relation.theaterSlug===t.slug));
-  const alternatives=areas.filter(area=>!relatedAreas.some(current=>current.slug===area.slug)).slice(0,2);
-  return <SubShell><main><section className="subhero"><div className="site-container"><div className="breadcrumbs"><Link href="/">ホーム</Link> › <Link href="/theaters">劇場一覧</Link> › {t.name}</div><p className="eyebrow">THEATER HOTEL GUIDE</p><h1>{t.name}周辺のホテル候補</h1>{t.verifiedAt&&<p>劇場・交通情報の確認日：{t.verifiedAt}</p>}</div></section><div className="site-container content-layout"><section>
-    <div id="conclusion" className="content-card"><span className="tag">このページの結論</span><h2>{t.area}を基点に、終演後の戻りやすさで選ぶ</h2><p>{t.name}への近さを優先するなら徒歩圏、翌日の移動まで考えるなら駅周辺が候補です。料金だけでなく、乗り換え回数と駅からホテルまでの徒歩も比較してください。</p></div>
-    <div id="theater-info" className="content-card"><h2>劇場基本情報</h2><div className="info-grid"><div><small>最寄り駅</small><b>{t.station}</b></div><div><small>おすすめエリア</small><b>{t.area}</b></div><div><small>ホテル候補</small><b>{hotelOptions.length}件</b></div><div><small>所在地</small><b>{t.prefecture}</b></div></div><p className="muted">キャリーケース利用時は、駅のエレベーター位置と推奨出口を事前に確認してください。</p></div>
-    <div id="map" className="content-card"><h2>劇場と周辺の位置</h2><div className="map-frame"><iframe title={`${t.name}周辺地図`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}/></div><a className="outline-button" href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noreferrer">Googleマップで位置を確認（外部サイト） →</a></div>
-    <div id="comparison" className="content-card"><h2>ホテル候補の比較表</h2><p className="muted">表は横にスクロールできます。</p><div className="table-wrap"><table className="compare-table"><thead><tr><th>ホテル候補</th><th>劇場まで</th><th>移動</th><th>乗換</th><th>料金帯</th><th>おすすめ対象</th></tr></thead><tbody>{hotelOptions.map(h=><tr key={h.slug}><td><b>{h.name}</b></td><td><b>{h.minutes}</b></td><td>{h.route}</td><td>{h.transfer}</td><td>{h.price}</td><td>{h.role}</td></tr>)}</tbody></table></div></div>
-    <div id="hotels" className="content-card"><h2>ホテル候補の詳細</h2><div className="hotel-list">{hotelOptions.map(h=><article className="hotel-row" key={h.slug}><img className="hotel-image" src={h.image} alt={`${h.role}のホテル客室イメージ`}/><div className="hotel-row-head"><div><span className="tag">{h.role}</span><h3>{h.name}</h3><p>{h.note}</p></div><div className="minutes">{h.minutes}</div></div><div className="info-grid"><div><small>移動・乗換</small><b>{h.route} / {h.transfer}</b></div><div><small>駅から</small><b>{h.station}</b></div><div><small>荷物預かり</small><b>{h.luggage}</b></div><div><small>IN / OUT</small><b>{h.check}</b></div></div><p className="muted">参考料金帯：{h.price} ※宿泊日・人数・プランにより変動します。</p></article>)}</div></div>
-    <div id="alternatives" className="content-card alternative-box"><h2>満室時の代替エリア</h2><p>同じ路線の隣駅、または新幹線・空港へ移動しやすい駅周辺まで範囲を広げます。乗り換えが増えない候補を優先してください。</p><div className="alternative-grid">{alternatives.map(area=><Link href={`/areas/${area.slug}`} key={area.slug}><b>{area.name}</b><span>{area.description}</span><i>エリア詳細を見る →</i></Link>)}</div></div>
-  </section><aside><div className="side-card"><b>このページの内容</b><a href="#conclusion">結論</a><a href="#theater-info">劇場基本情報</a><a href="#map">地図</a><a href="#comparison">ホテル比較</a><a href="#hotels">ホテル候補の詳細</a><a href="#alternatives">満室時の代替案</a></div>{relatedAreas.length>0&&<div className="side-card"><b>対応する宿泊エリア</b>{relatedAreas.map(area=><Link href={`/areas/${area.slug}`} key={area.slug}>{area.name} →</Link>)}</div>}</aside></div></main></SubShell>
+export default async function TheaterPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const theater = theaters.find((item) => item.slug === slug);
+  if (!theater) notFound();
+
+  const venueData = getVenueHotelEntries(slug);
+  if (!venueData) notFound();
+
+  const venueAddress = venueData.venueAddress;
+  const stationWalkMinutes = 1;
+  const walkingHotels = venueData.hotelEntries.filter(({ entry }) => entry.group === "walking");
+  const transitHotels = venueData.hotelEntries.filter(({ entry }) => entry.group === "transit");
+  const relatedAreas = areas.filter((area) => area.relations.some((relation) => relation.theaterSlug === theater.slug));
+  const relatedTheaters = theaters.filter((item) => item.slug !== theater.slug && item.prefecture === theater.prefecture).slice(0, 3);
+
+  return (
+    <SubShell>
+      <main>
+        <div className="venue-page page-container">
+          <nav className="venue-breadcrumbs" aria-label="パンくずリスト">
+            <Link href="/">ホーム</Link>
+            <span>›</span>
+            <Link href="/theaters">劇場一覧</Link>
+            <span>›</span>
+            <Link href={`/theaters?prefecture=${encodeURIComponent(theater.prefecture)}`}>{theater.prefecture}</Link>
+            <span>›</span>
+            <span>{theater.name}近くのホテル</span>
+          </nav>
+
+          <section className="venue-hero">
+            <div className="venue-hero__content">
+              <p className="eyebrow">THEATER HOTEL GUIDE</p>
+              <h1>{theater.name}近くのホテル</h1>
+              <p className="venue-hero__intro">{venueData.intro}</p>
+              <dl className="venue-hero__details">
+                <div>
+                  <dt>住所</dt>
+                  <dd>{venueAddress}</dd>
+                </div>
+                <div>
+                  <dt>最寄り駅</dt>
+                  <dd>{theater.station} 徒歩約{stationWalkMinutes}分</dd>
+                </div>
+              </dl>
+            </div>
+            <div className="venue-hero__visual">
+              <div className="venue-hero__placeholder">会場画像準備中</div>
+              <span className="venue-hero__station-badge">{theater.station}から徒歩約{stationWalkMinutes}分</span>
+            </div>
+          </section>
+
+          <section className="venue-nav-grid" aria-label="ページ内ナビゲーション">
+            <div className="venue-toc">
+              <h2>目次</h2>
+              <ol>
+                {tocItems.map((item) => (
+                  <li key={item.id}>
+                    <a href={`#${item.id}`}>{item.label}</a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="venue-guide-card">
+              <span className="guide-icon is-walking">歩</span>
+              <h2>徒歩で行けるホテル</h2>
+              <p>劇場まで徒歩で戻りやすいホテルを中心に掲載します。</p>
+            </div>
+            <div className="venue-guide-card">
+              <span className="guide-icon is-transit">電</span>
+              <h2>電車アクセスも便利</h2>
+              <p>主要駅周辺など、翌日の移動も組みやすい候補を比較します。</p>
+            </div>
+            <div className="venue-guide-card">
+              <span className="guide-icon is-service">荷</span>
+              <h2>観劇にうれしいサービス</h2>
+              <p>荷物預かりや駅近など、観劇前後に便利な条件を確認できます。</p>
+            </div>
+          </section>
+
+          <section id="walking-hotels" className="venue-section">
+            <h2 className="section-title">{venueData.walkingSectionLabel}</h2>
+            <div className="hotel-list is-vertical">
+              {walkingHotels.map(({ entry, hotel }) => (
+                <HotelCard key={entry.hotelId} hotel={hotel} entry={entry} venueAddress={venueAddress} />
+              ))}
+            </div>
+          </section>
+
+          <section id="transit-hotels" className="venue-section">
+            <h2 className="section-title">{venueData.transitSectionLabel}</h2>
+            <div className="hotel-list is-vertical">
+              {transitHotels.map(({ entry, hotel }) => (
+                <HotelCard key={entry.hotelId} hotel={hotel} entry={entry} venueAddress={venueAddress} />
+              ))}
+            </div>
+          </section>
+
+          <section id="choice-points" className="venue-section">
+            <h2 className="section-title">ホテル選びのポイント</h2>
+            <div className="choice-grid">
+              {venueData.choiceCards.map((card) => (
+                <article className="choice-card" key={card.title}>
+                  <h3>{card.title}</h3>
+                  <p>{card.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {(relatedAreas.length > 0 || relatedTheaters.length > 0) && (
+            <section className="venue-section related-section">
+              <h2 className="section-title">関連するページ</h2>
+              <div className="related-grid">
+                {relatedAreas.map((area) => (
+                  <Link href={`/areas/${area.slug}`} key={area.slug}>{area.name}エリアを見る</Link>
+                ))}
+                {relatedTheaters.map((item) => (
+                  <Link href={`/theaters/${item.slug}`} key={item.slug}>{item.name}近くのホテル</Link>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </main>
+    </SubShell>
+  );
 }

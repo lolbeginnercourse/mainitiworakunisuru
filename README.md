@@ -106,3 +106,56 @@ The timeout defaults can be overridden for a controlled canary with `SITES_INSTA
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)
 - [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+
+## 会場別ホテルページの追加方法
+
+CMSや管理画面は使わず、コード内のデータを追加して会場ページを生成します。
+
+### ホテル共通データ
+
+`app/venue-hotel-data.ts` の `hotels` にホテル情報を1件追加します。
+
+必要な項目:
+
+- `id`: ホテルID。会場データから参照します。
+- `name`: ホテル名。
+- `address`: ホテル住所。Googleマップルートの出発地になります。
+- `nearestStation`: ホテル最寄り駅。
+- `stationWalkMinutes`: ホテル最寄り駅からの徒歩分数。
+- `image`: ホテル画像パス。
+- `imageAlt`: ホテル画像の代替テキスト。
+- `imagePosition`: 任意。画像の切り抜き位置。
+- `bookingUrl`: 予約URL。
+- `officialUrl`: 任意。公式URL。
+- `luggageStorage`: 任意。荷物預かりの有無。
+
+同じホテルを複数会場で使う場合も、ホテル名・住所・画像・予約URLは `hotels` に1回だけ登録します。
+
+### 会場ページ側のホテル指定
+
+`app/venue-hotel-data.ts` の `venueHotelPages` に会場slugごとの設定を追加します。
+
+会場ページ側で指定する項目:
+
+- `hotelId`: `hotels` に登録したホテルID。
+- `rank`: 近さ順の番号。
+- `group`: `walking` または `transit`。
+- `venueTravelMinutes`: 劇場までの所要時間。
+- `travelMode`: `walking` / `transit` / `driving`。
+- `priceLabel`: 料金目安。
+- `feature`: 短い特徴文。
+- `badges`: 表示する特徴バッジ。
+
+ホテルから劇場までのGoogleマップルートは、ホテル住所と会場住所から自動生成されます。Google Maps APIや地図iframeは使いません。
+
+### 表示ルール
+
+劇場詳細ページでは、ホテルカードは5件すべて縦に並びます。4件目・5件目も横並びにはしません。
+
+PCではホテルカード内が次の3列になります。
+
+1. ホテル画像
+2. ホテル情報
+3. 料金・予約ボタン・Googleマップルートボタン
+
+スマートフォンでは1カラムになり、画像、ホテル名、情報、料金、ボタンの順に縦並びになります。
