@@ -15,6 +15,7 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
     entry.travelMode,
   );
   const travelLabel = entry.travelMode === "walking" ? "徒歩" : entry.travelMode === "transit" ? "電車＋徒歩" : "車";
+  const venueTravelLabel = entry.venueTravelLabel ?? `${travelLabel} 約${entry.venueTravelMinutes}分`;
 
   return (
     <article className="hotel-card">
@@ -33,7 +34,7 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
           <div className="hotel-card__image-placeholder">画像準備中</div>
         )}
         <span className={`hotel-card__distance-badge ${entry.travelMode === "walking" ? "is-walking" : "is-transit"}`}>
-          {travelLabel} 約{entry.venueTravelMinutes}分
+          {venueTravelLabel}
         </span>
       </div>
 
@@ -43,19 +44,21 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
         <dl className="hotel-card__facts">
           <div>
             <dt>劇場まで</dt>
-            <dd>{travelLabel} 約{entry.venueTravelMinutes}分</dd>
+            <dd>{venueTravelLabel}</dd>
           </div>
           <div>
             <dt>最寄り駅</dt>
-            <dd>{hotel.nearestStation} 徒歩約{hotel.stationWalkMinutes}分</dd>
+            <dd>{hotel.nearestStation}</dd>
           </div>
         </dl>
         <p className="hotel-card__feature">{entry.feature}</p>
-        <div className="hotel-card__badges">
-          {entry.badges.slice(0, 3).map((badge) => (
-            <span key={badge}>{badge}</span>
-          ))}
-        </div>
+        {entry.badges.length > 0 && (
+          <div className="hotel-card__badges">
+            {entry.badges.slice(0, 3).map((badge) => (
+              <span key={badge}>{badge}</span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="hotel-card__actions">
@@ -64,9 +67,15 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
           <b>{entry.priceLabel}</b>
           <small>宿泊日やプランにより変動</small>
         </div>
-        <a className="booking-button" href={hotel.bookingUrl} target="_blank" rel="noopener noreferrer">
-          ホテルを予約する
-        </a>
+        {hotel.bookingUrl ? (
+          <a className="booking-button" href={hotel.bookingUrl} target="_blank" rel="noopener noreferrer">
+            ホテルを予約する
+          </a>
+        ) : (
+          <p className="booking-button is-disabled" aria-label="予約URL準備中">
+            予約URL準備中
+          </p>
+        )}
         <a className="route-button" href={routeUrl} target="_blank" rel="noopener noreferrer">
           ホテルから劇場までの<br />
           ルートをGoogleマップで見る ↗
