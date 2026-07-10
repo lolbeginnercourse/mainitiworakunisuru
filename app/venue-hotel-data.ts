@@ -38,7 +38,7 @@ export const hotels: Record<string, Hotel> = {
     id: "ana-holiday-inn-tokyo-bay",
     name: "ANAホリデイ・イン東京ベイ by IHG",
     address: "東京都品川区東品川2-3-15",
-    nearestStation: "天王洲アイル駅直結・徒歩約4〜6分表示",
+    nearestStation: "天王洲アイル駅直結・徒歩約4〜6分",
     image: "",
     imageAlt: "ANAホリデイ・イン東京ベイ by IHGの画像",
     bookingUrl: "",
