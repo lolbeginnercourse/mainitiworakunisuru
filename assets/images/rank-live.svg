@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200">
+<rect width="320" height="200" rx="12" fill="#f3f0fa"/>
+<circle cx="54" cy="70" r="36" fill="#6c58ad" opacity=".10"/>
+<circle cx="275" cy="144" r="48" fill="#6c58ad" opacity=".08"/>
+<rect x="25" y="44" width="268" height="112" rx="10" fill="#fff" opacity=".94"/>
+<text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" font-family="Arial,'Noto Sans JP',sans-serif" font-size="30" font-weight="700" fill="#26333d">LIVE</text>
+<text x="50%" y="64%" dominant-baseline="middle" text-anchor="middle" font-family="Arial,'Noto Sans JP',sans-serif" font-size="13" fill="#6c58ad"></text>
+</svg>
