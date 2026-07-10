@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="480" viewBox="0 0 720 480">
-<rect width="720" height="480" rx="12" fill="#f2f8f1"/>
-<circle cx="122" cy="168" r="86" fill="#4d9c63" opacity=".10"/>
-<circle cx="619" cy="345" r="115" fill="#4d9c63" opacity=".08"/>
-<rect x="57" y="105" width="604" height="268" rx="10" fill="#fff" opacity=".94"/>
-<text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" font-family="Arial,'Noto Sans JP',sans-serif" font-size="72" font-weight="700" fill="#26333d">野外フェス</text>
-<text x="50%" y="64%" dominant-baseline="middle" text-anchor="middle" font-family="Arial,'Noto Sans JP',sans-serif" font-size="31" fill="#4d9c63">FESTIVAL HOTEL</text>
-</svg>

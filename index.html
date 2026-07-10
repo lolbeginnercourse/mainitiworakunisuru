@@ -1,320 +1,66 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ライブ・コンサート・フェス遠征におすすめのホテル、会場アクセス、チケット攻略をまとめるメディア">
-  <meta name="theme-color" content="#ffffff">
-  <title>たけブログ｜音楽と旅行が好きな人が記す</title>
-  <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/layout.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
-  <script src="assets/js/main.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>mainitiworakunisuru.com</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8f6f0;
+      --text: #1e1b16;
+      --muted: #6f675e;
+      --line: #ded8cd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      margin: 0;
+      place-items: center;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(100% - 32px, 640px);
+      padding: 40px 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fffdf8;
+      padding: clamp(24px, 6vw, 48px);
+      box-shadow: 0 20px 60px rgba(31, 26, 18, 0.08);
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">本文へ移動</a>
-
-  <header class="site-header">
-    <div class="header-top container-wide">
-      <button class="mobile-menu-button" type="button" aria-expanded="false" aria-controls="mobile-drawer">
-        <span></span><span></span><span></span>
-        <small>MENU</small>
-      </button>
-
-      <div class="site-branding">
-        <p class="site-tagline">音楽と旅行が好きな人が記す</p>
-        <a class="site-logo" href="index.html" aria-label="たけブログ ホーム">
-          <img src="assets/images/site-logo.svg" alt="たけブログ">
-        </a>
-      </div>
-
-      <button class="mobile-search-button" type="button" aria-expanded="false" aria-controls="mobile-search">
-        <span aria-hidden="true">⌕</span><small>検索</small>
-      </button>
-    </div>
-
-    <form id="mobile-search" class="mobile-search" action="#" role="search">
-      <label class="visually-hidden" for="search-mobile">サイト内検索</label>
-      <input id="search-mobile" type="search" placeholder="キーワードを入力">
-      <button type="submit">検索</button>
-    </form>
-
-    <nav class="global-nav" aria-label="グローバルナビゲーション">
-      <div class="container-wide nav-inner">
-        <a class="nav-home is-active" href="index.html">ホーム</a>
-        <a href="#capacity">キャパ一覧</a>
-        <a href="#ticket">チケット</a>
-        <div class="nav-item has-submenu">
-          <button type="button" aria-expanded="false">フェス</button>
-          <div class="submenu">
-            <a href="#festival">フェス別のおすすめホテル</a>
-            <a href="#festival-items">フェスの持ち物</a>
-          </div>
-        </div>
-        <div class="nav-item has-submenu">
-          <button type="button" aria-expanded="false">ライブ</button>
-          <div class="submenu">
-            <a href="#live">会場別のおすすめホテル</a>
-          </div>
-        </div>
-        <div class="nav-item has-submenu">
-          <button type="button" aria-expanded="false">ブログ</button>
-          <div class="submenu submenu-wide">
-            <a href="#new-posts">ライブ&amp;コンサート情報</a>
-            <a href="#new-posts">BUMP OF CHICKEN</a>
-            <a href="#new-posts">始め方</a>
-            <a href="#new-posts">ブログ運営の収益</a>
-            <a href="#new-posts">ガジェット</a>
-            <a href="#new-posts">一人暮らし</a>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <nav class="pickup-nav" aria-label="おすすめコンテンツ">
-      <div class="container-wide pickup-grid">
-        <a href="#festival">
-          <span class="pickup-icon">FES</span>
-          <span><strong>フェス&amp;宿</strong><small>会場へのアクセスとホテル</small></span>
-        </a>
-        <a href="#live">
-          <span class="pickup-icon">LIVE</span>
-          <span><strong>ライブ&amp;宿</strong><small>会場へのアクセスとホテル</small></span>
-        </a>
-        <a href="#booking-table">
-          <span class="pickup-icon">HOTEL</span>
-          <span><strong>ホテル予約のコツ</strong><small>満室…どうする…</small></span>
-        </a>
-        <a href="#ticket">
-          <span class="pickup-icon">TICKET</span>
-          <span><strong>チケットサイト</strong><small>欲しいチケットは逃せない</small></span>
-        </a>
-      </div>
-    </nav>
-  </header>
-
-  <aside id="mobile-drawer" class="mobile-drawer" aria-hidden="true">
-    <div class="drawer-head">
-      <strong>MENU</strong>
-      <button type="button" class="drawer-close" aria-label="メニューを閉じる">×</button>
-    </div>
-    <nav>
-      <a href="index.html">ホーム</a>
-      <a href="#capacity">キャパ一覧</a>
-      <a href="#ticket">チケット</a>
-      <a href="#festival">フェス別のおすすめホテル</a>
-      <a href="#live">会場別のおすすめホテル</a>
-      <a href="#new-posts">ブログ</a>
-      <a href="#about">運営者情報</a>
-    </nav>
-  </aside>
-  <div class="drawer-overlay" hidden></div>
-
-  <div class="ad-space" aria-label="広告枠"><span>広告</span></div>
-
-  <div class="container site-grid">
-    <main id="main-content" class="main-content">
-      <article class="front-page">
-        <div class="share-row" aria-label="シェアボタン">
-          <span>Post</span><a href="#">Share</a><a href="#">Pocket</a><a href="#">Hatena</a><a href="#">Pinterest</a><a href="#">LINE</a><button type="button" data-copy-url>URLコピー</button>
-        </div>
-
-        <section class="hero-panel">
-          <img src="assets/images/hero-banner.svg" alt="ライブ・フェス遠征とホテル探し">
-          <div class="hero-copy">
-            <p>ライブやコンサート、フェス遠征におすすめなホテルや旅館をまとめています。</p>
-            <p><strong>たけブログが頑張ります！</strong></p>
-            <div class="speech-list">
-              <p>「○○アリーナの近くにホテルはある？」</p>
-              <p>「◇◇フェスってどうやって行くの？宿はある？」</p>
-              <p>「格安穴場なホテルを探せる？」</p>
-            </div>
-            <p>と気になる方は、ぜひ気になるコンテンツを読んでみてください。</p>
-          </div>
-        </section>
-
-        <section id="festival" class="content-section">
-          <h2>フェス別おすすめホテル</h2>
-          <a class="large-index-card" href="pages/article.html">
-            <img src="assets/images/festival-hotel.svg" alt="フェス会場とホテル">
-            <span class="large-index-card__body">
-              <span class="index-label">FESTIVAL</span>
-              <strong>全国のフェスにおすすめなホテル選び！会場へのアクセスも解説</strong>
-              <small>主要フェスの会場、最寄り駅、送迎バス、宿泊エリアをまとめて確認</small>
-              <span class="more-link">続きを読む</span>
-            </span>
-          </a>
-        </section>
-
-        <section id="live" class="content-section">
-          <h2>ライブ会場別おすすめホテル</h2>
-          <a class="large-index-card" href="pages/article.html">
-            <img src="assets/images/live-hotel.svg" alt="ライブ会場とホテル">
-            <span class="large-index-card__body">
-              <span class="index-label">LIVE</span>
-              <strong>全国のコンサート&amp;ライブのおすすめホテル！アクセスも解説</strong>
-              <small>ドーム、アリーナ、ホール周辺と、終演後に移動しやすい宿泊エリアを紹介</small>
-              <span class="more-link">続きを読む</span>
-            </span>
-          </a>
-        </section>
-
-        <section id="ticket" class="content-section">
-          <h2>チケットサイト攻略</h2>
-          <div class="ticket-grid">
-            <a href="pages/article.html"><span class="ticket-icon">先</span><span><strong>【先着販売】チケットぴあ攻略</strong><small>事前準備と販売開始時の流れ</small></span></a>
-            <a href="pages/article.html"><span class="ticket-icon">抽</span><span><strong>【抽選販売】チケットぴあ攻略</strong><small>申込条件と当落確認</small></span></a>
-            <a href="pages/article.html"><span class="ticket-icon">ｅ</span><span><strong>【先着販売】ｅ＋攻略</strong><small>ログインと決済方法の確認</small></span></a>
-            <a href="pages/article.html"><span class="ticket-icon">Ｌ</span><span><strong>【先着販売】ローチケ攻略</strong><small>アクセス集中時の注意点</small></span></a>
-          </div>
-        </section>
-
-        <section id="capacity" class="content-section">
-          <h2>会場別キャパ一覧</h2>
-          <a class="capacity-card" href="pages/article.html">
-            <span class="capacity-card__icon">CAPA</span>
-            <span><strong>【全国】ライブ&amp;コンサート会場のキャパシティ一覧</strong><small>会場規模とエリアから遠征計画を立てる</small></span>
-            <span class="capacity-card__arrow">›</span>
-          </a>
-        </section>
-
-        <section class="content-section">
-          <h2>気になるコンテンツをポチっと♪</h2>
-          <div class="tag-cloud">
-            <a href="#">Ado <span>(1)</span></a><a href="#">BOC <span>(5)</span></a><a href="#">bz <span>(1)</span></a><a href="#">FP <span>(2)</span></a><a href="#">Superfly <span>(1)</span></a><a href="#">チケット <span>(4)</span></a><a href="#">フェス <span>(2)</span></a><a href="#">ブログの始め方 <span>(15)</span></a><a href="#">ブログ運営 <span>(8)</span></a><a href="#">ホテル <span>(264)</span></a><a href="#">ホテル予約のコツ <span>(2)</span></a><a href="#">ポイ活 <span>(2)</span></a><a href="#">モバイルバッテリー <span>(4)</span></a><a href="#">ライブ <span>(1)</span></a>
-          </div>
-        </section>
-
-        <section id="booking-table" class="content-section booking-section">
-          <h2>スクロールできる予約サイト一覧</h2>
-          <p class="table-caption">スクロールできる 予約サイト一覧表♪</p>
-          <div class="table-scroll" tabindex="0" aria-label="予約サイト一覧表。横にスクロールできます">
-            <table class="booking-table">
-              <thead>
-                <tr>
-                  <th>予約サイト</th><th>公式</th><th>ホテル</th><th>宿&amp;<br>航空券</th><th>宿&amp;<br>JR</th><th>宿&amp;<br>レンタカー</th><th>航空券<br>のみ</th><th>レンタカー<br>のみ</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><span class="travel-logo blue">じゃらん</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="positive">〇</td><td class="positive">〇</td><td class="positive">〇</td><td class="negative">×</td><td class="caution">△</td></tr>
-                <tr><td><span class="travel-logo red">楽天トラベル</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="caution">△</td><td class="caution">△</td><td class="caution">△</td><td class="negative">×</td><td class="caution">△</td></tr>
-                <tr><td><span class="travel-logo navy">JTB</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="positive">〇</td><td class="caution">△</td><td class="negative">×</td><td class="negative">×</td><td class="negative">×</td></tr>
-                <tr><td><span class="travel-logo orange">近畿日本ツーリスト</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="positive">〇</td><td class="positive">〇</td><td class="positive">〇</td><td class="caution">△</td><td class="positive">〇</td></tr>
-                <tr><td><span class="travel-logo green">日本旅行</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="positive">〇</td><td class="caution">△</td><td class="positive">〇</td><td class="negative">×</td><td class="positive">〇</td></tr>
-                <tr><td><span class="travel-logo purple">HIS</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="positive">〇</td><td class="negative">×</td><td class="positive">〇</td><td class="positive">〇</td><td class="positive">〇</td></tr>
-                <tr><td><span class="travel-logo gray">一休.com</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="negative">×</td><td class="negative">×</td><td class="negative">×</td><td class="negative">×</td><td class="negative">×</td></tr>
-                <tr><td><span class="travel-logo cyan">ANAトラベラーズ</span></td><td><a href="#" class="official-button">公式</a></td><td class="positive">〇</td><td class="positive">〇</td><td class="positive">〇</td><td class="positive">〇</td><td class="negative">×</td><td class="positive">〇</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <a class="primary-cta" href="#">＼最安値を一括比較／<strong>ホテル・航空券を予約する</strong></a>
-        </section>
-
-        <section id="new-posts" class="content-section">
-          <h2>新着記事</h2>
-          <div class="post-list">
-            <a class="post-card" href="pages/article.html">
-              <img src="assets/images/post-battery.svg" alt="モバイルバッテリー">
-              <span><small>2026.07.10　ガジェット</small><strong>【旅行や出張】モバイルバッテリーおすすめ7選</strong><p>機内持ち込みができる軽くて急速充電の大容量タイプを紹介</p></span>
-            </a>
-            <a class="post-card" href="pages/article.html">
-              <img src="assets/images/post-hotel.svg" alt="ホテルと駅">
-              <span><small>2026.07.08　ホテル</small><strong>幕張メッセ近くのホテルの穴場</strong><p>京葉線周辺の駅チカで安いホテルを探す方法</p></span>
-            </a>
-            <a class="post-card" href="pages/article.html">
-              <img src="assets/images/post-festival.svg" alt="野外フェス">
-              <span><small>2026.07.05　フェス</small><strong>サマソニ東京会場周辺のおすすめホテル</strong><p>会場アクセスと終演後の移動を考えた宿泊エリア</p></span>
-            </a>
-          </div>
-        </section>
-
-        <section id="about" class="about-blog content-section">
-          <h2>ー当ブログについてー</h2>
-          <div class="about-copy">
-            <p>暮らしに役立つ情報を発信していきます。</p>
-            <p>「へぇーそんなコツがあるんだ」</p>
-            <p>「読んで損はなかった」</p>
-            <p>そう思ってもらえるように頑張ります！</p>
-            <a class="text-link" href="pages/article.html">まるモの自己紹介</a>
-          </div>
-        </section>
-
-        <div class="share-row share-row-bottom" aria-label="シェアボタン">
-          <span>Post</span><a href="#">Share</a><a href="#">Pocket</a><a href="#">Hatena</a><a href="#">Pinterest</a><a href="#">LINE</a><button type="button" data-copy-url>URLコピー</button>
-        </div>
-      </article>
-    </main>
-
-    <aside class="sidebar" aria-label="サイドバー">
-      <section class="sidebar-widget profile-card">
-        <h2>プロフィール</h2>
-        <img class="profile-avatar" src="assets/images/profile.svg" alt="まるモのプロフィール画像">
-        <h3>まるモ</h3>
-        <p>自分が得た知識やノウハウを発信したい人。不動産業界経験10年以上。物件の写真や動画撮影、編集管理から物件資料作成が得意です。</p>
-        <a class="sidebar-button" href="pages/article.html">まるモの自己紹介</a>
-      </section>
-
-      <section class="sidebar-widget">
-        <h2>タグ</h2>
-        <div class="tag-cloud sidebar-tags">
-          <a href="#">ホテル <span>(264)</span></a><a href="#">ライブ <span>(1)</span></a><a href="#">フェス <span>(2)</span></a><a href="#">チケット <span>(4)</span></a><a href="#">一人暮らし <span>(4)</span></a><a href="#">ブログ <span>(15)</span></a>
-        </div>
-      </section>
-
-      <section class="sidebar-widget">
-        <h2>人気記事</h2>
-        <div class="ranking-list">
-          <a href="pages/article.html"><span class="rank-badge rank-1">1</span><img src="assets/images/rank-battery.svg" alt=""><span>モバイルバッテリーおすすめ7選</span></a>
-          <a href="pages/article.html"><span class="rank-badge rank-2">2</span><img src="assets/images/rank-hotel.svg" alt=""><span>幕張メッセ近くのホテルの穴場</span></a>
-          <a href="pages/article.html"><span class="rank-badge rank-3">3</span><img src="assets/images/rank-fes.svg" alt=""><span>サマソニ東京会場周辺のおすすめホテル</span></a>
-          <a href="pages/article.html"><span class="rank-badge">4</span><img src="assets/images/rank-room.svg" alt=""><span>フジロックで宿が取れないときの探し方</span></a>
-          <a href="pages/article.html"><span class="rank-badge">5</span><img src="assets/images/rank-live.svg" alt=""><span>ロッキン会場近くのおすすめホテル</span></a>
-        </div>
-      </section>
-
-      <section class="sidebar-widget">
-        <h2>アーカイブ</h2>
-        <label class="visually-hidden" for="archive-select">月を選択</label>
-        <select id="archive-select" class="archive-select">
-          <option>月を選択</option><option>2023年10月 (1)</option><option>2023年9月 (21)</option><option>2023年8月 (19)</option><option>2023年7月 (39)</option><option>2023年6月 (51)</option>
-        </select>
-      </section>
-
-      <section class="sidebar-widget">
-        <h2>カテゴリー</h2>
-        <ul class="category-list">
-          <li><a href="#">チケット <span>6</span></a></li>
-          <li><a href="#">フェス <span>37</span></a><ul><li><a href="#">フェス別のおすすめホテル <span>34</span></a></li><li><a href="#">フェスの持ち物 <span>3</span></a></li></ul></li>
-          <li><a href="#">ライブ <span>234</span></a><ul><li><a href="#">会場別のおすすめホテル <span>234</span></a></li></ul></li>
-          <li><a href="#">ブログ <span>55</span></a></li>
-        </ul>
-      </section>
-
-      <section class="sidebar-widget mini-table-widget">
-        <h2>スクロールできる予約サイト</h2>
-        <div class="mini-table-scroll">
-          <table><thead><tr><th>サイト</th><th>ホテル</th><th>交通付</th></tr></thead><tbody><tr><td>じゃらん</td><td>〇</td><td>〇</td></tr><tr><td>楽天</td><td>〇</td><td>△</td></tr><tr><td>JTB</td><td>〇</td><td>〇</td></tr></tbody></table>
-        </div>
-      </section>
-    </aside>
-  </div>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <a class="footer-logo" href="index.html"><img src="assets/images/site-logo-light.svg" alt="たけブログ"></a>
-        <p>音楽と旅行が好きな人が記す</p>
-      </div>
-      <nav aria-label="フッターナビ">
-        <a href="index.html">ホーム</a><a href="#capacity">キャパ一覧</a><a href="#ticket">チケット</a><a href="#festival">フェス</a><a href="#live">ライブ</a><a href="#new-posts">ブログ</a><a href="#">サイトマップ</a><a href="#">プライバシーポリシー</a><a href="#">お問い合わせ</a>
-      </nav>
-      <p class="copyright">© 2026 たけブログ</p>
-    </div>
-  </footer>
-
-  <button class="back-to-top" type="button" aria-label="ページ上部へ戻る">⌃</button>
-  <div class="toast" role="status" aria-live="polite">URLをコピーしました</div>
+  <main>
+    <section class="card" aria-label="準備中">
+      <h1>新しいサイトを準備中です</h1>
+      <p>mainitiworakunisuru.com は現在、新しい内容へ切り替え作業中です。</p>
+    </section>
+  </main>
 </body>
 </html>
