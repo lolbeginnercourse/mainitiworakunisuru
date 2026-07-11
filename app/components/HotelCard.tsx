@@ -16,7 +16,8 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
   );
   const travelLabel = entry.travelMode === "walking" ? "徒歩" : entry.travelMode === "transit" ? "電車＋徒歩" : "車";
   const venueTravelLabel = entry.venueTravelLabel ?? `${travelLabel} 約${entry.venueTravelMinutes}分`;
-  const bookingUrl = hotel.bookingUrl || `https://www.google.com/search?q=${encodeURIComponent(`${hotel.name} 空室 料金`)}`;
+  const jalanUrl = `https://www.jalan.net/uw/uwp2011/uww2011init.do?keyword=${encodeURIComponent(hotel.name)}`;
+  const rakutenUrl = `https://kw.travel.rakuten.co.jp/keyword/Search.do?charset=utf-8&f_max=30&f_query=${encodeURIComponent(hotel.name)}`;
   const fitFor = entry.fitFor ?? entry.feature;
   const detailId = `${entry.hotelId}-details`;
   const routeButtonLabel = entry.travelMode === "walking" ? "徒歩ルートを見る" : "劇場までのルートを見る";
@@ -57,9 +58,14 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
           <p className="hotel-card__caution">{entry.caution}</p>
         )}
         <div className="hotel-card__actions is-mobile-primary">
-          <a className="booking-button" href={bookingUrl} target="_blank" rel="noopener noreferrer">
-            空室・料金を見る
-          </a>
+          <div className="booking-links" aria-label={`${hotel.name}の予約サイト`}>
+            <a className="booking-button is-jalan" href={jalanUrl} target="_blank" rel="noopener noreferrer">
+              じゃらんで見る
+            </a>
+            <a className="booking-button is-rakuten" href={rakutenUrl} target="_blank" rel="noopener noreferrer">
+              楽天トラベルで見る
+            </a>
+          </div>
           <a className="route-button" href={routeUrl} target="_blank" rel="noopener noreferrer">
             {routeButtonLabel}
           </a>
@@ -106,9 +112,14 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
           <b>{entry.priceLabel}</b>
           <small>宿泊日やプランにより変動</small>
         </div>
-        <a className="booking-button" href={bookingUrl} target="_blank" rel="noopener noreferrer">
-          空室・料金を見る
-        </a>
+        <div className="booking-links" aria-label={`${hotel.name}の予約サイト`}>
+          <a className="booking-button is-jalan" href={jalanUrl} target="_blank" rel="noopener noreferrer">
+            じゃらんで見る
+          </a>
+          <a className="booking-button is-rakuten" href={rakutenUrl} target="_blank" rel="noopener noreferrer">
+            楽天トラベルで見る
+          </a>
+        </div>
         <a className="route-button" href={routeUrl} target="_blank" rel="noopener noreferrer">
           {routeButtonLabel}
         </a>

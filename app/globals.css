@@ -275,6 +275,11 @@ footer{padding-top:58px;background:#171317;color:#fff}.footer-grid{display:grid;
   display: none;
 }
 
+.hotel-card__image--desktop {
+  height: 220px;
+  aspect-ratio: auto;
+}
+
 .hotel-card__content {
   min-width: 0;
   padding-block: 0;
@@ -401,10 +406,15 @@ footer{padding-top:58px;background:#171317;color:#fff}.footer-grid{display:grid;
 .hotel-card__actions {
   display: flex;
   flex-direction: column;
-  align-self: stretch;
+  align-self: start;
   gap: 12px;
   width: 220px;
   padding-block: 0;
+}
+
+.booking-links {
+  display: grid;
+  gap: 8px;
 }
 
 .hotel-card__actions.is-mobile-primary {
@@ -448,6 +458,18 @@ footer{padding-top:58px;background:#171317;color:#fff}.footer-grid{display:grid;
 }
 
 .booking-button:hover { background: var(--color-accent-hover); }
+
+.booking-button.is-jalan {
+  background: var(--color-accent);
+}
+
+.booking-button.is-rakuten {
+  background: #bf0000;
+}
+
+.booking-button.is-rakuten:hover {
+  background: #980000;
+}
 
 .booking-button.is-disabled {
   margin: 0;
