@@ -181,7 +181,7 @@ function searchUrl(hotel) {
 }
 
 function badgeHtml(hotel) {
-  return hotel.badges.slice(0, 3).map((badge) => `<span class="badge">${escapeHtml(badge)}</span>`).join("");
+  return hotel.badges.slice(0, 2).map((badge) => `<span class="badge">${escapeHtml(badge)}</span>`).join("");
 }
 
 function miniFacts(hotel) {
@@ -194,18 +194,12 @@ function miniFacts(hotel) {
 
 function pickCard(pick) {
   const hotel = hotels.find((item) => item.id === pick.hotelId);
-  return `<article class="pick-card">
+  return `<a class="pick-card" href="#${hotel.id}" aria-label="${escapeHtml(hotel.name)}のホテル情報へ移動">
     <p class="card-label">${escapeHtml(pick.label)}</p>
     <h3>${escapeHtml(hotel.name)}</h3>
-    ${badgeHtml(hotel)}
-    ${miniFacts(hotel)}
-    <p class="reason">${escapeHtml(pick.why)}</p>
-    <p class="caution"><b>注意点</b>${escapeHtml(hotel.caution)}</p>
-    <div class="card-actions">
-      <a class="primary-cta" href="${searchUrl(hotel)}" target="_blank" rel="noopener">空室・料金を見る</a>
-      <a class="sub-cta" href="${routeUrl(hotel)}" target="_blank" rel="noopener">徒歩ルートを見る</a>
-    </div>
-  </article>`;
+    <p>${escapeHtml(hotel.distance)}</p>
+    <span>ホテル情報を見る</span>
+  </a>`;
 }
 
 function compareCard(hotel) {
@@ -239,39 +233,49 @@ function tableRow(hotel) {
 function hotelCard(hotel, index) {
   const imageMarkup = hotel.image
     ? `<img src="${hotel.image}" alt="${escapeHtml(hotel.name)}の外観" loading="lazy" width="640" height="480">`
-    : "外観画像準備中";
+    : "";
+  const detailImage = imageMarkup ? `<div class="hotel-image">${imageMarkup}</div>` : "";
+  const actionImage = imageMarkup ? `<div class="hotel-image action-image">${imageMarkup}</div>` : "";
+  const routeLabel = hotel.routeMode === "walking" ? "徒歩ルートを見る" : "劇場までのルートを見る";
   return `<article id="${hotel.id}" class="hotel-card">
     <div class="hotel-main">
-      <div class="hotel-image-placeholder" aria-label="${escapeHtml(hotel.name)}の外観画像枠">${imageMarkup}</div>
       <p class="card-label">候補 ${index + 1} / ${escapeHtml(hotel.category)}</p>
       <h3>${escapeHtml(hotel.name)}</h3>
       <div class="badge-row">${badgeHtml(hotel)}</div>
-      ${miniFacts(hotel)}
-      <div class="hotel-body">
-        <section><h4>このホテルが向いている人</h4><p>${escapeHtml(hotel.bestFor)}</p></section>
-        <section><h4>メリット</h4><ul>${hotel.merits.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>
-        <section><h4>注意点</h4><p>${escapeHtml(hotel.caution)}</p></section>
-        <section><h4>終演後の戻りやすさ</h4><p>${escapeHtml(hotel.returnEase)}</p></section>
+      <dl class="summary-facts">
+        <div><dt>劇場まで</dt><dd>${escapeHtml(hotel.distance)}</dd></div>
+        <div><dt>料金目安</dt><dd>${escapeHtml(hotel.priceTwin)}</dd></div>
+      </dl>
+      <p class="fit-for">${escapeHtml(hotel.bestFor)}</p>
+      <p class="caution"><b>注意点</b>${escapeHtml(hotel.caution)}</p>
+      <div class="mobile-actions">
+        <a class="primary-cta" href="${searchUrl(hotel)}" target="_blank" rel="noopener noreferrer">空室・料金を見る</a>
+        <a class="sub-cta" href="${routeUrl(hotel)}" target="_blank" rel="noopener noreferrer">${routeLabel}</a>
       </div>
       <details class="hotel-details">
-        <summary>ホテル情報を詳しく見る</summary>
+        <summary aria-label="${escapeHtml(hotel.name)}のホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
+        ${detailImage}
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>${hotel.stationLines.map(escapeHtml).join("<br>")}</dd></div>
+          <div><dt>終演後の戻りやすさ</dt><dd>${escapeHtml(hotel.returnEase)}</dd></div>
           <div><dt>移動時の注意点</dt><dd>${escapeHtml(hotel.movementNote)}</dd></div>
+          <div><dt>メリット</dt><dd>${hotel.merits.map(escapeHtml).join("<br>")}</dd></div>
           <div><dt>補足</dt><dd>${hotel.details.map(escapeHtml).join("<br>")}</dd></div>
         </dl>
       </details>
     </div>
     <div class="hotel-actions">
-      <div class="hotel-image-placeholder action-image" aria-label="${escapeHtml(hotel.name)}の外観画像枠">${imageMarkup}</div>
+      ${actionImage}
       <div class="price-box"><span>料金目安</span><b>${escapeHtml(hotel.priceTwin)}</b><small>${escapeHtml(hotel.perPerson)}</small></div>
-      <a class="primary-cta" href="${searchUrl(hotel)}" target="_blank" rel="noopener">空室・料金を見る</a>
-      <a class="sub-cta" href="${routeUrl(hotel)}" target="_blank" rel="noopener">劇場からの徒歩ルートを見る</a>
+      <a class="primary-cta" href="${searchUrl(hotel)}" target="_blank" rel="noopener noreferrer">空室・料金を見る</a>
+      <a class="sub-cta" href="${routeUrl(hotel)}" target="_blank" rel="noopener noreferrer">${routeLabel}</a>
     </div>
   </article>`;
 }
 
 const style = `:root{--text:#171317;--muted:#625a60;--primary:#e54887;--primary-dark:#be2867;--border:#ead7df;--soft:#fff1f6;--shadow:0 16px 42px rgba(88,46,67,.1)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;line-height:1.8;background:#fff}a{color:inherit}.container{width:min(calc(100% - 32px),1120px);margin:0 auto}.header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);border-bottom:1px solid #f5c9d9}.header-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:20px;line-height:1.1;text-decoration:none}.brand-mark{width:40px;height:40px;display:grid;place-items:center;border-radius:12px 12px 12px 3px;background:var(--primary);color:white;font:italic 25px Georgia,serif}.brand small{display:block;margin-top:4px;color:var(--muted);font-size:9px;letter-spacing:.12em}.nav{display:flex;gap:24px;font-size:14px;font-weight:800}.breadcrumbs{padding-top:24px;color:var(--muted);font-size:13px}.breadcrumbs a{color:var(--primary-dark);font-weight:800}.hero{padding:34px 0 22px}.hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:28px;align-items:start}.eyebrow{margin:0 0 10px;color:var(--primary-dark);font-size:12px;letter-spacing:.13em;font-weight:900}h1{margin:0;font-size:clamp(32px,4.6vw,50px);line-height:1.3;letter-spacing:-.04em}.lead{margin:18px 0 0;color:var(--muted)}.hero-note{margin-top:18px;padding:14px;border:1px solid var(--border);border-radius:14px;background:#fff7fa}.facts-card,.toc,.notice,.pick-card,.compare-card,.hotel-card,.venue-card,.choice-card{border:1px solid var(--border);border-radius:18px;background:#fff;box-shadow:var(--shadow)}.facts-card{padding:20px}.facts-card h2,.toc h2,.notice h2{margin:0 0 10px;font-size:18px}.detail-list,.mini-facts{display:grid;gap:10px;margin:0}.detail-list div,.mini-facts div{padding:10px;border-radius:12px;background:#fff7fa}.detail-list dt,.mini-facts dt{color:var(--muted);font-size:12px;font-weight:800}.detail-list dd,.mini-facts dd{margin:2px 0 0;font-weight:800}.toc{margin:22px auto 34px;padding:20px;max-width:820px}.overview-list{display:grid;gap:12px;margin:14px 0 0;padding:0;list-style:none}.overview-list a{display:block;padding:14px;border-radius:14px;background:#fff7fa;color:var(--text);font-weight:900;text-decoration:none}.overview-list span{display:block;margin-top:3px;color:var(--muted);font-size:14px;font-weight:500}.section{padding:34px 0;border-top:1px solid #f5dbe5;scroll-margin-top:96px}.section-title{margin:0 0 10px;padding-left:12px;border-left:5px solid var(--primary);font-size:clamp(24px,3vw,32px);line-height:1.45}.section-lead{margin:0 0 20px;color:var(--muted)}.notice{padding:18px;margin:0 0 22px}.pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.pick-card,.compare-card{padding:18px}.card-label{margin:0 0 6px;color:var(--primary-dark);font-size:12px;font-weight:900;letter-spacing:.04em}.pick-card h3,.hotel-card h3{margin:0 0 10px;font-size:22px;line-height:1.45}.badge-row,.pick-card .badge{margin-right:6px}.badge{display:inline-flex;margin:0 6px 6px 0;padding:5px 9px;border-radius:999px;background:#fff1f6;color:var(--primary-dark);font-size:12px;font-weight:900}.reason{margin:14px 0 8px}.caution{margin:0;color:var(--muted)}.caution b{display:block;color:var(--text)}.card-actions,.hotel-actions{display:grid;gap:10px;margin-top:14px}.primary-cta,.sub-cta{min-height:48px;display:grid;place-items:center;padding:10px 14px;border-radius:12px;font-weight:900;text-align:center;text-decoration:none}.primary-cta{background:var(--primary);color:#fff}.sub-cta{border:1.5px solid var(--primary);color:var(--primary-dark);background:#fff}.comparison-desktop{overflow-x:auto}.comparison-table{width:100%;border-collapse:separate;border-spacing:0;min-width:940px}.comparison-table th,.comparison-table td{padding:13px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left}.comparison-table thead th{background:#fff7fa;color:var(--primary-dark);font-size:13px}.comparison-table a{color:var(--primary-dark);font-weight:900}.comparison-mobile{display:none}.compare-title{display:block;margin-bottom:8px;color:var(--primary-dark);font-size:18px;font-weight:900;text-decoration:none}.hotel-list{display:grid;gap:18px}.hotel-card{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:20px;padding:20px}.hotel-image-placeholder{display:none;min-height:170px;overflow:hidden;border:1px dashed var(--border);border-radius:16px;background:linear-gradient(135deg,#fff7fa,#f8eef3);color:var(--muted);font-weight:900;place-items:center;text-align:center}.hotel-image-placeholder img{width:100%;height:100%;display:block;object-fit:cover}.action-image{display:grid;min-height:150px}.hotel-body{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.hotel-body section{padding:12px;border-radius:14px;background:#fff7fa}.hotel-body h4{margin:0 0 4px;font-size:14px}.hotel-body p,.hotel-body ul{margin:0;color:var(--muted)}.hotel-body ul{padding-left:1.2em}.hotel-details{margin-top:12px}.hotel-details summary,.compare-card summary{cursor:pointer;color:var(--primary-dark);font-weight:900}.price-box{padding:10px 12px;border-radius:14px;background:#fff7fa}.price-box span,.price-box small{display:block;color:var(--muted);font-size:11px;line-height:1.45}.price-box b{display:block;margin:2px 0;font-size:16px;line-height:1.35}.hotel-actions .primary-cta,.hotel-actions .sub-cta{min-height:46px}.venue-grid,.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.venue-card,.choice-card{padding:18px}.venue-card h3,.choice-card h3{margin:0 0 8px}.venue-card p,.choice-card p{margin:0;color:var(--muted)}footer{margin-top:40px;padding:38px 0;background:#171317;color:#fff}footer p{color:#cfc6cb;font-size:13px}@media(max-width:900px){.nav{display:none}.hero-grid,.pick-grid,.hotel-card,.venue-grid,.choice-grid{grid-template-columns:1fr}.hotel-actions{grid-row:auto}.hotel-body{grid-template-columns:1fr}.comparison-desktop{display:none}.comparison-mobile{display:grid;gap:12px}.hotel-main>.hotel-image-placeholder{display:grid}.action-image{display:none}.hotel-actions{margin-top:10px}}@media(max-width:640px){.container{width:min(calc(100% - 24px),1120px)}.header-inner{min-height:64px}.brand{font-size:16px}.brand-mark{width:34px;height:34px;font-size:21px}.hero{padding-top:24px}h1{font-size:30px}.toc,.facts-card,.notice,.pick-card,.compare-card,.hotel-card,.venue-card,.choice-card{border-radius:16px}.section{padding:28px 0}.section-title{font-size:23px}.pick-card h3,.hotel-card h3{font-size:20px}.primary-cta,.sub-cta{min-height:50px}.hotel-image-placeholder{min-height:180px;margin-bottom:16px}.price-box{padding:13px}.price-box b{font-size:18px}}`;
+
+const mobileUiStyle = `.pick-card{display:block;color:var(--text);text-decoration:none}.pick-card p{margin:0;color:var(--muted)}.pick-card>span{display:inline-block;margin-top:8px;color:var(--primary-dark);font-weight:900}.summary-facts{display:grid;gap:8px;margin:0 0 12px}.summary-facts div{padding:12px 14px;border-radius:12px;background:#fff7fa}.summary-facts dt{color:var(--muted);font-size:12px;font-weight:900}.summary-facts dd{margin:2px 0 0;font-size:18px;font-weight:900}.fit-for{margin:0 0 8px;font-weight:900}.caution{padding:8px 10px;border-radius:10px;background:#fff8ec;color:#6c4a00;font-size:14px;line-height:1.6}.caution b{color:#6c4a00}.mobile-actions{display:none}.hotel-image{overflow:hidden;border-radius:14px}.hotel-image img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}.hotel-details .summary-open{display:none}.hotel-details[open] .summary-closed{display:none}.hotel-details[open] .summary-open{display:inline}.hotel-card{scroll-margin-top:96px}.section{scroll-margin-top:96px}.hotel-actions .action-image{margin:0 0 10px}.price-box{min-height:auto}@media(max-width:900px){.pick-grid{gap:8px}.pick-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 14px;align-items:center}.pick-card .card-label{grid-column:1/-1;margin:0}.pick-card h3{margin:0;font-size:16px;line-height:1.45}.pick-card p{font-size:13px}.pick-card>span{margin:0;font-size:13px}.hotel-card{gap:0;padding:16px}.hotel-actions{display:none}.mobile-actions{display:grid;gap:10px;margin-top:12px}.hotel-main>.hotel-image-placeholder{display:none}.hotel-details summary{min-height:44px}.summary-facts dd{font-size:17px}.section-lead{margin-bottom:14px}.hotel-list{gap:16px}}@media(max-width:640px){.section{padding:22px 0}.section-title{font-size:22px;margin-bottom:8px}.section-lead{font-size:14px;line-height:1.7}.hotel-card h3{font-size:21px;line-height:1.38}.badge{font-size:12px;padding:4px 8px}.summary-facts div{padding:10px 12px}.primary-cta,.sub-cta{min-height:48px}.hotel-image{margin:12px 0}.hotel-image img{height:auto}.toc{margin-bottom:22px}}`;
 
 const breadcrumbJson = {
   "@context": "https://schema.org",
@@ -293,7 +297,7 @@ const html = `<!doctype html>
   <title>${escapeHtml(theater.title)}</title>
   <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
   <script type="application/ld+json">${JSON.stringify(breadcrumbJson)}</script>
-  <style>${style}</style>
+  <style>${style}${mobileUiStyle}</style>
 </head>
 <body>
 <header class="header"><div class="container header-inner"><a class="brand" href="/"><span class="brand-mark">S</span><span>ステージ<span style="color:var(--primary)">泊</span><small>観劇遠征ホテルガイド</small></span></a><nav class="nav" aria-label="主要ナビゲーション"><a href="/theaters/">劇場から探す</a><a href="/areas/">地域から探す</a></nav></div></header>
@@ -341,7 +345,7 @@ const html = `<!doctype html>
   </section>
   <section id="walking-hotels" class="container section">
     <h2 class="section-title">天王洲 銀河劇場から徒歩で戻れるホテル</h2>
-    <p class="section-lead">天王洲 銀河劇場から徒歩で移動しやすいホテルを、劇場に近い順で掲載しています。徒歩時間は地図上の徒歩ルートを基準にした目安です。料金は宿泊日や公演日によって変動します。</p>
+    <p class="section-lead">天王洲 銀河劇場から徒歩で移動しやすいホテルを、近い順で掲載しています。料金と徒歩時間は調査時点の目安です。</p>
     <div class="hotel-list">${hotels.filter((hotel) => hotel.routeMode === "walking").map(hotelCard).join("")}</div>
   </section>
   <section id="transit-hotels" class="container section">
@@ -383,7 +387,7 @@ const html = `<!doctype html>
 function writePage(path, content) {
   const outPath = join(root, path);
   mkdirSync(dirname(outPath), { recursive: true });
-  writeFileSync(outPath, content, "utf8");
+  writeFileSync(outPath, content.replace(/[ \t]+$/gm, ""), "utf8");
 }
 
 writePage("theaters/tennozu-galaxy-theatre/index.html", html);

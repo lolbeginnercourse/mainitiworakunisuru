@@ -64,7 +64,7 @@ export default async function TheaterPage({ params }: { params: Promise<{ slug: 
             <span>{theater.name}近くのホテル</span>
           </nav>
 
-          <section className="venue-hero">
+          <section className="venue-hero venue-hero--text-only">
             <div className="venue-hero__content">
               <p className="eyebrow">THEATER HOTEL GUIDE</p>
               <h1>{theater.name}近くのホテル</h1>
@@ -79,10 +79,6 @@ export default async function TheaterPage({ params }: { params: Promise<{ slug: 
                   <dd>{theater.station} 徒歩約{stationWalkMinutes}分</dd>
                 </div>
               </dl>
-            </div>
-            <div className="venue-hero__visual">
-              <div className="venue-hero__placeholder">会場画像準備中</div>
-              <span className="venue-hero__station-badge">{theater.station}から徒歩約{stationWalkMinutes}分</span>
             </div>
           </section>
 
@@ -116,6 +112,7 @@ export default async function TheaterPage({ params }: { params: Promise<{ slug: 
 
           <section id="walking-hotels" className="venue-section">
             <h2 className="section-title">{venueData.walkingSectionLabel}</h2>
+            <p className="venue-section__lead">劇場から徒歩で移動しやすいホテルを、近い順で掲載しています。料金と徒歩時間は調査時点の目安です。</p>
             {walkingHotels.length > 0 ? (
               <div className="hotel-list is-vertical">
                 {walkingHotels.map(({ entry, hotel }) => (
