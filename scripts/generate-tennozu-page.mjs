@@ -20,147 +20,9 @@ const theater = {
 const venueMap = "https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E7%8E%8B%E6%B4%B2%20%E9%8A%80%E6%B2%B3%E5%8A%87%E5%A0%B4";
 const venueOfficialUrl = "https://www.gingeki.jp/";
 
-const hotels = [
-  {
-    id: "ana-holiday-inn-tokyo-bay",
-    name: "ANAホリデイ・イン東京ベイ by IHG",
-    image: "/public/hotel-images/ana-holiday-inn-tokyo-bay.webp",
-    category: "劇場への近さを優先",
-    distance: "徒歩約2分 / 約91m",
-    priceTwin: "2名1室 約24,800円〜",
-    priceSingle: "1名1室は公式・予約サイトで確認",
-    perPerson: "2名利用時 1名あたり約12,400円〜",
-    stationLines: ["東京モノレール 天王洲アイル駅周辺", "りんかい線 天王洲アイル駅周辺"],
-    bestFor: "終演後すぐに戻りたい人、雨の日の徒歩距離を短くしたい人",
-    reason: "劇場に非常に近く、観劇前後の移動時間を最小限にしやすい候補です。",
-    caution: "料金は周辺候補より高くなりやすいため、近さを重視する日程向きです。",
-    returnEase: "劇場から近いため、終演後に客室へ戻る負担を抑えやすい候補です。",
-    movementNote: "天王洲アイル周辺は建物や出口の位置で体感距離が変わるため、初回は地図で入口を確認してください。",
-    merits: ["劇場への距離が短い", "マチソワ間に戻る候補にしやすい", "羽田空港利用時に天王洲アイルを起点にしやすい"],
-    details: ["荷物預かり、朝食、チェックイン前後の対応は公式・予約サイトで確認してください。"],
-    badges: ["劇場に近い", "徒歩5分以内", "マチソワ向け"],
-    routeMode: "walking",
-    address: "東京都品川区東品川2-3-15",
-  },
-  {
-    id: "toyoko-inn-tennozu",
-    name: "東横INN品川港南口天王洲アイル",
-    category: "料金を抑えたい",
-    distance: "徒歩約5〜6分",
-    priceTwin: "2名1室 約11,800円〜17,500円前後",
-    priceSingle: "1名1室は公式・予約サイトで確認",
-    perPerson: "2名利用時 1名あたり約5,900円〜",
-    stationLines: ["東京モノレール 天王洲アイル駅周辺", "りんかい線 天王洲アイル駅周辺"],
-    bestFor: "劇場近くに泊まりたいが、宿泊費も抑えたい人",
-    reason: "劇場徒歩圏で、料金を比較しながら選びやすい定番ビジネスホテル系の候補です。",
-    caution: "公演日や週末は料金・空室が変わりやすいため、早めの確認が必要です。",
-    returnEase: "徒歩圏内のため、終演後の移動を短めにしやすい候補です。",
-    movementNote: "天王洲アイル駅周辺の出口を確認し、劇場側とホテル側の位置関係を事前に見ておくと迷いにくいです。",
-    merits: ["料金を比較しやすい", "劇場徒歩圏", "遠征の宿泊費を抑えたい日程に向く"],
-    details: ["朝食や荷物預かりの扱いは公式・予約サイトで最新情報を確認してください。"],
-    badges: ["料金重視", "徒歩圏", "1人遠征向け"],
-    routeMode: "walking",
-    address: "東京都品川区東品川2-2-35",
-  },
-  {
-    id: "petals-tokyo",
-    name: "PETALS TOKYO",
-    category: "特別感のある滞在をしたい",
-    distance: "徒歩約5〜7分 / 約370m",
-    priceTwin: "2名1室 約64,800円〜",
-    priceSingle: "1名1室は公式・予約サイトで確認",
-    perPerson: "2名利用時 1名あたり約32,400円〜",
-    stationLines: ["りんかい線 天王洲アイル駅B出口 徒歩約7分", "東京モノレール 天王洲アイル駅中央口 徒歩約8分"],
-    bestFor: "観劇遠征そのものを特別な滞在にしたい人",
-    reason: "天王洲運河周辺という立地を楽しみたい場合に候補になります。",
-    caution: "料金は高めのため、宿泊費より滞在体験を重視する日程向きです。",
-    returnEase: "劇場徒歩圏ですが、運河周辺のルートになるため夜間や雨天時は事前に経路を確認してください。",
-    movementNote: "初めて利用する場合は、駅出口とホテル入口の位置をGoogleマップで確認してから向かうと安心です。",
-    merits: ["運河沿いの滞在感", "劇場徒歩圏", "記念日や遠征の特別感を出しやすい"],
-    details: ["客室設備、朝食、チェックイン前後の対応は公式・予約サイトで確認してください。"],
-    badges: ["特別な滞在向け", "徒歩圏", "運河周辺"],
-    routeMode: "walking",
-    address: "東京都品川区東品川2-1 T-LOTUS M",
-  },
-  {
-    id: "super-hotel-shinbanba",
-    name: "スーパーホテル品川・新馬場 高濃度炭酸泉 七福神の湯",
-    category: "徒歩圏で料金を抑えたい",
-    distance: "徒歩約13〜16分 / 約926m",
-    priceTwin: "2名1室 朝食付き 約9,900円〜13,000円前後",
-    priceSingle: "1名1室は公式・予約サイトで確認",
-    perPerson: "2名利用時 1名あたり約4,950円〜",
-    stationLines: ["京急本線 新馬場駅北口 徒歩約5分"],
-    bestFor: "少し歩いても宿泊費を抑えたい人",
-    reason: "天王洲アイル周辺より範囲を広げ、料金とのバランスを取りたい時に比較しやすい候補です。",
-    caution: "終演後に徒歩で戻る場合は距離が伸びるため、荷物が多い日や雨の日は負担を確認してください。",
-    returnEase: "徒歩圏ではありますが、劇場至近ではないため終演後の体力と天候で判断したい候補です。",
-    movementNote: "京急新馬場駅側に寄るため、品川・羽田方面の移動と組み合わせる場合に検討しやすいです。",
-    merits: ["料金を抑えやすい", "京急線利用と組み合わせやすい", "徒歩圏として検討できる"],
-    details: ["大浴場、朝食、荷物預かりの最新条件は公式・予約サイトで確認してください。"],
-    badges: ["料金重視", "京急線に便利", "徒歩圏"],
-    routeMode: "walking",
-    address: "東京都品川区北品川2-30-26",
-  },
-  {
-    id: "keikyu-ex-inn-shinbanba",
-    name: "京急EXイン 品川・新馬場駅北口",
-    category: "品川・羽田方面の移動を重視",
-    distance: "徒歩約18〜22分",
-    priceTwin: "2名1室 約8,600円〜",
-    priceSingle: "1名1室は公式・予約サイトで確認",
-    perPerson: "2名利用時 1名あたり約4,300円〜",
-    stationLines: ["京急本線 新馬場駅北口周辺"],
-    bestFor: "翌日に品川駅・羽田空港方面へ動きたい人",
-    reason: "劇場最寄りではありませんが、京急線を使う移動計画と合わせやすい候補です。",
-    caution: "徒歩で劇場へ戻るには距離があるため、近さ最優先の人には向きません。",
-    returnEase: "終演後の徒歩移動は長めです。疲れやすい日程では交通手段も含めて確認してください。",
-    movementNote: "新馬場駅を使う前提なら、品川・羽田方面への移動を組み立てやすい候補です。",
-    merits: ["京急線利用に向く", "料金を比較しやすい", "品川方面への移動を考えやすい"],
-    details: ["駅からの具体的な出口、荷物預かり、朝食は公式・予約サイトで確認してください。"],
-    badges: ["羽田空港に便利", "料金重視", "品川駅に移動しやすい"],
-    routeMode: "walking",
-    address: "東京都品川区北品川2-18-1",
-  },
-  {
-    id: "hearton-hotel-higashi-shinagawa",
-    name: "ハートンホテル東品川",
-    category: "電車移動も含めて検討",
-    distance: "電車利用 約10〜15分 / 徒歩約22〜25分",
-    priceTwin: "2名1室 約10,160円〜",
-    priceSingle: "1名1室は公式・予約サイトで確認",
-    perPerson: "2名利用時 1名あたり約5,080円〜",
-    stationLines: ["りんかい線 品川シーサイド駅A出口 徒歩約1分"],
-    bestFor: "徒歩距離より、駅近と料金のバランスを見たい人",
-    reason: "劇場徒歩圏からは少し外れますが、りんかい線沿線で移動を組める候補です。",
-    caution: "劇場まで徒歩だけで考えると距離があるため、電車移動前提で検討してください。",
-    returnEase: "終演後は電車移動を含めて戻る候補です。最終電車や混雑を事前に確認してください。",
-    movementNote: "品川シーサイド駅周辺を拠点にするため、翌日の移動先によっては天王洲より便利な場合があります。",
-    merits: ["駅近を重視しやすい", "りんかい線利用と相性がよい", "徒歩距離より交通を重視する人向け"],
-    details: ["朝食、荷物預かり、チェックイン前後の対応は公式・予約サイトで確認してください。"],
-    badges: ["駅近", "電車移動向け", "料金重視"],
-    routeMode: "transit",
-    address: "東京都品川区東品川4-13-27",
-  },
-];
+const hotels = [];
 
-const picks = [
-  {
-    label: "近さを最優先するなら",
-    hotelId: "ana-holiday-inn-tokyo-bay",
-    why: "劇場への徒歩距離が最も短く、終演後すぐ戻りたい日程に向きます。",
-  },
-  {
-    label: "料金を抑えたいなら",
-    hotelId: "toyoko-inn-tennozu",
-    why: "劇場徒歩圏を保ちながら、料金を比較しやすい候補です。",
-  },
-  {
-    label: "特別感を重視するなら",
-    hotelId: "petals-tokyo",
-    why: "天王洲運河周辺の滞在感を楽しみたい時に候補になります。",
-  },
-];
+const picks = [];
 
 function escapeHtml(value) {
   return String(value)
@@ -228,16 +90,6 @@ function mobilePickCard(pick) {
     ${bookingButtons(hotel)}
     <a class="sub-cta" href="${routeUrl(hotel)}" target="_blank" rel="noopener noreferrer">劇場からの徒歩ルートを見る <span aria-hidden="true">↗</span></a>
   </article>`;
-}
-
-function conclusionItem(pick) {
-  const hotel = hotels.find((item) => item.id === pick.hotelId);
-  return `<a class="conclusion-item" href="#${hotel.id}">
-    <span>${escapeHtml(pick.label)}</span>
-    <b>${escapeHtml(hotel.name)}</b>
-    <strong>${escapeHtml(hotel.distance)}</strong>
-    <small>${escapeHtml(hotel.priceTwin)}</small>
-  </a>`;
 }
 
 function returnEaseLevel(hotel) {
@@ -448,6 +300,30 @@ const breadcrumbJson = {
   ],
 };
 
+const hotelSectionsHtml = hotels.length > 0
+  ? `<section id="best-picks" class="container section">
+    <h2 class="section-title">天王洲 銀河劇場近くで迷ったらこの3軒</h2>
+    <div class="pick-grid">${picks.map(pickCard).join("")}</div>
+    <div class="mobile-pick-list">${picks.map(mobilePickCard).join("")}</div>
+  </section>
+  <section id="comparison" class="container section">
+    <h2 class="section-title">天王洲 銀河劇場近くのホテル比較表</h2>
+    <div class="comparison-desktop"><table class="comparison-table"><thead><tr><th>ホテル名</th><th>劇場まで</th><th>1名料金目安</th><th>2名料金目安</th><th>最寄り駅</th><th>向いている人</th><th>詳細</th></tr></thead><tbody>${hotels.map(tableRow).join("")}</tbody></table></div>
+    <div class="comparison-mobile">${hotels.map(compareCard).join("")}</div>
+  </section>
+  <section id="walking-hotels" class="container section">
+    <h2 class="section-title">天王洲 銀河劇場から徒歩で戻れるホテル</h2>
+    <div class="hotel-list">${hotels.filter((hotel) => hotel.routeMode === "walking").map(hotelCard).join("")}</div>
+  </section>
+  <section id="transit-hotels" class="container section">
+    <h2 class="section-title">徒歩距離より料金や交通を優先したいホテル</h2>
+    <div class="hotel-list">${hotels.filter((hotel) => hotel.routeMode !== "walking").map(hotelCard).join("")}</div>
+  </section>`
+  : `<section id="walking-hotels" class="container section">
+    <h2 class="section-title">ホテル情報を準備中です</h2>
+    <div class="notice"><p>現在、掲載するホテルを見直しています。確認ができ次第、徒歩時間・料金目安・予約先などの情報を追加します。</p></div>
+  </section>`;
+
 const html = `<!doctype html>
 <html lang="ja">
 <head>
@@ -470,10 +346,8 @@ const html = `<!doctype html>
         <p class="eyebrow">THEATER HOTEL GUIDE</p>
         <h1 class="desktop-page-title">${escapeHtml(theater.h1)}</h1>
         <h1 class="mobile-page-title mobile-only">天王洲 銀河劇場近くのホテル<span>徒歩時間・料金・終演後の戻りやすさを比較</span></h1>
-        <p class="lead desktop-lead">天王洲 銀河劇場で観劇する人向けに、劇場までの近さ、料金目安、終演後の戻りやすさ、品川駅・羽田空港方面への移動を比べられるように整理しました。</p>
-        <div class="mobile-lead mobile-only"><p>天王洲 銀河劇場で観劇する人向けに、劇場までの徒歩時間、宿泊料金、終演後の戻りやすさを比較しています。</p><p>近さを優先するなら徒歩約2分、料金を抑えるなら徒歩約5〜6分のホテルが候補です。</p></div>
-        <p class="hero-note desktop-price-note">${escapeHtml(theater.priceNote)}</p>
-        <p class="mobile-price-note mobile-only"><b>料金目安：2026年7月確認</b>約1か月先の平日・2名1室・素泊まりを中心に調査</p>
+        <p class="lead desktop-lead">天王洲 銀河劇場で観劇する人向けのホテル情報を掲載するページです。現在、掲載候補を見直しています。</p>
+        <div class="mobile-lead mobile-only"><p>天王洲 銀河劇場近くのホテル情報は、現在掲載候補を見直しています。</p></div>
       </div>
       <aside class="facts-card" aria-label="劇場基本情報">
         <h2>劇場基本情報</h2>
@@ -488,50 +362,24 @@ const html = `<!doctype html>
     </div>
   </section>
   <section class="container conclusion-card mobile-only" aria-labelledby="mobile-conclusion-title">
-    <h2 id="mobile-conclusion-title">先に結論</h2>
-    <p>目的に合う候補から確認できます。</p>
-    ${picks.map(conclusionItem).join("")}
+    <h2 id="mobile-conclusion-title">ホテル情報を準備中です</h2>
+    <p>掲載候補の確認ができ次第、ホテル情報を追加します。</p>
   </section>
   <details class="container mobile-toc mobile-only">
     <summary>ページの内容を見る</summary>
     <ul>
-      <li><a href="#best-picks">おすすめ3軒</a></li>
-      <li><a href="#comparison">全ホテル比較</a></li>
-      <li><a href="#walking-hotels">徒歩で戻れるホテル</a></li>
+      <li><a href="#walking-hotels">ホテル情報の掲載状況</a></li>
       <li><a href="#venue-access">劇場へのアクセス</a></li>
     </ul>
   </details>
   <section class="container toc" aria-label="ページ内ナビゲーション">
     <h2>このページでわかること</h2>
     <ol class="overview-list">
-      <li class="desktop-only-toc"><a href="#best-picks">迷ったらこの3軒<span>近さ、料金、特別感で候補を絞れます。</span></a></li>
-      <li class="desktop-only-toc"><a href="#comparison">ホテル比較表<span>徒歩時間、料金目安、最寄り駅を同じ画面で見比べられます。</span></a></li>
-      <li><a href="#walking-hotels">徒歩で戻れるホテル<span>劇場に近い順で、終演後の戻りやすさも確認できます。</span></a></li>
+      <li><a href="#walking-hotels">ホテル情報の掲載状況<span>掲載候補を確認後、ホテル情報を追加します。</span></a></li>
       <li><a href="#venue-access">劇場アクセス<span>モノレール、りんかい線、品川駅、羽田空港との関係を整理しています。</span></a></li>
     </ol>
   </section>
-  <section id="best-picks" class="container section">
-    <h2 class="section-title">天王洲 銀河劇場近くで迷ったらこの3軒</h2>
-    <p class="section-lead">まず候補を絞りたい人向けに、目的が違う3軒を選びました。近さ、料金、滞在体験のどれを優先するかで選びやすくなります。</p>
-    <div class="pick-grid">${picks.map(pickCard).join("")}</div>
-    <div class="mobile-pick-list">${picks.map(mobilePickCard).join("")}</div>
-  </section>
-  <section id="comparison" class="container section">
-    <h2 class="section-title">天王洲 銀河劇場近くのホテル比較表</h2>
-    <div class="notice"><h2>料金・徒歩時間の見方</h2><p>${escapeHtml(theater.priceNote)} 徒歩時間はGoogleマップ等の徒歩ルートを基準にした目安で、信号待ちや駅出口、混雑で変わります。</p></div>
-    <div class="comparison-desktop"><table class="comparison-table"><thead><tr><th>ホテル名</th><th>劇場まで</th><th>1名料金目安</th><th>2名料金目安</th><th>最寄り駅</th><th>向いている人</th><th>詳細</th></tr></thead><tbody>${hotels.map(tableRow).join("")}</tbody></table></div>
-    <div class="comparison-mobile">${hotels.map(compareCard).join("")}</div>
-  </section>
-  <section id="walking-hotels" class="container section">
-    <h2 class="section-title">天王洲 銀河劇場から徒歩で戻れるホテル</h2>
-    <p class="section-lead">天王洲 銀河劇場から徒歩で移動しやすいホテルを、近い順で掲載しています。料金と徒歩時間は調査時点の目安です。</p>
-    <div class="hotel-list">${hotels.filter((hotel) => hotel.routeMode === "walking").map(hotelCard).join("")}</div>
-  </section>
-  <section id="transit-hotels" class="container section">
-    <h2 class="section-title">徒歩距離より料金や交通を優先したいホテル</h2>
-    <p class="section-lead">徒歩だけでなく、りんかい線や品川方面への移動を含めて検討したい候補です。</p>
-    <div class="hotel-list">${hotels.filter((hotel) => hotel.routeMode !== "walking").map(hotelCard).join("")}</div>
-  </section>
+  ${hotelSectionsHtml}
   <section id="venue-access" class="container section">
     <h2 class="section-title">天王洲 銀河劇場へのアクセスと終演後の移動</h2>
     <div class="venue-grid">
