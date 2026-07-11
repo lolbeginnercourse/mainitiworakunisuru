@@ -24,6 +24,17 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
   return (
     <article id={entry.hotelId} className="hotel-card">
       <div className="hotel-card__content">
+        {hotel.image && (
+          <Image
+            className="hotel-card__image hotel-card__image--mobile"
+            src={hotel.image}
+            alt={hotel.imageAlt ?? `${hotel.name}の外観`}
+            width={880}
+            height={660}
+            loading="lazy"
+            style={{ objectPosition: hotel.imagePosition ?? "center center" }}
+          />
+        )}
         <div className="hotel-card__badges" aria-label={`${hotel.name}の特徴`}>
           <span>近さ順 No.{entry.rank}</span>
           {entry.badges.slice(0, 1).map((badge) => (
@@ -59,17 +70,6 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
             <span className="summary-open">ホテル情報を閉じる</span>
           </summary>
           <div id={detailId}>
-            {hotel.image && (
-              <Image
-                className="hotel-card__image"
-                src={hotel.image}
-                alt={hotel.imageAlt ?? `${hotel.name}の外観`}
-                width={880}
-                height={660}
-                loading="lazy"
-                style={{ objectPosition: hotel.imagePosition ?? "center center" }}
-              />
-            )}
             <dl className="hotel-card__detail-list">
               <div>
                 <dt>最寄り駅</dt>
@@ -90,6 +90,17 @@ export default function HotelCard({ hotel, entry, venueAddress }: HotelCardProps
       </div>
 
       <div className="hotel-card__actions">
+        {hotel.image && (
+          <Image
+            className="hotel-card__image hotel-card__image--desktop"
+            src={hotel.image}
+            alt={hotel.imageAlt ?? `${hotel.name}の外観`}
+            width={440}
+            height={330}
+            loading="lazy"
+            style={{ objectPosition: hotel.imagePosition ?? "center center" }}
+          />
+        )}
         <div className="hotel-card__price">
           <span>料金目安</span>
           <b>{entry.priceLabel}</b>

@@ -268,7 +268,11 @@ footer{padding-top:58px;background:#171317;color:#fff}.footer-grid{display:grid;
   object-position: center;
   border-radius: 12px;
   background: #f4f1f3;
-  margin: 14px 0;
+  margin: 0 0 12px;
+}
+
+.hotel-card__image--mobile {
+  display: none;
 }
 
 .hotel-card__content {
@@ -557,6 +561,11 @@ footer{padding-top:58px;background:#171317;color:#fff}.footer-grid{display:grid;
     display: grid;
     width: 100%;
     margin: 12px 0 0;
+  }
+
+  .hotel-card__image--mobile {
+    display: block;
+    margin-bottom: 14px;
   }
 
   .hotel-card__name {
