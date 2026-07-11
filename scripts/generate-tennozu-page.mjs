@@ -24,7 +24,7 @@ const hotels = [
   {
     id: "ana-holiday-inn-tokyo-bay",
     name: "ANAホリデイ・イン東京ベイ by IHG",
-    image: "/public/hotel-images/ana-holiday-inn-tokyo-bay.jpg",
+    image: "/hotel-images/ana-holiday-inn-tokyo-bay.jpg",
     category: "劇場への近さを優先",
     distance: "徒歩約2分 / 約91m",
     priceTwin: "2名1室 約24,800円〜",
