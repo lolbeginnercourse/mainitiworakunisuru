@@ -12,6 +12,8 @@
 .mobile-only{display:none}
 .mobile-pick-list{display:none}
 .hotel-fit,.hotel-merits,.return-ease{display:none}
+.hotel-details>summary{display:none}
+details:not([open])>:not(summary){display:none!important}
 @media(max-width:767px){
   body{font-size:15px;line-height:1.8;overflow-x:hidden}
   .container{width:calc(100% - 32px)}
@@ -89,7 +91,7 @@
   .caution{margin-top:14px;padding:12px;border-radius:8px;font-size:14px;line-height:1.7}
   .return-ease{padding:12px;border-radius:8px;background:#f4f8f5}
   .hotel-details{margin-top:10px}
-  .hotel-details summary{font-size:14px}
+  .hotel-details>summary{min-height:44px;display:flex;align-items:center;font-size:14px}
   .primary-cta{min-height:52px;font-size:16px;border-radius:10px}
   .sub-cta{min-height:44px;font-size:14px;border-radius:10px}
   .hotel-card .badge-row{max-height:64px;overflow:hidden}
@@ -419,7 +421,7 @@
       <section class="hotel-merits"><h4>メリット</h4><ul><li>劇場への距離が短い</li><li>マチソワ間に戻る候補にしやすい</li><li>羽田空港利用時に天王洲アイルを起点にしやすい</li></ul></section>
       <p class="caution"><b>注意点</b>料金は周辺候補より高くなりやすいため、近さを重視する日程向きです。</p>
       <section class="return-ease"><h4>終演後の戻りやすさ：戻りやすい</h4><p>劇場から近いため、終演後に客室へ戻る負担を抑えやすい候補です。</p></section>
-      <details class="hotel-details">
+      <details class="hotel-details" open>
         <summary aria-label="ANAホリデイ・イン東京ベイ by IHGのホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>東京モノレール 天王洲アイル駅周辺<br>りんかい線 天王洲アイル駅周辺</dd></div>
@@ -452,7 +454,7 @@
       <section class="hotel-merits"><h4>メリット</h4><ul><li>料金を比較しやすい</li><li>劇場徒歩圏</li><li>遠征の宿泊費を抑えたい日程に向く</li></ul></section>
       <p class="caution"><b>注意点</b>公演日や週末は料金・空室が変わりやすいため、早めの確認が必要です。</p>
       <section class="return-ease"><h4>終演後の戻りやすさ：戻りやすい</h4><p>徒歩圏内のため、終演後の移動を短めにしやすい候補です。</p></section>
-      <details class="hotel-details">
+      <details class="hotel-details" open>
         <summary aria-label="東横INN品川港南口天王洲アイルのホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>東京モノレール 天王洲アイル駅周辺<br>りんかい線 天王洲アイル駅周辺</dd></div>
@@ -485,7 +487,7 @@
       <section class="hotel-merits"><h4>メリット</h4><ul><li>運河沿いの滞在感</li><li>劇場徒歩圏</li><li>記念日や遠征の特別感を出しやすい</li></ul></section>
       <p class="caution"><b>注意点</b>料金は高めのため、宿泊費より滞在体験を重視する日程向きです。</p>
       <section class="return-ease"><h4>終演後の戻りやすさ：戻りやすい</h4><p>劇場徒歩圏ですが、運河周辺のルートになるため夜間や雨天時は事前に経路を確認してください。</p></section>
-      <details class="hotel-details">
+      <details class="hotel-details" open>
         <summary aria-label="PETALS TOKYOのホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>りんかい線 天王洲アイル駅B出口 徒歩約7分<br>東京モノレール 天王洲アイル駅中央口 徒歩約8分</dd></div>
@@ -518,7 +520,7 @@
       <section class="hotel-merits"><h4>メリット</h4><ul><li>料金を抑えやすい</li><li>京急線利用と組み合わせやすい</li><li>徒歩圏として検討できる</li></ul></section>
       <p class="caution"><b>注意点</b>終演後に徒歩で戻る場合は距離が伸びるため、荷物が多い日や雨の日は負担を確認してください。</p>
       <section class="return-ease"><h4>終演後の戻りやすさ：天候次第</h4><p>徒歩圏ではありますが、劇場至近ではないため終演後の体力と天候で判断したい候補です。</p></section>
-      <details class="hotel-details">
+      <details class="hotel-details" open>
         <summary aria-label="スーパーホテル品川・新馬場 高濃度炭酸泉 七福神の湯のホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>京急本線 新馬場駅北口 徒歩約5分</dd></div>
@@ -551,7 +553,7 @@
       <section class="hotel-merits"><h4>メリット</h4><ul><li>京急線利用に向く</li><li>料金を比較しやすい</li><li>品川方面への移動を考えやすい</li></ul></section>
       <p class="caution"><b>注意点</b>徒歩で劇場へ戻るには距離があるため、近さ最優先の人には向きません。</p>
       <section class="return-ease"><h4>終演後の戻りやすさ：徒歩移動は長め</h4><p>終演後の徒歩移動は長めです。疲れやすい日程では交通手段も含めて確認してください。</p></section>
-      <details class="hotel-details">
+      <details class="hotel-details" open>
         <summary aria-label="京急EXイン 品川・新馬場駅北口のホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>京急本線 新馬場駅北口周辺</dd></div>
@@ -589,7 +591,7 @@
       <section class="hotel-merits"><h4>メリット</h4><ul><li>駅近を重視しやすい</li><li>りんかい線利用と相性がよい</li><li>徒歩距離より交通を重視する人向け</li></ul></section>
       <p class="caution"><b>注意点</b>劇場まで徒歩だけで考えると距離があるため、電車移動前提で検討してください。</p>
       <section class="return-ease"><h4>終演後の戻りやすさ：徒歩移動は長め</h4><p>終演後は電車移動を含めて戻る候補です。最終電車や混雑を事前に確認してください。</p></section>
-      <details class="hotel-details">
+      <details class="hotel-details" open>
         <summary aria-label="ハートンホテル東品川のホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>りんかい線 品川シーサイド駅A出口 徒歩約1分</dd></div>
@@ -645,6 +647,23 @@
 </main>
 <footer><div class="container"><a class="brand" href="/"><span class="brand-mark">S</span><span>ステージ<span style="color:var(--primary)">泊</span><small>観劇遠征ホテルガイド</small></span></a><p>2.5次元ミュージカル・舞台の観劇遠征者が、劇場を起点にホテルを選ぶための非公式専門メディアです。</p><p>© 2026 ステージ泊</p></div></footer>
 <script>
+  const mobileHotelDetails = window.matchMedia("(max-width: 767px)");
+  const syncHotelDetailsMode = () => {
+    document.querySelectorAll(".hotel-details").forEach((details) => {
+      if (mobileHotelDetails.matches) {
+        if (!details.dataset.mobileReady) {
+          details.open = false;
+          details.dataset.mobileReady = "true";
+        }
+      } else {
+        details.open = true;
+        delete details.dataset.mobileReady;
+      }
+    });
+  };
+  syncHotelDetailsMode();
+  mobileHotelDetails.addEventListener?.("change", syncHotelDetailsMode);
+
   document.querySelectorAll("details").forEach((details) => {
     const summary = details.querySelector("summary");
     const syncExpandedState = () => {

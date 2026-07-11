@@ -286,7 +286,7 @@ function hotelCard(hotel, index) {
       <section class="hotel-merits"><h4>メリット</h4><ul>${hotel.merits.slice(0, 3).map((merit) => `<li>${escapeHtml(merit)}</li>`).join("")}</ul></section>
       <p class="caution"><b>注意点</b>${escapeHtml(hotel.caution)}</p>
       <section class="return-ease"><h4>終演後の戻りやすさ：${returnEaseLevel(hotel)}</h4><p>${escapeHtml(hotel.returnEase)}</p></section>
-      <details class="hotel-details">
+      <details class="hotel-details" open>
         <summary aria-label="${escapeHtml(hotel.name)}のホテル情報を詳しく見る"><span class="summary-closed">ホテル情報を詳しく見る</span><span class="summary-open">ホテル情報を閉じる</span></summary>
         <dl class="detail-list">
           <div><dt>路線別の駅情報</dt><dd>${hotel.stationLines.map(escapeHtml).join("<br>")}</dd></div>
@@ -316,6 +316,8 @@ const mobileSpecStyle = `
 .mobile-only{display:none}
 .mobile-pick-list{display:none}
 .hotel-fit,.hotel-merits,.return-ease{display:none}
+.hotel-details>summary{display:none}
+details:not([open])>:not(summary){display:none!important}
 @media(max-width:767px){
   body{font-size:15px;line-height:1.8;overflow-x:hidden}
   .container{width:calc(100% - 32px)}
@@ -393,7 +395,7 @@ const mobileSpecStyle = `
   .caution{margin-top:14px;padding:12px;border-radius:8px;font-size:14px;line-height:1.7}
   .return-ease{padding:12px;border-radius:8px;background:#f4f8f5}
   .hotel-details{margin-top:10px}
-  .hotel-details summary{font-size:14px}
+  .hotel-details>summary{min-height:44px;display:flex;align-items:center;font-size:14px}
   .primary-cta{min-height:52px;font-size:16px;border-radius:10px}
   .sub-cta{min-height:44px;font-size:14px;border-radius:10px}
   .hotel-card .badge-row{max-height:64px;overflow:hidden}
@@ -554,6 +556,23 @@ const html = `<!doctype html>
 </main>
 <footer><div class="container"><a class="brand" href="/"><span class="brand-mark">S</span><span>ステージ<span style="color:var(--primary)">泊</span><small>観劇遠征ホテルガイド</small></span></a><p>2.5次元ミュージカル・舞台の観劇遠征者が、劇場を起点にホテルを選ぶための非公式専門メディアです。</p><p>© 2026 ステージ泊</p></div></footer>
 <script>
+  const mobileHotelDetails = window.matchMedia("(max-width: 767px)");
+  const syncHotelDetailsMode = () => {
+    document.querySelectorAll(".hotel-details").forEach((details) => {
+      if (mobileHotelDetails.matches) {
+        if (!details.dataset.mobileReady) {
+          details.open = false;
+          details.dataset.mobileReady = "true";
+        }
+      } else {
+        details.open = true;
+        delete details.dataset.mobileReady;
+      }
+    });
+  };
+  syncHotelDetailsMode();
+  mobileHotelDetails.addEventListener?.("change", syncHotelDetailsMode);
+
   document.querySelectorAll("details").forEach((details) => {
     const summary = details.querySelector("summary");
     const syncExpandedState = () => {
