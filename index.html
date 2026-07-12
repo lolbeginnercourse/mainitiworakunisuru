@@ -3,355 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="2.5次元ミュージカル・舞台の観劇遠征向けに、劇場までの移動、終演後の戻りやすさ、荷物預かり、料金帯を比較できます。">
-  <title>ステージ泊｜2.5次元観劇遠征ホテルガイド</title>
-  <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="ステージ泊は現在、公開に向けて準備中です。">
+  <title>準備中｜ステージ泊</title>
   <style>
     :root {
-      --bg: #fff;
-      --soft: #fff1f6;
-      --text: #171317;
-      --muted: #625a60;
-      --primary: #e54887;
-      --primary-dark: #be2867;
-      --border: #ead7df;
-      --black: #171317;
-      --shadow: 0 16px 42px rgba(88, 46, 67, .1);
+      color-scheme: light;
+      --text: #21191d;
+      --muted: #6d6268;
+      --accent: #df3f80;
+      --soft: #fff2f7;
+      --line: #efd6e0;
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
     body {
+      min-height: 100svh;
       margin: 0;
-      background: var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: linear-gradient(180deg, #fff 0%, #fff8fb 100%);
       color: var(--text);
       font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
-      line-height: 1.8;
     }
-    a { color: inherit; text-decoration: none; }
-    .container { width: min(calc(100% - 32px), 1120px); margin: 0 auto; }
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(255,255,255,.96);
-      border-bottom: 1px solid #f5c9d9;
-      backdrop-filter: blur(10px);
+
+    main {
+      width: min(100%, 560px);
+      padding: clamp(32px, 8vw, 56px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .96);
+      box-shadow: 0 18px 55px rgba(88, 46, 67, .1);
+      text-align: center;
     }
-    .header-inner {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
+
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 34px;
       font-weight: 900;
       font-size: 20px;
-      line-height: 1.1;
     }
-    .brand-mark {
-      width: 40px;
-      height: 40px;
+
+    .mark {
+      width: 44px;
+      height: 44px;
       display: grid;
       place-items: center;
-      border-radius: 12px 12px 12px 3px;
-      background: var(--primary);
+      border-radius: 13px 13px 13px 4px;
+      background: var(--accent);
       color: #fff;
-      font: italic 25px Georgia, serif;
+      font: italic 27px Georgia, serif;
     }
-    .brand small {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 9px;
-      letter-spacing: .12em;
+
+    .accent { color: var(--accent); }
+
+    .status {
+      display: inline-block;
+      margin: 0 0 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: #b72763;
+      font-size: 13px;
+      font-weight: 800;
     }
-    .nav { display: flex; gap: 24px; font-size: 14px; font-weight: 800; }
-    .nav a:hover { color: var(--primary-dark); }
-    .hero {
-      background: linear-gradient(135deg, #fff 0 66%, var(--soft) 66%);
-      border-bottom: 1px solid #fae1ea;
-    }
-    .hero-inner { padding: 72px 0 56px; }
-    .eyebrow {
-      margin: 0 0 10px;
-      color: var(--primary-dark);
-      font-size: 12px;
-      letter-spacing: .13em;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
+
     h1 {
       margin: 0;
-      font-size: clamp(34px, 5vw, 58px);
-      line-height: 1.32;
-      letter-spacing: -.045em;
+      font-size: clamp(30px, 8vw, 44px);
+      line-height: 1.35;
+      letter-spacing: 0;
     }
-    h1 span {
-      position: relative;
-      z-index: 1;
-    }
-    h1 span::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 6px;
-      height: 13px;
-      background: #f8bdd3;
-      z-index: -1;
-    }
-    .lead {
-      max-width: 760px;
-      margin: 22px 0 0;
+
+    p {
+      margin: 20px auto 0;
       color: var(--muted);
-      font-size: 17px;
-    }
-    .search-card {
-      max-width: 980px;
-      margin-top: 32px;
-      padding: 10px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      border: 1.5px solid var(--primary);
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-    .search-card input {
-      flex: 1;
-      min-width: 0;
-      border: 0;
-      outline: 0;
-      padding: 16px;
-      font: inherit;
-    }
-    .button {
-      min-height: 52px;
-      padding: 0 24px;
-      border-radius: 10px;
-      background: var(--primary);
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-    }
-    .section { padding: 68px 0; }
-    .section-title {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 26px;
-    }
-    h2 { margin: 0; font-size: clamp(24px, 3vw, 32px); line-height: 1.45; }
-    .grid { display: grid; gap: 18px; }
-    .entry-grid { grid-template-columns: repeat(3, 1fr); }
-    .theater-grid { grid-template-columns: repeat(3, 1fr); }
-    .card {
-      padding: 24px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-    .entry-card {
-      min-height: 230px;
-      display: flex;
-      flex-direction: column;
-      border-color: var(--primary);
-    }
-    .entry-card.primary { background: var(--primary); color: #fff; }
-    .entry-card.soft { background: var(--soft); }
-    .entry-card b { margin-top: auto; color: inherit; }
-    .tag-row { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
-    .theater-card h3 { margin: 18px 0 10px; font-size: 19px; line-height: 1.5; }
-    .theater-card p { color: var(--muted); font-size: 14px; }
-    .outline {
-      min-height: 44px;
-      padding: 9px 14px;
-      border: 1px solid var(--primary);
-      border-radius: 10px;
-      color: var(--primary-dark);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 900;
-      font-size: 14px;
-    }
-    .soft-section { background: var(--soft); }
-    .region-grid { grid-template-columns: repeat(6, 1fr); }
-    .region-grid a {
-      min-height: 110px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid #efcad8;
-      border-radius: 14px;
-      background: #fff;
-      font-weight: 900;
-    }
-    .purpose-section { background: var(--black); color: #fff; }
-    .purpose-grid { grid-template-columns: repeat(3, 1fr); }
-    .purpose-grid a {
-      min-height: 68px;
-      padding: 14px 18px;
-      border: 1px solid #50464d;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-weight: 900;
-    }
-    footer { padding: 38px 0; background: var(--black); color: #fff; }
-    footer p { color: #cfc6cb; font-size: 13px; }
-
-    @media (max-width: 900px) {
-      .nav { display: none; }
-      .entry-grid, .theater-grid { grid-template-columns: repeat(2, 1fr); }
-      .region-grid, .purpose-grid { grid-template-columns: repeat(2, 1fr); }
+      line-height: 1.9;
     }
 
-    @media (max-width: 640px) {
-      .header-inner { min-height: 64px; }
-      .brand { font-size: 16px; }
-      .brand-mark { width: 34px; height: 34px; font-size: 21px; }
-      .hero-inner { padding: 42px 0 38px; }
-      h1 { font-size: 31px; }
-      .lead { font-size: 15px; }
-      .search-card { display: grid; }
-      .button { width: 100%; }
-      .section { padding: 46px 0; }
-      .entry-grid, .theater-grid, .region-grid, .purpose-grid { grid-template-columns: 1fr; }
+    @media (max-width: 480px) {
+      body { padding: 16px; }
+      main { padding: 34px 22px; border-radius: 16px; }
+      .brand { margin-bottom: 28px; }
     }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container header-inner">
-      <a class="brand" href="/">
-        <span class="brand-mark">S</span>
-        <span>ステージ<span style="color:var(--primary)">泊</span><small>観劇遠征ホテルガイド</small></span>
-      </a>
-      <nav class="nav" aria-label="メインナビゲーション">
-        <a href="/theaters">劇場から探す</a>
-        <a href="/areas">地域から探す</a>
-        <a href="/search">目的から探す</a>
-      </nav>
-    </div>
-  </header>
-
   <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <p class="eyebrow">2.5次元ミュージカル・舞台 遠征ホテルガイド</p>
-        <h1>観劇する劇場から、<br><span>泊まりやすいホテル</span>を探す。</h1>
-        <p class="lead">2.5次元ミュージカル・舞台の遠征向けに、劇場までの移動、終演後の戻りやすさ、荷物預かり、料金帯を比較できます。</p>
-        <form class="search-card" action="/search">
-          <input type="search" placeholder="劇場名・エリア・ホテル名で検索">
-          <button class="button" type="submit">検索する</button>
-        </form>
-      </div>
-    </section>
-
-    <section class="container section">
-      <div class="grid entry-grid">
-        <a class="card entry-card primary" href="/theaters">
-          <span>01</span>
-          <h2>劇場から探す</h2>
-          <p>観劇する劇場を起点に、泊まりやすいエリアとホテル候補を確認。</p>
-          <b>劇場一覧を見る →</b>
-        </a>
-        <a class="card entry-card soft" href="/areas">
-          <span>02</span>
-          <h2>宿泊エリアから探す</h2>
-          <p>東京駅、品川、新宿、梅田など、移動拠点から逆引き。</p>
-          <b>エリアを見る →</b>
-        </a>
-        <a class="card entry-card" href="/search">
-          <span>03</span>
-          <h2>目的から探す</h2>
-          <p>近さ、料金、女性一人、荷物預かりなど重視条件で比較。</p>
-          <b>条件を選ぶ →</b>
-        </a>
-      </div>
-    </section>
-
-    <section id="theaters" class="container section">
-      <div class="section-title">
-        <div>
-          <p class="eyebrow">THEATERS</p>
-          <h2>劇場から探す</h2>
-        </div>
-      </div>
-      <div class="grid theater-grid">
-        <article class="card theater-card">
-          <div class="tag-row"><span>天王洲・品川</span><span>東京都</span></div>
-          <h3>天王洲 銀河劇場</h3>
-          <p>駅直結。品川泊なら新幹線移動も組みやすい劇場です。</p>
-          <a class="outline" href="/theaters/tennozu-galaxy-theatre/">ホテルを見る <span>→</span></a>
-        </article>
-        <article class="card theater-card">
-          <div class="tag-row"><span>池袋</span><span>東京都</span></div>
-          <h3>東京建物 Brillia HALL</h3>
-          <p>終演後も選択肢の多い池袋エリア。徒歩圏ホテルも比較。</p>
-          <a class="outline" href="/theaters/brillia-hall/">ホテルを見る <span>→</span></a>
-        </article>
-        <article class="card theater-card">
-          <div class="tag-row"><span>梅田</span><span>大阪府</span></div>
-          <h3>SkyシアターMBS</h3>
-          <p>大阪駅直結。新幹線利用とのバランスも確認できます。</p>
-          <a class="outline" href="/theaters/sky-theater-mbs/">ホテルを見る <span>→</span></a>
-        </article>
-      </div>
-    </section>
-
-    <section id="areas" class="soft-section section">
-      <div class="container">
-        <p class="eyebrow">SEARCH BY AREA</p>
-        <h2>地域から探す</h2>
-        <div class="grid region-grid" style="margin-top:24px">
-          <a href="/theaters?region=hokkaido-tohoku">北海道・東北 <span>→</span></a>
-          <a href="/theaters?region=kanto">関東 <span>→</span></a>
-          <a href="/theaters?region=tokai">東海 <span>→</span></a>
-          <a href="/theaters?region=kansai">関西 <span>→</span></a>
-          <a href="/theaters?region=chugoku-shikoku">中国・四国 <span>→</span></a>
-          <a href="/theaters?region=kyushu">九州 <span>→</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section id="purpose" class="purpose-section section">
-      <div class="container">
-        <p class="eyebrow">CHOOSE YOUR PRIORITY</p>
-        <h2>遠征で重視したいことから探す</h2>
-        <div class="grid purpose-grid" style="margin-top:24px">
-          <a href="/search?purpose=near">劇場への近さ優先 <span>→</span></a>
-          <a href="/search?purpose=budget">宿泊料金を抑えたい <span>→</span></a>
-          <a href="/search?purpose=solo">女性一人で選びやすい <span>→</span></a>
-          <a href="/search?purpose=matinee-soiree">マチソワ間に戻りやすい <span>→</span></a>
-          <a href="/search?purpose=station">新幹線駅へ移動しやすい <span>→</span></a>
-          <a href="/search?purpose=luggage">荷物を預けやすい <span>→</span></a>
-        </div>
-      </div>
-    </section>
+    <div class="brand"><span class="mark">S</span><span>ステージ<span class="accent">泊</span></span></div>
+    <p class="status">COMING SOON</p>
+    <h1>ただいま準備中です</h1>
+    <p>より使いやすい観劇遠征ホテルガイドとして公開するため、掲載内容を整えています。</p>
   </main>
-
-  <footer>
-    <div class="container">
-      <a class="brand" href="/">
-        <span class="brand-mark">S</span>
-        <span>ステージ<span style="color:var(--primary)">泊</span><small>観劇遠征ホテルガイド</small></span>
-      </a>
-      <p>2.5次元ミュージカル・舞台の観劇遠征者が、劇場を起点にホテルを選ぶための非公式専門メディアです。</p>
-      <p>© 2026 ステージ泊</p>
-    </div>
-  </footer>
 </body>
 </html>
