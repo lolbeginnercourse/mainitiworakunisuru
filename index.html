@@ -1,103 +1,113 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="ステージ泊は現在、公開に向けて準備中です。">
-  <title>準備中｜ステージ泊</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --text: #21191d;
-      --muted: #6d6268;
-      --accent: #df3f80;
-      --soft: #fff2f7;
-      --line: #efd6e0;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      min-height: 100svh;
-      margin: 0;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: linear-gradient(180deg, #fff 0%, #fff8fb 100%);
-      color: var(--text);
-      font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
-    }
-
-    main {
-      width: min(100%, 560px);
-      padding: clamp(32px, 8vw, 56px);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(255, 255, 255, .96);
-      box-shadow: 0 18px 55px rgba(88, 46, 67, .1);
-      text-align: center;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 34px;
-      font-weight: 900;
-      font-size: 20px;
-    }
-
-    .mark {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 13px 13px 13px 4px;
-      background: var(--accent);
-      color: #fff;
-      font: italic 27px Georgia, serif;
-    }
-
-    .accent { color: var(--accent); }
-
-    .status {
-      display: inline-block;
-      margin: 0 0 14px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: var(--soft);
-      color: #b72763;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(30px, 8vw, 44px);
-      line-height: 1.35;
-      letter-spacing: 0;
-    }
-
-    p {
-      margin: 20px auto 0;
-      color: var(--muted);
-      line-height: 1.9;
-    }
-
-    @media (max-width: 480px) {
-      body { padding: 16px; }
-      main { padding: 34px 22px; border-radius: 16px; }
-      .brand { margin-bottom: 28px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="GTA6の発売日、対応機種、人物、地域など、発売前の公式発表をもとに情報を整理する非公式日本語ガイド">
+<title>GTA6 GUIDE JAPAN｜非公式日本語ガイド</title>
+<link rel="stylesheet" href="assets/css/00-tokens-base.css">
+<link rel="stylesheet" href="assets/css/01-header-drawer.css">
+<link rel="stylesheet" href="assets/css/02-controls-cards.css">
+<link rel="stylesheet" href="assets/css/03-shell-home-article.css">
+<link rel="stylesheet" href="assets/css/04-responsive-core.css">
+<link rel="stylesheet" href="assets/css/05-mobile-preview.css">
+<link rel="stylesheet" href="assets/css/06-mobile-refinements.css">
+<link rel="stylesheet" href="assets/css/07-page-components.css">
+<link rel="stylesheet" href="assets/css/08-release-mode.css">
+  <!-- CSSとJavaScriptはassets配下に分離しています -->
 </head>
 <body>
-  <main>
-    <div class="brand"><span class="mark">S</span><span>ステージ<span class="accent">泊</span></span></div>
-    <p class="status">COMING SOON</p>
-    <h1>ただいま準備中です</h1>
-    <p>より使いやすい観劇遠征ホテルガイドとして公開するため、掲載内容を整えています。</p>
-  </main>
+<div class="site-shell">
+<a class="skip-link" href="#" id="skip-link">本文へ移動</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#home" data-route="home" aria-label="ホーム">
+      <span class="brand-mark">G</span>
+      <span class="brand-copy"><strong>GTA6 GUIDE</strong><small>日本語・非公式情報サイト</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="主要メニュー">
+      <a href="#home" data-route="home">ホーム</a>
+      <a href="#latest" data-route="latest">最新情報</a>
+      <a href="#confirmed" data-route="confirmed">公式発表</a>
+      <a href="#categories" data-route="categories">情報カテゴリ</a>
+      <a href="#map" data-route="map">舞台・地域</a>
+      <a href="#vehicles" data-route="vehicles">登場車両</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-button" href="#search" data-route="search" aria-label="検索">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      </a>
+      <button class="icon-button menu-trigger" type="button" aria-label="メニューを開く" aria-controls="site-drawer" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-backdrop" data-close-drawer></div>
+<aside class="drawer" id="site-drawer" role="dialog" aria-modal="true" aria-label="サイトメニュー" aria-hidden="true">
+  <div class="drawer-head">
+    <strong>メニュー</strong>
+    <button class="icon-button" type="button" data-close-drawer aria-label="閉じる">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <nav class="drawer-nav">
+    <a href="#home" data-route="home">ホーム<span>›</span></a>
+    <a href="#latest" data-route="latest">最新情報<span>›</span></a>
+    <a href="#confirmed" data-route="confirmed">公式発表<span>›</span></a>
+    <a href="#categories" data-route="categories">情報カテゴリ<span>›</span></a>
+    <a href="#map" data-route="map">舞台・地域<span>›</span></a>
+    <a href="#vehicles" data-route="vehicles">登場車両情報<span>›</span></a>
+    <a href="#beginner" data-route="beginner">発売前ガイド<span>›</span></a>
+    <a href="#search" data-route="search">サイト内検索<span>›</span></a>
+    <p class="drawer-section-title">サイトについて</p>
+    <a href="#guide" data-route="guide">サイトの使い方<span>›</span></a>
+    <a href="#glossary" data-route="glossary">用語集<span>›</span></a>
+    <a href="#changelog" data-route="changelog">更新履歴<span>›</span></a>
+    <a href="#about" data-route="about">運営・掲載方針<span>›</span></a>
+    <a href="#contact" data-route="contact">お問い合わせ<span>›</span></a>
+  </nav>
+  <p class="drawer-note">本サイトはRockstar GamesおよびTake-Two Interactiveとは関係のない非公式ファンサイトです</p>
+</aside>
+
+<div id="route-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+<main id="main" class="route-view" tabindex="-1"></main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <strong>GTA6 GUIDE JAPAN</strong>
+      <p>発売前は公式発表、人物、地域、確認状態を整理し、発売後に実測攻略へ拡張する非公式日本語ガイドです</p>
+      <div class="meta-row"><span class="status-pill info">非公式サイト</span><span class="status-pill">発売前モード</span></div>
+    </div>
+    <nav class="footer-links" aria-label="フッターメニュー">
+      <div class="footer-section"><strong>探す</strong><a href="#latest" data-route="latest">最新情報</a><a href="#confirmed" data-route="confirmed">公式発表</a><a href="#categories" data-route="categories">情報カテゴリ</a><a href="#map" data-route="map">舞台・地域</a><a href="#vehicles" data-route="vehicles">登場車両情報</a><a href="#search" data-route="search">サイト内検索</a></div>
+      <div class="footer-section"><strong>使い方</strong><a href="#guide" data-route="guide">サイトの使い方</a><a href="#beginner" data-route="beginner">発売前ガイド</a><a href="#glossary" data-route="glossary">用語集</a><a href="#changelog" data-route="changelog">更新履歴</a><a href="#sitemap" data-route="sitemap">サイトマップ</a></div>
+      <div class="footer-section"><strong>掲載方針</strong><a href="#about" data-route="about">運営・掲載方針</a><a href="#sources" data-route="sources">出典・引用方針</a><a href="#corrections" data-route="corrections">訂正・更新方針</a><a href="#disclaimer" data-route="disclaimer">免責事項</a></div>
+      <div class="footer-section"><strong>その他</strong><a href="#privacy" data-route="privacy">プライバシーポリシー</a><a href="#terms" data-route="terms">利用規約</a><a href="#contact" data-route="contact">お問い合わせ</a></div>
+    </nav>
+  </div>
+</footer>
+
+<nav class="bottom-nav" aria-label="下部メニュー">
+  <a href="#home" data-route="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 10 9-7 9 7v10H3z"/></svg><span>ホーム</span></a>
+  <a href="#latest" data-route="latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg><span>最新</span></a>
+  <a href="#categories" data-route="categories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg><span>カテゴリ</span></a>
+  <a href="#search" data-route="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>検索</span></a>
+</nav>
+</div>
+
+<script src="assets/js/data/icons.js"></script>
+<script src="assets/js/data/content.js"></script>
+<script src="assets/js/ui/templates.js"></script>
+<script src="assets/js/pages/home.js"></script>
+<script src="assets/js/pages/content-pages.js"></script>
+<script src="assets/js/core/drawer.js"></script>
+<script src="assets/js/core/router.js"></script>
+<script src="assets/js/core/page-events.js"></script>
+<script src="assets/js/app.js"></script>
+
 </body>
 </html>

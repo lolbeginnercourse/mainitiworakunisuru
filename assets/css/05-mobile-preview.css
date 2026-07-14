@@ -1,0 +1,206 @@
+/* 430pxモバイルプレビュー固定設定 */
+/* Mobile-only override */
+html{
+  background:#e9ebef;
+}
+body{
+  width:100%;
+  max-width:430px;
+  margin:0 auto;
+  background:var(--bg);
+  box-shadow:0 0 32px rgba(18,22,33,.12);
+}
+.container{
+  width:calc(100% - 24px);
+}
+.desktop-nav{
+  display:none!important;
+}
+.header-inner{
+  min-height:62px;
+}
+.site-header{
+  --header-h:62px;
+}
+.brand-mark{
+  width:36px;
+  height:36px;
+}
+.brand-copy strong{
+  font-size:15px;
+}
+.brand-copy small{
+  font-size:9px;
+}
+.header-actions .icon-button{
+  width:42px;
+  height:42px;
+}
+.hero{
+  padding:20px 0 16px;
+}
+.hero-inner{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:15px;
+}
+.hero h1{
+  font-size:30px;
+  line-height:1.14;
+}
+.hero p{
+  font-size:12px;
+  line-height:1.7;
+}
+.hero-search{
+  padding:10px;
+}
+.search-form{
+  grid-template-columns:minmax(0,1fr) 68px;
+}
+.search-form input{
+  min-height:50px;
+  font-size:16px;
+}
+.search-form button{
+  min-width:68px;
+  min-height:50px;
+  padding:0 10px;
+}
+.page-section{
+  padding:16px 0;
+}
+.section-heading{
+  align-items:flex-start;
+}
+.section-heading h2{
+  font-size:20px;
+}
+.section-heading p{
+  font-size:11px;
+}
+.quick-grid{
+  grid-auto-columns:156px;
+  gap:8px;
+}
+.quick-card{
+  min-height:82px;
+  padding:12px;
+}
+.quick-card strong{
+  font-size:13px;
+}
+.quick-card small{
+  font-size:10px;
+}
+.notice{
+  min-height:70px;
+  padding:12px;
+}
+.notice strong{
+  font-size:13px;
+}
+.notice small{
+  font-size:10px;
+}
+.news-card{
+  grid-template-columns:86px minmax(0,1fr);
+  gap:11px;
+  padding:10px;
+}
+.news-card h3{
+  font-size:13px;
+}
+.news-card p{
+  display:none!important;
+}
+.category-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px;
+}
+.category-card{
+  min-height:96px;
+  padding:12px;
+}
+.category-card strong{
+  font-size:13px;
+}
+.category-card small{
+  font-size:10px;
+}
+.intent-card{
+  min-height:78px;
+  padding:12px;
+}
+.intent-card strong{
+  font-size:13px;
+}
+.intent-card p{
+  font-size:10px;
+}
+.home-two-column{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+}
+.region-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.category-page-grid{
+  grid-template-columns:1fr!important;
+}
+.article-layout{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+}
+.article-main{
+  padding:16px;
+}
+.article-main h1{
+  font-size:27px;
+}
+.article-body p,
+.article-body li{
+  font-size:13px;
+}
+.article-side{
+  position:static!important;
+}
+.info-row{
+  grid-template-columns:96px 1fr;
+}
+.vehicle-tools{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+}
+.vehicle-card{
+  grid-template-columns:64px minmax(0,1fr) auto;
+  gap:10px;
+}
+.vehicle-thumb{
+  width:64px;
+}
+.site-footer{
+  padding-bottom:calc(var(--bottom-nav-h) + 22px);
+}
+.bottom-nav{
+  display:grid!important;
+  max-width:430px;
+  margin:0 auto;
+}
+.drawer{
+  width:min(88vw,360px);
+}
+@media(max-width:359px){
+  .category-grid,
+  .region-grid{
+    grid-template-columns:1fr!important;
+  }
+  .brand-copy small{
+    display:none;
+  }
+}
+@media(min-width:431px){
+  body{
+    min-height:100vh;
+  }
+}
