@@ -10,6 +10,33 @@
       "dest": "/assets/$1"
     },
     {
+      "src": "^/map$",
+      "status": 308,
+      "headers": {
+        "Location": "/map/"
+      }
+    },
+    {
+      "src": "^/map/$",
+      "dest": "/map/index.html"
+    },
+    {
+      "src": "^/map/(vice-city|leonida-keys|grassrivers|port-gellhorn|ambrosia|mount-kalaga)$",
+      "status": 308,
+      "headers": {
+        "Location": "/map/$1/"
+      }
+    },
+    {
+      "src": "^/map/(vice-city|leonida-keys|grassrivers|port-gellhorn|ambrosia|mount-kalaga)/$",
+      "dest": "/map/$1/index.html"
+    },
+    {
+      "src": "^/map/.*$",
+      "dest": "/404.html",
+      "status": 404
+    },
+    {
       "src": "^/(robots\\.txt|sitemap\\.xml)$",
       "dest": "/$1"
     },
@@ -19,6 +46,10 @@
       "headers": {
         "Location": "/"
       }
+    },
+    {
+      "src": "^/404\\.html$",
+      "dest": "/404.html"
     },
     {
       "src": "^/.*$",
