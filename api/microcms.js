@@ -1,0 +1,37 @@
+const clean = value => String(value || "").trim();
+
+export default async function handler(request, response) {
+  if (request.method !== "GET") {
+    response.setHeader("Allow", "GET");
+    return response.status(405).json({ error: "Method not allowed" });
+  }
+
+  const domain = clean(process.env.MICROCMS_SERVICE_DOMAIN);
+  const apiKey = clean(process.env.MICROCMS_API_KEY);
+  const endpoint = clean(process.env.MICROCMS_ENDPOINT || "categories");
+
+  if (!domain || !apiKey || !endpoint) {
+    return response.status(503).json({ error: "CMS is not configured" });
+  }
+
+  const contentId = clean(request.query.id);
+  const path = contentId
+    ? `${encodeURIComponent(endpoint)}/${encodeURIComponent(contentId)}`
+    : `${encodeURIComponent(endpoint)}?limit=50&orders=-publishedAt`;
+
+  try {
+    const cmsResponse = await fetch(`https://${domain}.microcms.io/api/v1/${path}`, {
+      headers: { "X-MICROCMS-API-KEY": apiKey }
+    });
+
+    if (!cmsResponse.ok) {
+      return response.status(cmsResponse.status).json({ error: "CMS request failed" });
+    }
+
+    const data = await cmsResponse.json();
+    response.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+    return response.status(200).json(data);
+  } catch {
+    return response.status(502).json({ error: "CMS is temporarily unavailable" });
+  }
+}
