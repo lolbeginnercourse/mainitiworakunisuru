@@ -2,8 +2,8 @@
 const articles = {
   release:{
     tag:"公式情報",state:"公式発表",updated:"2026年7月14日",confirmed:"Rockstar Games公式サイト",spoiler:"なし",
-    title:"発売日・対応機種・予約状況",
-    summary:"2026年7月14日時点で、発売予定日は2026年11月19日、対応機種はPlayStation 5とXbox Series X|S、予約受付は2026年6月25日に開始済みです",
+    title:"GTA6の発売日・対応機種・予約状況｜必要容量と快適な空き容量",
+    summary:"2026年7月14日時点で、発売予定日は2026年11月19日、対応機種はPlayStation 5とXbox Series X|Sです。正式な必要容量は未発表です",
     sections:[
       ["現在確認できる公式情報","<strong>発売予定日は2026年11月19日</strong>です。発売前は日付だけを転載せず、確認日と公式参照先を同じ場所に表示します。"],
       ["対応機種","公式サイトに掲載されている対応機種は<strong>PlayStation 5とXbox Series X|S</strong>です。PC版については、公式の対応機種欄に追加されるまで未確認として扱います。"],
