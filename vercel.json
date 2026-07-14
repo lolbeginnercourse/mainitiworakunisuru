@@ -1,0 +1,28 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    {
+      "src": "^/$",
+      "dest": "/index.html"
+    },
+    {
+      "src": "^/assets/(.*)$",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "^/(robots\\.txt|sitemap\\.xml)$",
+      "dest": "/$1"
+    },
+    {
+      "src": "^/index\\.html$",
+      "status": 308,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
+      "src": "^/.*$",
+      "status": 410
+    }
+  ]
+}
