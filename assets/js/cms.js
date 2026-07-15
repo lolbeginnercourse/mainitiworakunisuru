@@ -77,7 +77,7 @@ async function hydrateCmsArticle(id) {
     const item = await response.json();
     if (!target.isConnected) return;
     const title = escapeHTML(item.name || "無題の記事");
-    const body = item.ritti || (item.honbunn ? `<p>${escapeHTML(item.honbunn)}</p>` : "<p>本文は準備中です。</p>");
+    const body = item.ritti || (item.honbunn ? `<p>${escapeHTML(item.honbunn)}</p>` : "<p>本文を表示できません。</p>");
     target.innerHTML = `<div class="article-kicker"><span class="badge">${escapeHTML(cmsCategories(item)[0] || "記事")}</span></div><h1>${title}</h1><div class="article-body cms-article-body">${body}</div>`;
     document.title = `${item.name || "記事"}｜GTA6 GUIDE JAPAN`;
   } catch {

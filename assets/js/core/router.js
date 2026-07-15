@@ -28,7 +28,6 @@ function render(){
   else if(route==="privacy")html=renderPrivacy();
   else if(route==="terms")html=renderTerms();
   else if(route==="disclaimer")html=renderDisclaimer();
-  else if(route==="contact")html=renderContact();
   else if(route==="glossary")html=renderGlossary();
   else if(route==="sitemap")html=renderSitemap();
   else html=renderHome();

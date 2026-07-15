@@ -3,7 +3,7 @@ const articles = {
   release:{
     tag:"公式情報",state:"公式発表",updated:"2026年7月14日",confirmed:"Rockstar Games公式サイト",spoiler:"なし",
     title:"GTA6の発売日・対応機種・予約状況｜必要容量と快適な空き容量",
-    summary:"2026年7月14日時点で、発売予定日は2026年11月19日、対応機種はPlayStation 5とXbox Series X|Sです。正式な必要容量は未発表です",
+    summary:"発売予定日は2026年11月19日、対応機種はPlayStation 5とXbox Series X|Sです。正式な必要容量は未発表です",
     sections:[
       ["現在確認できる公式情報","<strong>発売予定日は2026年11月19日</strong>です。発売前は日付だけを転載せず、確認日と公式参照先を同じ場所に表示します。"],
       ["対応機種","公式サイトに掲載されている対応機種は<strong>PlayStation 5とXbox Series X|S</strong>です。PC版については、公式の対応機種欄に追加されるまで未確認として扱います。"],
@@ -28,16 +28,6 @@ const articles = {
     sections:[
       ["発売前に断定しない","トレーラーの場面だけからミッション名や開始条件を推測して攻略情報として掲載しません。"],
       ["発売後の確認項目","開始人物、場所、時間帯、直前の進行、報酬、取り逃し、再挑戦条件を同じ形式で検証します。"]
-    ]
-  },
-  generic:{
-    tag:"情報整理",state:"構造サンプル",updated:"公開準備",confirmed:"未接続",spoiler:"なし",
-    title:"情報ページのサンプル",
-    summary:"発売前は公式発表を整理し、発売後に実測・攻略情報へ拡張する記事テンプレートです",
-    sections:[
-      ["情報区分を先に置く","記事を開いた直後に、公式発表、映像確認、未確認のどこに当たる情報かを表示します。"],
-      ["未発表項目は空欄にする","情報がない項目を推測で埋めず、発表待ちまたは発売後確認として残します。"],
-      ["関連情報へつなぐ","人物、地域、公式発表、発売後の攻略を相互に移動できる構造にします。"]
     ]
   }
 };
@@ -124,5 +114,5 @@ const staticSearchItems = [
 ];
 
 const routeTitles = {
-  home:"ホーム",latest:"最新情報",confirmed:"公式発表",categories:"情報カテゴリ",category:"情報カテゴリ",map:"舞台・地域",region:"地域詳細",vehicles:"登場車両情報",vehicle:"車両詳細",beginner:"発売前ガイド",search:"サイト内検索",article:"情報記事",about:"運営・掲載方針",guide:"サイトの使い方",sources:"出典・引用方針",corrections:"訂正・更新方針",privacy:"プライバシーポリシー",terms:"利用規約",disclaimer:"免責事項",contact:"お問い合わせ",sitemap:"サイトマップ",glossary:"用語集"
+  home:"ホーム",latest:"最新情報",confirmed:"公式発表",categories:"情報カテゴリ",category:"情報カテゴリ",map:"舞台・地域",region:"地域詳細",vehicles:"登場車両情報",vehicle:"車両詳細",beginner:"発売前ガイド",search:"サイト内検索",article:"情報記事",about:"運営・掲載方針",guide:"サイトの使い方",sources:"出典・引用方針",corrections:"訂正・更新方針",privacy:"プライバシーポリシー",terms:"利用規約",disclaimer:"免責事項",sitemap:"サイトマップ",glossary:"用語集"
 };
