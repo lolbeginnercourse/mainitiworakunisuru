@@ -175,6 +175,9 @@
 .news-visual.alt{background:linear-gradient(145deg,#2d5b8b,#63c2c4)}
 .news-visual.gold{background:linear-gradient(145deg,#8b542d,#e4b65e)}
 .news-visual.gray{background:linear-gradient(145deg,#444b5b,#9ca3af)}
+.news-visual.has-image{background:#eef0f4}
+.news-visual.has-image img{width:100%;height:100%;min-height:inherit;display:block;object-fit:cover}
+.news-visual.has-image::after{display:none}
 .news-visual::after{
   content:"";
   position:absolute;

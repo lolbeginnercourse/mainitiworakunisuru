@@ -36,12 +36,22 @@ function cmsPlainText(value) {
   return (element.textContent || "").replace(/\s+/g, " ").trim();
 }
 
+function cmsThumbnail(item) {
+  const media = item?.thumbnail || item?.eyecatch || item?.image;
+  if (typeof media === "string") return media;
+  return media?.url || "";
+}
+
 function cmsCard(item, index) {
   const title = escapeHTML(item.name || "無題の記事");
   const source = item.honbunn || item.ritti || "";
   const description = escapeHTML(cmsPlainText(source).slice(0, 90));
   const visual = ["", "alt", "gold", "gray"][index % 4];
-  return `<a class="news-card filterable-news" data-type="latest" href="#cms/${encodeURIComponent(item.id)}" data-route="cms/${encodeURIComponent(item.id)}"><span class="news-visual ${visual}"></span><span><span class="news-meta"><span class="badge">記事</span></span><h3>${title}</h3>${description ? `<p>${description}</p>` : ""}</span></a>`;
+  const thumbnail = cmsThumbnail(item);
+  const thumbnailMarkup = thumbnail
+    ? `<span class="news-visual has-image"><img src="${escapeHTML(thumbnail)}" alt="" loading="lazy" decoding="async"></span>`
+    : `<span class="news-visual ${visual}"></span>`;
+  return `<a class="news-card filterable-news" data-type="latest" href="#cms/${encodeURIComponent(item.id)}" data-route="cms/${encodeURIComponent(item.id)}">${thumbnailMarkup}<span><span class="news-meta"><span class="badge">記事</span></span><h3>${title}</h3>${description ? `<p>${description}</p>` : ""}</span></a>`;
 }
 
 async function hydrateCmsListings() {
