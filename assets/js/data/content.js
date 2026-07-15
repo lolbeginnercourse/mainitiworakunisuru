@@ -92,15 +92,6 @@ const officialPeople = [
 
 const vehicleData = [];
 
-const glossaryData = [
-  {term:"公式発表",desc:"Rockstar Gamesなど権利元が文章や公式ページで明記した内容。発表日、確認日、参照先を併記します。"},
-  {term:"公式映像で確認",desc:"公式トレーラーや映像内で存在を確認できる内容。名称、性能、条件まで判明したことにはしません。"},
-  {term:"発売後検証",desc:"ミッション条件、性能、価格、入手場所など、実プレイで再現性を確認してから掲載する項目です。"},
-  {term:"未確認",desc:"公式根拠が不足している情報。公式発表の一覧や検索結果とは別に扱います。"},
-  {term:"確認日",desc:"サイト側が公式ページや出典を最後に確認した日。発表日や発売日とは別の日付です。"},
-  {term:"ネタバレ段階",desc:"概要、軽微、重大のように、発売後の記事を開く前に内容の深さを判断する表示です。"}
-];
-
 const staticSearchItems = [
   {title:"公式発表から分かること",type:"article",typeLabel:"公式情報",desc:"発売日、対応機種、人物、地域について公式サイトの公開内容を確認",route:"confirmed",keys:"公式 公式発表 発売日 対応機種 人物 地域"},
   {title:"発売日・対応機種の確認ページ",type:"article",typeLabel:"記事",desc:"公式発表と確認日を分けて整理",route:"article/release",keys:"発売日 対応機種 公式"},
@@ -108,11 +99,10 @@ const staticSearchItems = [
   {title:"発売前ガイド",type:"guide",typeLabel:"ガイド",desc:"発売日、対応機種、公式情報の確認順を表示",route:"beginner",keys:"発売前 予約 対応機種 公式情報"},
   {title:"舞台・地域",type:"database",typeLabel:"公式情報",desc:"People & Placesで公開された地域名を確認",route:"map",keys:"マップ 地域 舞台 Vice City Leonida"},
   {title:"登場車両情報",type:"database",typeLabel:"発売前情報",desc:"公式名称と映像内で確認できる範囲を整理",route:"vehicles",keys:"車 車両 登場 映像 公式"},
-  {title:"用語集",type:"guide",typeLabel:"ガイド",desc:"サイト内の表示や分類の意味を確認",route:"glossary",keys:"用語 意味 公式情報 未確認"},
   {title:"サイトの使い方",type:"guide",typeLabel:"ガイド",desc:"公式発表、映像確認、発売後検証の使い分け",route:"guide",keys:"使い方 探し方 検索 確認状態"},
   {title:"運営・掲載方針",type:"policy",typeLabel:"サイト情報",desc:"情報区分、出典、更新の考え方",route:"about",keys:"運営 掲載 方針"}
 ];
 
 const routeTitles = {
-  home:"ホーム",latest:"最新情報",confirmed:"公式発表",categories:"情報カテゴリ",category:"情報カテゴリ",map:"舞台・地域",region:"地域詳細",vehicles:"登場車両情報",vehicle:"車両詳細",beginner:"発売前ガイド",search:"サイト内検索",article:"情報記事",about:"運営・掲載方針",guide:"サイトの使い方",sources:"出典・引用方針",corrections:"訂正・更新方針",privacy:"プライバシーポリシー",terms:"利用規約",disclaimer:"免責事項",sitemap:"サイトマップ",glossary:"用語集"
+  home:"ホーム",latest:"最新情報",confirmed:"公式発表",categories:"情報カテゴリ",category:"情報カテゴリ",map:"舞台・地域",region:"地域詳細",vehicles:"登場車両情報",vehicle:"車両詳細",beginner:"発売前ガイド",search:"サイト内検索",article:"情報記事",about:"運営・掲載方針",guide:"サイトの使い方",sources:"出典・引用方針",corrections:"訂正・更新方針",privacy:"プライバシーポリシー",terms:"利用規約",disclaimer:"免責事項",sitemap:"サイトマップ"
 };

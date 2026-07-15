@@ -45,7 +45,7 @@ function renderBeginner(){
     ["source","情報の出典を確認","公式発表、映像確認、未確認の表示を確認"],
     ["spoiler","発売後のネタバレ表示を選ぶ","物語情報をどこまで表示するか事前に選ぶ"]
   ];
-  return `${pageHero("発売前ガイド","購入前に確認する順番と、未確認情報を避ける見方を整理します","発売前ガイド")}<div class="container"><section class="page-section page-stack"><div class="check-summary"><strong>購入前の確認チェック</strong><span id="check-progress">0 / ${checks.length} 完了</span></div><div class="checklist" id="beginner-checklist">${checks.map(c=>`<label class="check-item"><input type="checkbox" data-check-id="${c[0]}"><span><strong>${c[1]}</strong><p>${c[2]}</p></span></label>`).join("")}</div><div class="section-card"><h2>迷った時の確認順</h2><div class="steps" style="margin-top:10px">${stepCard("confirmed","01","公式発表を見る","発売日、対応機種、人物、地域を確認")}${stepCard("latest","02","最新の変更を見る","発表日とサイトの確認日を確認")}${stepCard("category/characters","03","人物情報を見る","公式プロフィールがある人物だけを確認")}${stepCard("map","04","舞台・地域を見る","公式に発表された地域名を確認")}</div></div><div class="section-card"><h2>よく使う検索</h2><div class="search-assist" style="margin-top:10px">${["発売日","対応機種","予約","Jason","Lucia","Vice City"].map(q=>routeLink(`search/${encodeURIComponent(q)}`,q,"search-suggestion")).join("")}</div></div><div class="data-list">${dataCard("glossary","情報ラベルの意味を見る","公式発表、映像確認、未確認を区別")}</div></section></div>`;
+  return `${pageHero("発売前ガイド","購入前に確認する順番と、未確認情報を避ける見方を整理します","発売前ガイド")}<div class="container"><section class="page-section page-stack"><div class="check-summary"><strong>購入前の確認チェック</strong><span id="check-progress">0 / ${checks.length} 完了</span></div><div class="checklist" id="beginner-checklist">${checks.map(c=>`<label class="check-item"><input type="checkbox" data-check-id="${c[0]}"><span><strong>${c[1]}</strong><p>${c[2]}</p></span></label>`).join("")}</div><div class="section-card"><h2>迷った時の確認順</h2><div class="steps" style="margin-top:10px">${stepCard("confirmed","01","公式発表を見る","発売日、対応機種、人物、地域を確認")}${stepCard("latest","02","最新の変更を見る","発表日とサイトの確認日を確認")}${stepCard("category/characters","03","人物情報を見る","公式プロフィールがある人物だけを確認")}${stepCard("map","04","舞台・地域を見る","公式に発表された地域名を確認")}</div></div><div class="section-card"><h2>よく使う検索</h2><div class="search-assist" style="margin-top:10px">${["発売日","対応機種","予約","Jason","Lucia","Vice City"].map(q=>routeLink(`search/${encodeURIComponent(q)}`,q,"search-suggestion")).join("")}</div></div></section></div>`;
 }
 
 function buildSearchItems(){
@@ -95,14 +95,10 @@ function renderTerms(){
 }
 
 function renderLegalPage(title,desc,content){return `${pageHero(title,desc,title)}<div class="container"><section class="page-section page-stack"><a class="nav-back" href="#about" data-route="about">‹ 運営・掲載方針へ戻る</a><div class="section-card legal-copy">${content}</div><div class="data-list">${dataCard("about","運営方針一覧へ戻る","他の方針ページを確認")}</div></section></div>`}
-function renderGlossary(){
-  return `${pageHero("用語集","サイト内の情報区分、表示ラベル、データ項目の意味を短く確認できます","用語集")}<div class="container"><section class="page-section page-stack"><div class="search-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="glossary-search" type="search" placeholder="用語を検索"></div><p class="search-filter-summary" id="glossary-status"></p><div class="glossary-list" id="glossary-list">${glossaryData.map(g=>`<article class="glossary-item" data-search="${escapeAttr(g.term+" "+g.desc)}"><strong>${g.term}</strong><p>${g.desc}</p></article>`).join("")}</div><div class="data-list">${dataCard("guide","サイトの使い方を見る","情報区分を使った探し方を確認")}${dataCard("search","サイト内検索へ進む","用語を含むページを横断検索")}</div></section></div>`;
-}
-
 function renderSitemap(){
   const groups=[
     ["主要ページ",[["home","ホーム"],["latest","最新情報"],["confirmed","公式発表"],["categories","情報カテゴリ"],["map","舞台・地域"],["vehicles","登場車両情報"],["beginner","発売前ガイド"],["search","サイト内検索"]]],
-    ["補助ページ",[["guide","サイトの使い方"],["glossary","用語集"]]],
+    ["補助ページ",[["guide","サイトの使い方"]]],
     ["運営情報",[["about","運営・掲載方針"],["sources","出典・引用方針"],["corrections","訂正・更新方針"],["disclaimer","免責事項"],["privacy","プライバシーポリシー"],["terms","利用規約"]]]
   ];
   return `${pageHero("サイトマップ","主要機能、補助ページ、運営情報へ一覧から移動できます","サイトマップ")}<div class="container"><section class="page-section page-stack">${groups.map(g=>`<div class="sitemap-group"><h2>${g[0]}</h2><div class="sitemap-links">${g[1].map(([r,l])=>`<a ${anchorAttrs(r)}><span>${l}</span><span class="chevron">›</span></a>`).join("")}</div></div>`).join("")}<div class="sitemap-group"><h2>カテゴリ</h2><div class="sitemap-links">${Object.entries(categoryData).map(([r,d])=>`<a href="#category/${r}" data-route="category/${r}"><span>${d.title}</span><span class="chevron">›</span></a>`).join("")}</div></div></section></div>`;
