@@ -21,17 +21,19 @@ function bindReleaseCountdown(){
   const releaseAt=new Date("2026-11-19T00:00:00+09:00");
   const update=()=>{
     const remaining=Math.max(0,releaseAt.getTime()-Date.now());
-    const totalMinutes=Math.floor(remaining/60000);
-    const days=Math.floor(totalMinutes/1440);
-    const hours=Math.floor((totalMinutes%1440)/60);
-    const minutes=totalMinutes%60;
+    const totalSeconds=Math.floor(remaining/1000);
+    const days=Math.floor(totalSeconds/86400);
+    const hours=Math.floor((totalSeconds%86400)/3600);
+    const minutes=Math.floor((totalSeconds%3600)/60);
+    const seconds=totalSeconds%60;
     countdown.querySelector("[data-countdown-days]").textContent=String(days);
     countdown.querySelector("[data-countdown-hours]").textContent=String(hours).padStart(2,"0");
     countdown.querySelector("[data-countdown-minutes]").textContent=String(minutes).padStart(2,"0");
+    countdown.querySelector("[data-countdown-seconds]").textContent=String(seconds).padStart(2,"0");
     if(remaining===0){countdown.innerHTML="<strong class=\"countdown-released\">GTA6が発売されました</strong>";note.textContent="発売情報を順次更新しています";clearInterval(releaseCountdownTimer)}
   };
   update();
-  releaseCountdownTimer=setInterval(update,30000);
+  releaseCountdownTimer=setInterval(update,1000);
 }
 
 function bindFilter(groupSelector,itemSelector){const group=document.querySelector(groupSelector);if(!group)return;group.addEventListener("click",e=>{const btn=e.target.closest("[data-filter]");if(!btn)return;group.querySelectorAll("[data-filter]").forEach(b=>b.classList.remove("is-active"));btn.classList.add("is-active");const value=btn.dataset.filter;document.querySelectorAll(itemSelector).forEach(item=>{item.hidden=value!=="all"&&item.dataset.type!==value})})}
