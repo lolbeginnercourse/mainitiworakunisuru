@@ -54,9 +54,14 @@ async function hydrateCmsListings() {
       const category = list.dataset.cmsCategory;
       const rows = contents.filter(item => cmsCategories(item).includes(category));
       if (rows.length) list.innerHTML = rows.map(cmsCard).join("");
+      else if (list.dataset.cmsReplace === "true") list.innerHTML = `<div class="empty-state"><strong>現在公開中の記事はありません</strong></div>`;
     });
   } catch {
-    // CMS障害時は既存の固定記事を残し、ページ全体を壊さない
+    lists.forEach(list => {
+      if (list.isConnected && list.dataset.cmsReplace === "true") {
+        list.innerHTML = `<div class="empty-state"><strong>記事を読み込めませんでした</strong><p>時間をおいて、もう一度開いてください。</p></div>`;
+      }
+    });
   }
 }
 
@@ -78,6 +83,12 @@ async function hydrateCmsArticle(id) {
     if (!target.isConnected) return;
     const title = escapeHTML(item.name || "無題の記事");
     const body = item.ritti || (item.honbunn ? `<p>${escapeHTML(item.honbunn)}</p>` : "<p>本文を表示できません。</p>");
+    const backLink = document.querySelector("#cms-article .nav-back") || document.querySelector(".article-main > .nav-back");
+    if (backLink && cmsCategories(item).includes("リーク")) {
+      backLink.href = "#category/leaks";
+      backLink.dataset.route = "category/leaks";
+      backLink.textContent = "‹ リーク・未確認情報へ戻る";
+    }
     target.innerHTML = `<div class="article-kicker"><span class="badge">${escapeHTML(cmsCategories(item)[0] || "記事")}</span></div><h1>${title}</h1><div class="article-body cms-article-body">${body}</div>`;
     document.title = `${item.name || "記事"}｜GTA6 GUIDE JAPAN`;
   } catch {
