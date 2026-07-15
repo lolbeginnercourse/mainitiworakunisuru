@@ -1,5 +1,6 @@
 // microCMSの記事一覧と詳細を、APIキーを公開せずVercel Function経由で取得する
 let cmsContentsPromise;
+const withdrawnCmsContentIds = new Set(["mj_c93czbup"]);
 
 function getCmsContents() {
   if (!cmsContentsPromise) {
@@ -8,7 +9,9 @@ function getCmsContents() {
         if (!response.ok) throw new Error("CMS request failed");
         return response.json();
       })
-      .then(data => Array.isArray(data.contents) ? data.contents : []);
+      .then(data => Array.isArray(data.contents)
+        ? data.contents.filter(item => !withdrawnCmsContentIds.has(item.id))
+        : []);
   }
   return cmsContentsPromise;
 }
@@ -65,6 +68,10 @@ function renderCmsArticle(id) {
 async function hydrateCmsArticle(id) {
   const target = document.querySelector("#cms-article");
   if (!target) return;
+  if (withdrawnCmsContentIds.has(id)) {
+    target.innerHTML = `<div class="empty-state"><strong>この記事は公開を終了しました</strong><p>最新情報の一覧から、ほかの記事をご確認ください。</p></div>`;
+    return;
+  }
   try {
     const response = await fetch(`/api/microcms?id=${encodeURIComponent(id)}`);
     if (!response.ok) throw new Error("CMS request failed");

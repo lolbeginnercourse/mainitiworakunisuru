@@ -1,4 +1,5 @@
 const clean = value => String(value || "").trim();
+const withdrawnContentIds = new Set(["mj_c93czbup"]);
 
 export default async function handler(request, response) {
   if (request.method !== "GET") {
@@ -15,6 +16,9 @@ export default async function handler(request, response) {
   }
 
   const contentId = clean(request.query.id);
+  if (contentId && withdrawnContentIds.has(contentId)) {
+    return response.status(404).json({ error: "Content not found" });
+  }
   const path = contentId
     ? `${encodeURIComponent(endpoint)}/${encodeURIComponent(contentId)}`
     : `${encodeURIComponent(endpoint)}?limit=50&orders=-publishedAt`;
@@ -29,7 +33,11 @@ export default async function handler(request, response) {
     }
 
     const data = await cmsResponse.json();
-    response.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+    if (Array.isArray(data.contents)) {
+      data.contents = data.contents.filter(item => !withdrawnContentIds.has(item.id));
+      data.totalCount = data.contents.length;
+    }
+    response.setHeader("Cache-Control", "no-store, max-age=0");
     return response.status(200).json(data);
   } catch {
     return response.status(502).json({ error: "CMS is temporarily unavailable" });
