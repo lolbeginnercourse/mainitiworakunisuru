@@ -40,9 +40,8 @@ function cmsCard(item, index) {
   const title = escapeHTML(item.name || "無題の記事");
   const source = item.honbunn || item.ritti || "";
   const description = escapeHTML(cmsPlainText(source).slice(0, 90));
-  const date = cmsDate(item.publishedAt || item.updatedAt);
   const visual = ["", "alt", "gold", "gray"][index % 4];
-  return `<a class="news-card filterable-news" data-type="latest" href="#cms/${encodeURIComponent(item.id)}" data-route="cms/${encodeURIComponent(item.id)}"><span class="news-visual ${visual}"></span><span><span class="news-meta"><span class="badge">記事</span><span class="news-date">${date}</span></span><h3>${title}</h3>${description ? `<p>${description}</p>` : ""}</span></a>`;
+  return `<a class="news-card filterable-news" data-type="latest" href="#cms/${encodeURIComponent(item.id)}" data-route="cms/${encodeURIComponent(item.id)}"><span class="news-visual ${visual}"></span><span><span class="news-meta"><span class="badge">記事</span></span><h3>${title}</h3>${description ? `<p>${description}</p>` : ""}</span></a>`;
 }
 
 async function hydrateCmsListings() {
@@ -78,9 +77,8 @@ async function hydrateCmsArticle(id) {
     const item = await response.json();
     if (!target.isConnected) return;
     const title = escapeHTML(item.name || "無題の記事");
-    const date = cmsDate(item.publishedAt || item.updatedAt);
     const body = item.ritti || (item.honbunn ? `<p>${escapeHTML(item.honbunn)}</p>` : "<p>本文は準備中です。</p>");
-    target.innerHTML = `<div class="article-kicker"><span class="badge">${escapeHTML(cmsCategories(item)[0] || "記事")}</span></div><h1>${title}</h1><div class="article-meta"><span>公開日：${date}</span></div><div class="article-body cms-article-body">${body}</div>`;
+    target.innerHTML = `<div class="article-kicker"><span class="badge">${escapeHTML(cmsCategories(item)[0] || "記事")}</span></div><h1>${title}</h1><div class="article-body cms-article-body">${body}</div>`;
     document.title = `${item.name || "記事"}｜GTA6 GUIDE JAPAN`;
   } catch {
     if (target.isConnected) target.innerHTML = `<div class="empty-state"><strong>記事を読み込めませんでした</strong><p>時間をおいて、もう一度開いてください。</p></div>`;
