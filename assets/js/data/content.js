@@ -111,13 +111,6 @@ const glossaryData = [
   {term:"ネタバレ段階",desc:"概要、軽微、重大のように、発売後の記事を開く前に内容の深さを判断する表示です。"}
 ];
 
-const updateEntries = [
-  {date:"2026.07.14",title:"発売前モードへ情報構造を変更",desc:"発売日、対応機種、予約状況、公式人物、公式地域を最優先にしました。"},
-  {date:"2026.07.14",title:"架空の車両性能データを非表示",desc:"正式名称や性能が確認できないサンプル車両を公開画面から外しました。"},
-  {date:"2026.07.14",title:"公式発表ページを追加",desc:"公式に公開されている情報と、まだ詳細が公開されていない項目を一画面で確認できるようにしました。"},
-  {date:"発売後予定",title:"攻略・実測データへ段階移行",desc:"ミッション、車両、武器、マップを実プレイで確認した順に追加します。"}
-];
-
 const staticSearchItems = [
   {title:"公式発表から分かること",type:"article",typeLabel:"公式情報",desc:"発売日、対応機種、人物、地域について公式サイトの公開内容を確認",route:"confirmed",keys:"公式 公式発表 発売日 対応機種 人物 地域"},
   {title:"発売日・対応機種の確認ページ",type:"article",typeLabel:"記事",desc:"公式発表と確認日を分けて整理",route:"article/release",keys:"発売日 対応機種 公式"},
@@ -127,10 +120,9 @@ const staticSearchItems = [
   {title:"登場車両情報",type:"database",typeLabel:"発売前情報",desc:"公式名称と映像内で確認できる範囲を整理",route:"vehicles",keys:"車 車両 登場 映像 公式"},
   {title:"用語集",type:"guide",typeLabel:"ガイド",desc:"サイト内の表示や分類の意味を確認",route:"glossary",keys:"用語 意味 公式情報 未確認"},
   {title:"サイトの使い方",type:"guide",typeLabel:"ガイド",desc:"公式発表、映像確認、発売後検証の使い分け",route:"guide",keys:"使い方 探し方 検索 確認状態"},
-  {title:"更新履歴",type:"policy",typeLabel:"サイト情報",desc:"画面と機能の追加内容を確認",route:"changelog",keys:"更新 履歴 変更"},
   {title:"運営・掲載方針",type:"policy",typeLabel:"サイト情報",desc:"情報区分、出典、更新の考え方",route:"about",keys:"運営 掲載 方針"}
 ];
 
 const routeTitles = {
-  home:"ホーム",latest:"最新情報",confirmed:"公式発表",categories:"情報カテゴリ",category:"情報カテゴリ",map:"舞台・地域",region:"地域詳細",vehicles:"登場車両情報",vehicle:"車両詳細",beginner:"発売前ガイド",search:"サイト内検索",article:"情報記事",about:"運営・掲載方針",guide:"サイトの使い方",sources:"出典・引用方針",corrections:"訂正・更新方針",privacy:"プライバシーポリシー",terms:"利用規約",disclaimer:"免責事項",contact:"お問い合わせ",changelog:"更新履歴",sitemap:"サイトマップ",glossary:"用語集"
+  home:"ホーム",latest:"最新情報",confirmed:"公式発表",categories:"情報カテゴリ",category:"情報カテゴリ",map:"舞台・地域",region:"地域詳細",vehicles:"登場車両情報",vehicle:"車両詳細",beginner:"発売前ガイド",search:"サイト内検索",article:"情報記事",about:"運営・掲載方針",guide:"サイトの使い方",sources:"出典・引用方針",corrections:"訂正・更新方針",privacy:"プライバシーポリシー",terms:"利用規約",disclaimer:"免責事項",contact:"お問い合わせ",sitemap:"サイトマップ",glossary:"用語集"
 };
