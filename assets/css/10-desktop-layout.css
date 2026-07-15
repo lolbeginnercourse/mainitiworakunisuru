@@ -93,7 +93,7 @@
   .category-page-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
   .vehicle-tools{grid-template-columns:minmax(0,1fr) 220px}
   .footer-grid{grid-template-columns:minmax(260px,1.1fr) minmax(0,3fr);gap:40px;align-items:start}
-  .footer-links{grid-template-columns:repeat(4,minmax(130px,1fr));gap:28px}
+  .footer-links{grid-template-columns:repeat(3,minmax(130px,1fr));gap:28px}
   .footer-section{display:grid;align-content:start;gap:9px}
   .footer-section strong{font-size:14px}
   .footer-links a{font-size:13px;line-height:1.5}
