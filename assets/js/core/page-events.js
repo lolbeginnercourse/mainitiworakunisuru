@@ -1,7 +1,11 @@
 // 検索、絞り込み、フォーム等のイベント
+let releaseCountdownTimer;
 function bindPageEvents(route){
+  clearInterval(releaseCountdownTimer);
+  releaseCountdownTimer=undefined;
   const homeForm=document.querySelector("#home-search-form");
   if(homeForm)homeForm.addEventListener("submit",e=>{e.preventDefault();const q=document.querySelector("#home-search-input").value.trim();location.hash="#search/"+encodeURIComponent(q)});
+  if(route==="home")bindReleaseCountdown();
   if(route==="latest")bindFilter("#latest-filters",".filterable-news");
   if(route==="map")bindMap();
   if(route==="vehicles")bindVehicles();
@@ -9,6 +13,25 @@ function bindPageEvents(route){
   if(route==="search")bindSearch();
   if(route==="glossary")bindGlossary();
   if(route==="article")document.querySelectorAll("[data-scroll-target]").forEach(button=>button.addEventListener("click",()=>{const target=document.getElementById(button.dataset.scrollTarget);if(!target)return;const top=target.getBoundingClientRect().top+window.scrollY-72;window.scrollTo({top,behavior:"smooth"});target.setAttribute("tabindex","-1");target.focus({preventScroll:true})}));
+}
+
+function bindReleaseCountdown(){
+  const countdown=document.querySelector("#release-countdown"),note=document.querySelector("#countdown-note");
+  if(!countdown)return;
+  const releaseAt=new Date("2026-11-19T00:00:00+09:00");
+  const update=()=>{
+    const remaining=Math.max(0,releaseAt.getTime()-Date.now());
+    const totalMinutes=Math.floor(remaining/60000);
+    const days=Math.floor(totalMinutes/1440);
+    const hours=Math.floor((totalMinutes%1440)/60);
+    const minutes=totalMinutes%60;
+    countdown.querySelector("[data-countdown-days]").textContent=String(days);
+    countdown.querySelector("[data-countdown-hours]").textContent=String(hours).padStart(2,"0");
+    countdown.querySelector("[data-countdown-minutes]").textContent=String(minutes).padStart(2,"0");
+    if(remaining===0){countdown.innerHTML="<strong class=\"countdown-released\">GTA6が発売されました</strong>";note.textContent="発売情報を順次更新しています";clearInterval(releaseCountdownTimer)}
+  };
+  update();
+  releaseCountdownTimer=setInterval(update,30000);
 }
 
 function bindFilter(groupSelector,itemSelector){const group=document.querySelector(groupSelector);if(!group)return;group.addEventListener("click",e=>{const btn=e.target.closest("[data-filter]");if(!btn)return;group.querySelectorAll("[data-filter]").forEach(b=>b.classList.remove("is-active"));btn.classList.add("is-active");const value=btn.dataset.filter;document.querySelectorAll(itemSelector).forEach(item=>{item.hidden=value!=="all"&&item.dataset.type!==value})})}

@@ -52,6 +52,14 @@
 }
 .hero-inner{display:grid;gap:16px}
 .hero-copy{max-width:690px}
+.countdown-hero{display:flex;flex-direction:column;align-items:flex-start}
+.countdown-label{margin:17px 0 8px!important;color:#fff!important;font-size:15px!important;font-weight:800;letter-spacing:.04em}
+.release-countdown{display:flex;align-items:baseline;gap:10px;color:#fff;font-variant-numeric:tabular-nums}
+.release-countdown>span{display:flex;align-items:baseline;gap:4px}
+.release-countdown strong{font-size:clamp(42px,7vw,70px);line-height:1;font-weight:900;letter-spacing:-.04em}
+.release-countdown small{font-size:14px;font-weight:800}
+.countdown-note{margin-top:13px!important;font-size:12px!important}
+.countdown-released{font-size:clamp(30px,5vw,52px)!important;line-height:1.2!important}
 .eyebrow{
   display:inline-flex;
   min-height:27px;
