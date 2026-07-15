@@ -1,0 +1,36 @@
+/* 本番モバイルレイアウト。PC上の端末プレビュー固定は含めない。 */
+@media (max-width:767px){
+  .container{width:calc(100% - 24px)}
+  .desktop-nav{display:none}
+  .header-inner{min-height:62px}
+  .site-header{--header-h:62px}
+  .brand-mark{width:36px;height:36px}
+  .brand-copy strong{font-size:15px}
+  .brand-copy small{font-size:9px}
+  .header-actions .icon-button{width:42px;height:42px}
+  .hero{padding:20px 0 16px}
+  .hero-inner,.home-two-column,.article-layout,.category-page-grid,.vehicle-tools{grid-template-columns:1fr}
+  .hero-inner{gap:15px}
+  .hero h1{font-size:30px;line-height:1.14}
+  .hero p{font-size:12px;line-height:1.7}
+  .hero-search{padding:10px}
+  .search-form{grid-template-columns:minmax(0,1fr) 68px}
+  .search-form input{min-height:50px;font-size:16px}
+  .search-form button{min-width:68px;min-height:50px;padding:0 10px}
+  .page-section{padding:16px 0}
+  .news-card{grid-template-columns:86px minmax(0,1fr);gap:11px;padding:10px}
+  .news-card p{display:none}
+  .category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .region-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .article-main{padding:16px}
+  .article-side{position:static}
+  .vehicle-card{grid-template-columns:64px minmax(0,1fr) auto;gap:10px}
+  .vehicle-thumb{width:64px}
+  .site-footer{padding-bottom:calc(var(--bottom-nav-h) + 22px)}
+  .bottom-nav{display:grid}
+  .drawer{width:min(88vw,360px)}
+}
+@media (max-width:359px){
+  .category-grid,.region-grid{grid-template-columns:1fr}
+  .brand-copy small{display:none}
+}

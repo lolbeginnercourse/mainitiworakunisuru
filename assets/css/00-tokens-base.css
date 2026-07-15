@@ -101,3 +101,10 @@ main{padding-bottom:calc(var(--bottom-nav-h) + 26px)}
   white-space:nowrap!important;
   border:0!important;
 }
+/* 共通アクセシビリティ */
+[hidden]{display:none!important}
+.route-view:focus{outline:none}
+:where(a,button,input,select):focus-visible{
+  outline:3px solid rgba(111,69,216,.32);
+  outline-offset:2px;
+}
