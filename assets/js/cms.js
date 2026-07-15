@@ -37,7 +37,7 @@ function cmsPlainText(value) {
 }
 
 function cmsThumbnail(item) {
-  const media = item?.thumbnail || item?.eyecatch || item?.image;
+  const media = item?.GAZOU || item?.thumbnail || item?.eyecatch || item?.image;
   if (typeof media === "string") return media;
   return media?.url || "";
 }
