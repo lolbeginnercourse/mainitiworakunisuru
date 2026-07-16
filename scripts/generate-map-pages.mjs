@@ -37,7 +37,7 @@ function head({ title, description, canonical, type = "website", schemas = [] })
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
 <title>${esc(title)}</title>
-${["00-tokens-base", "01-header-drawer", "02-controls-cards", "03-shell-home-article", "04-responsive-core", "05-mobile-preview", "06-mobile-refinements", "07-page-components", "08-release-mode", "09-map-static"].map(name => `<link rel="stylesheet" href="/assets/css/${name}.css">`).join("\n")}
+${["00-tokens-base", "01-header-drawer", "02-controls-cards", "03-shell-home-article", "07-page-components", "08-release-mode", "04-responsive-core", "05-mobile-layout", "06-mobile-refinements", "10-desktop-layout", "09-map-static"].map(name => `<link rel="stylesheet" href="/assets/css/${name}.css">`).join("\n")}
 ${schemas.map(schema => `<script type="application/ld+json">${json(schema)}</script>`).join("\n")}
 </head>`;
 }

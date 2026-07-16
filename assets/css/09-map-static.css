@@ -114,6 +114,13 @@
 .not-found-page a{padding:12px 15px;border-radius:9px;background:var(--brand);color:#fff;font-weight:800;text-decoration:none}
 
 @media (min-width:840px){.region-overview{grid-template-columns:1.35fr 1fr;align-items:center}.static-page main{padding-bottom:26px}}
+@media (min-width:1024px){
+  .static-page-wrap{padding-block:28px 56px}
+  .static-page-hero{padding:28px 0 26px}
+  .static-region-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .region-card-main{min-height:390px}
+  .region-search-panel{padding:24px}
+}
 @media (max-width:700px){
   .static-page-wrap{padding-top:10px}.static-page-hero{padding:14px 0 18px}.static-page-hero h1,.region-detail-hero h1{font-size:32px}
   .static-page p,.static-page li,.static-page dd{font-size:16px}.region-overview,.region-search-panel,.region-detail-hero,.region-content-section{padding:17px}
