@@ -1,4 +1,4 @@
-// ハッシュルーターと画面切替
+﻿// ハッシュルーターと画面切替
 function getRoute(){return (location.hash.replace(/^#/,"")||"home").split("/")}
 function parentRoute(route){if(route==="category")return "categories";if(route==="region")return "map";if(route==="vehicle")return "vehicles";return route}
 function setActive(route){const active=parentRoute(route);document.querySelectorAll("[data-route]").forEach(a=>a.removeAttribute("aria-current"));document.querySelectorAll(`[data-route="${active}"]`).forEach(a=>a.setAttribute("aria-current","page"))}
@@ -32,7 +32,7 @@ function render(){
   else html=renderHome();
   main.innerHTML=html;main.classList.add("route-view");setActive(route);closeDrawer(false);bindPageEvents(route);
   const visibleTitle=main.querySelector("h1")?.textContent?.trim()||routeTitles[route]||"ホーム";
-  document.title=`${visibleTitle}｜GTA6 GUIDE JAPAN`;
+  document.title=`${visibleTitle}｜GTA6インフォ`;
   routeStatus.textContent=`${visibleTitle}を表示しました`;
   window.scrollTo({top:0,behavior:"auto"});
   if(!firstRender)main.focus({preventScroll:true});

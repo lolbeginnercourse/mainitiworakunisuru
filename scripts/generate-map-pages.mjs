@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "node:fs/promises";
+﻿import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SITE, imageStatusLabels, regions, statusLabels } from "../content/regions.mjs";
@@ -48,9 +48,9 @@ function shellStart(current = "map") {
 <a class="skip-link" href="#main" id="skip-link">本文へ移動</a>
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label="GTA6 GUIDE JAPAN ホーム">
+    <a class="brand" href="/" aria-label="GTA6インフォ ホーム">
       <span class="brand-mark">G</span>
-      <span class="brand-copy"><strong>GTA6 GUIDE</strong><small>日本語・非公式情報サイト</small></span>
+      <span class="brand-copy"><strong>GTA6インフォ</strong><small>日本語・非公式情報サイト</small></span>
     </a>
     <nav class="desktop-nav" aria-label="主要メニュー">
       <a href="/">ホーム</a>
@@ -87,7 +87,7 @@ function shellStart(current = "map") {
 function shellEnd({ mapScript = false } = {}) {
   return `<footer class="site-footer">
   <div class="container footer-grid">
-    <div class="footer-brand"><strong>GTA6 GUIDE JAPAN</strong><p>公式発表と未発表情報を分けて整理する非公式日本語ガイドです。</p><div class="meta-row"><span class="status-pill info">非公式サイト</span><span class="status-pill">公式情報優先</span></div></div>
+    <div class="footer-brand"><strong>GTA6インフォ</strong><p>公式発表と未発表情報を分けて整理する非公式日本語ガイドです。</p><div class="meta-row"><span class="status-pill info">非公式サイト</span><span class="status-pill">公式情報優先</span></div></div>
     <nav class="footer-links" aria-label="フッターメニュー">
       <div class="footer-section"><strong>探す</strong><a href="/">ホーム</a><a href="/map/">舞台・地域</a><a href="/#confirmed">公式発表</a><a href="/#search">サイト内検索</a></div>
       <div class="footer-section"><strong>サイト情報</strong><a href="/#guide">サイトの使い方</a><a href="/#sources">出典・引用方針</a><a href="/#corrections">訂正・更新方針</a><a href="/#contact">お問い合わせ</a></div>
@@ -203,7 +203,7 @@ function regionCardCompact(region) {
 }
 
 function detailPage(region) {
-  const title = `${region.nameEn}とは？GTA6公式公開情報を整理｜GTA6 GUIDE JAPAN`;
+  const title = `${region.nameEn}とは？GTA6公式公開情報を整理｜GTA6インフォ`;
   const description = `GTA6の舞台${region.nameEn}について、Rockstar Gamesが公式公開している特徴、画像、関連人物、現時点で未発表の地図情報を整理します。`;
   const canonical = absoluteRegionUrl(region);
   const breadcrumbs = [

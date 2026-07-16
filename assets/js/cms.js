@@ -1,4 +1,4 @@
-// microCMSの記事一覧と詳細を、APIキーを公開せずVercel Function経由で取得する
+﻿// microCMSの記事一覧と詳細を、APIキーを公開せずVercel Function経由で取得する
 let cmsContentsPromise;
 const withdrawnCmsContentIds = new Set(["mj_c93czbup"]);
 
@@ -100,7 +100,7 @@ async function hydrateCmsArticle(id) {
       backLink.textContent = "‹ リーク・未確認情報へ戻る";
     }
     target.innerHTML = `<div class="article-kicker"><span class="badge">${escapeHTML(cmsCategories(item)[0] || "記事")}</span></div><h1>${title}</h1><div class="article-body cms-article-body">${body}</div>`;
-    document.title = `${item.name || "記事"}｜GTA6 GUIDE JAPAN`;
+    document.title = `${item.name || "記事"}｜GTA6インフォ`;
   } catch {
     if (target.isConnected) target.innerHTML = `<div class="empty-state"><strong>記事を読み込めませんでした</strong><p>時間をおいて、もう一度開いてください。</p></div>`;
   }

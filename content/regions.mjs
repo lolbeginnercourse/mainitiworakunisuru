@@ -1,5 +1,5 @@
-export const SITE = {
-  name: "GTA6 GUIDE JAPAN",
+﻿export const SITE = {
+  name: "GTA6インフォ",
   origin: "https://mainitiworakunisuru.com",
   verifiedAt: "2026-07-14",
   verifiedLabel: "2026年7月14日"
