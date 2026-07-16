@@ -1,5 +1,9 @@
 const clean = value => String(value || "").trim();
-const withdrawnContentIds = new Set(["mj_c93czbup"]);
+const withdrawnContentIds = new Set([
+  "mj_c93czbup",
+  "1z_k36dv0i5",
+  "uyibhc7ad"
+]);
 
 export default async function handler(request, response) {
   if (request.method !== "GET") {

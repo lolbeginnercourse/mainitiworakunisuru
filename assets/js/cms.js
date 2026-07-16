@@ -1,6 +1,10 @@
 ﻿// microCMSの記事一覧と詳細を、APIキーを公開せずVercel Function経由で取得する
 let cmsContentsPromise;
-const withdrawnCmsContentIds = new Set(["mj_c93czbup"]);
+const withdrawnCmsContentIds = new Set([
+  "mj_c93czbup",
+  "1z_k36dv0i5",
+  "uyibhc7ad"
+]);
 
 function getCmsContents() {
   if (!cmsContentsPromise) {
