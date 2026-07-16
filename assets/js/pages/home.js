@@ -21,6 +21,5 @@ const renderHomeWithoutSeoIntro=renderHome;
 renderHome=function(){
   return renderHomeWithoutSeoIntro()
     .replace('<p class="countdown-label">GTA6発売まで</p>','<h1>GTA6の公式情報・最新ニュースを整理する日本語ガイド</h1><p class="countdown-label">GTA6発売まで</p>')
-    .replace('<p class="countdown-note" id="countdown-note">日本時間・端末時計を基準に表示しています</p>','<p class="countdown-note" id="countdown-note">日本時間・端末時計を基準に表示しています</p><p class="countdown-intro">GTA6インフォは、発売日、対応機種、登場人物、舞台、車両などを整理する非公式ファンサイトです。一次情報を優先し、公式確認済み、報道、未確認情報、リーク、予測・考察を区別して掲載します。Rockstar Games公式サイトではありません。</p>')
     .replace('href="#confirmed" data-route="confirmed"','href="/official/"');
 };
