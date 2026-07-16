@@ -12,6 +12,9 @@
   background:var(--brand-soft);
   color:var(--brand-strong);
 }
+
+.countdown-hero h1{max-width:720px;margin:12px 0 18px;font-size:clamp(30px,4vw,49px);line-height:1.2;letter-spacing:0}
+.countdown-intro{max-width:740px;margin:14px 0 0;color:rgba(255,255,255,.88);font-size:14px;line-height:1.75}
 .release-mode svg{width:21px;height:21px;flex:none;margin-top:1px}
 .release-mode strong{display:block;font-size:13px}
 .release-mode p{margin:4px 0 0;color:#5c4b91;font-size:11px;line-height:1.55}

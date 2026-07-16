@@ -54,11 +54,11 @@ function shellStart(current = "map") {
     </a>
     <nav class="desktop-nav" aria-label="主要メニュー">
       <a href="/">ホーム</a>
-      <a href="/#latest">最新情報</a>
-      <a href="/#confirmed">公式発表</a>
-      <a href="/#categories">情報カテゴリ</a>
+      <a href="/news/">最新情報</a>
+      <a href="/official/">公式発表</a>
+      <a href="/category/">情報カテゴリ</a>
       <a href="/map/"${current === "map" ? ' aria-current="page"' : ""}>舞台・地域</a>
-      <a href="/#vehicles">登場車両</a>
+      <a href="/vehicles/">登場車両</a>
     </nav>
     <div class="header-actions">
       <a class="icon-button static-search-link" href="/#search" aria-label="サイト内検索"><span aria-hidden="true">⌕</span></a>
@@ -71,12 +71,12 @@ function shellStart(current = "map") {
   <div class="drawer-head"><strong>メニュー</strong><button class="icon-button" type="button" data-close-drawer aria-label="閉じる"><span aria-hidden="true">×</span></button></div>
   <nav class="drawer-nav">
     <a href="/">ホーム<span>›</span></a>
-    <a href="/#latest">最新情報<span>›</span></a>
-    <a href="/#confirmed">公式発表<span>›</span></a>
-    <a href="/#categories">情報カテゴリ<span>›</span></a>
+    <a href="/news/">最新情報<span>›</span></a>
+    <a href="/official/">公式発表<span>›</span></a>
+    <a href="/category/">情報カテゴリ<span>›</span></a>
     <a href="/map/" aria-current="page">舞台・地域<span>›</span></a>
-    <a href="/#vehicles">登場車両情報<span>›</span></a>
-    <a href="/#beginner">発売前ガイド<span>›</span></a>
+    <a href="/vehicles/">登場車両情報<span>›</span></a>
+    <a href="/guide/">発売前ガイド<span>›</span></a>
     <a href="/#search">サイト内検索<span>›</span></a>
   </nav>
   <p class="drawer-note">本サイトはRockstar GamesおよびTake-Two Interactiveとは関係のない非公式ファンサイトです。</p>
@@ -89,14 +89,14 @@ function shellEnd({ mapScript = false } = {}) {
   <div class="container footer-grid">
     <div class="footer-brand"><strong>GTA6インフォ</strong><p>公式発表と未発表情報を分けて整理する非公式日本語ガイドです。</p><div class="meta-row"><span class="status-pill info">非公式サイト</span><span class="status-pill">公式情報優先</span></div></div>
     <nav class="footer-links" aria-label="フッターメニュー">
-      <div class="footer-section"><strong>探す</strong><a href="/">ホーム</a><a href="/map/">舞台・地域</a><a href="/#confirmed">公式発表</a><a href="/#search">サイト内検索</a></div>
-      <div class="footer-section"><strong>サイト情報</strong><a href="/#guide">サイトの使い方</a><a href="/#sources">出典・引用方針</a><a href="/#corrections">訂正・更新方針</a><a href="/#contact">お問い合わせ</a></div>
+      <div class="footer-section"><strong>探す</strong><a href="/">ホーム</a><a href="/news/">最新情報</a><a href="/map/">舞台・地域</a><a href="/official/">公式発表</a></div>
+      <div class="footer-section"><strong>サイト情報</strong><a href="/about/">運営者情報</a><a href="/editorial-policy/">編集・掲載方針</a><a href="/source-policy/">出典・引用方針</a><a href="/corrections/">訂正・更新方針</a></div>
     </nav>
   </div>
 </footer>
 <nav class="bottom-nav" aria-label="下部メニュー">
   <a href="/"><span aria-hidden="true">⌂</span><span>ホーム</span></a>
-  <a href="/#latest"><span aria-hidden="true">◫</span><span>最新</span></a>
+  <a href="/news/"><span aria-hidden="true">◫</span><span>最新</span></a>
   <a href="/map/" aria-current="page"><span aria-hidden="true">⌖</span><span>地域</span></a>
   <a href="/#search"><span aria-hidden="true">⌕</span><span>検索</span></a>
 </nav>
@@ -245,7 +245,7 @@ ${shellEnd()}`;
 }
 
 function notFoundPage() {
-  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><title>ページが見つかりません｜${SITE.name}</title><link rel="stylesheet" href="/assets/css/00-tokens-base.css"><link rel="stylesheet" href="/assets/css/09-map-static.css"></head><body><main class="not-found-page"><div><p>404</p><h1>ページが見つかりません</h1><p>URLが変更されたか、まだ公開されていないページです。</p><nav><a href="/">ホームへ戻る</a><a href="/map/">舞台・地域を見る</a></nav></div></main></body></html>`;
+  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><title>ページが見つかりません｜${SITE.name}</title><link rel="stylesheet" href="/assets/css/00-tokens-base.css"><link rel="stylesheet" href="/assets/css/09-map-static.css"></head><body><main class="not-found-page"><div><p>404</p><h1>ページが見つかりません</h1><p>URLが変更されたか、まだ公開されていないページです。</p><nav><a href="/">ホームへ戻る</a><a href="/news/">最新情報を見る</a><a href="/official/">公式発表を見る</a><a href="/map/">舞台・地域を見る</a><a href="/#search">サイト内検索</a></nav></div></main></body></html>`;
 }
 
 async function output(path, content) {

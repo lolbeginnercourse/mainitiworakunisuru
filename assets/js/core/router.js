@@ -32,7 +32,7 @@ function render(){
   else html=renderHome();
   main.innerHTML=html;main.classList.add("route-view");setActive(route);closeDrawer(false);bindPageEvents(route);
   const visibleTitle=main.querySelector("h1")?.textContent?.trim()||routeTitles[route]||"ホーム";
-  document.title=`${visibleTitle}｜GTA6インフォ`;
+  document.title=route==="home"?"GTA6インフォ｜発売日・公式発表・登場人物・舞台の最新情報":`${visibleTitle}｜GTA6インフォ`;
   routeStatus.textContent=`${visibleTitle}を表示しました`;
   window.scrollTo({top:0,behavior:"auto"});
   if(!firstRender)main.focus({preventScroll:true});
