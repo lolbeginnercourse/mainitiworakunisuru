@@ -1,3 +1,5 @@
+@import url("/assets/css/12-search.css");
+@import url("/assets/css/13-trust.css");
 /* 変数、リセット、全体レイアウトの基礎 */
 :root{
   --bg:#f3f5f8;

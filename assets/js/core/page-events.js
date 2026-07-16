@@ -4,7 +4,7 @@ function bindPageEvents(route){
   clearInterval(releaseCountdownTimer);
   releaseCountdownTimer=undefined;
   const homeForm=document.querySelector("#home-search-form");
-  if(homeForm)homeForm.addEventListener("submit",e=>{e.preventDefault();const q=document.querySelector("#home-search-input").value.trim();location.hash="#search/"+encodeURIComponent(q)});
+  if(homeForm){homeForm.action="/search/";homeForm.method="get";const input=document.querySelector("#home-search-input");if(input)input.name="q"}
   if(route==="home")bindReleaseCountdown();
   if(route==="latest")bindFilter("#latest-filters",".filterable-news");
   if(route==="map")bindMap();

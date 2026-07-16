@@ -14,6 +14,24 @@
       "dest": "/assets/$1"
     },
     {
+      "src": "^/search$",
+      "status": 308,
+      "headers": {
+        "Location": "/search/"
+      }
+    },
+    {
+      "src": "^/search/$",
+      "dest": "/api/search"
+    },
+    {
+      "src": "^/(news|official)/?$",
+      "status": 308,
+      "headers": {
+        "Location": "/release/"
+      }
+    },
+    {
       "src": "^/(news|official|category|release|characters|vehicles|systems|online|leaks|guide|about|editorial-policy|source-policy|corrections|privacy-policy|contact)$",
       "status": 308,
       "headers": {
@@ -23,6 +41,17 @@
     {
       "src": "^/(news|official|category|release|characters|vehicles|systems|online|leaks|guide|about|editorial-policy|source-policy|corrections|privacy-policy|contact)/$",
       "dest": "/$1/index.html"
+    },
+    {
+      "src": "^/authors/editorial-team$",
+      "status": 308,
+      "headers": {
+        "Location": "/authors/editorial-team/"
+      }
+    },
+    {
+      "src": "^/authors/editorial-team/$",
+      "dest": "/authors/editorial-team/index.html"
     },
     {
       "src": "^/map$",
@@ -69,7 +98,7 @@
     {
       "src": "^/.*$",
       "dest": "/404.html",
-      "status": 410,
+      "status": 404,
       "headers": {
         "X-Robots-Tag": "noindex, follow"
       }

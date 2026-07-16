@@ -15,7 +15,7 @@ function renderCategory(type){
   if(type==="release")return renderReleaseArticle();
   if(type==="leaks")return `${pageHero("リーク・未確認情報","公式発表前の情報を公式情報と分けて掲載します","リーク・未確認情報")}<div class="container"><section class="page-section page-stack"><div class="news-list" data-cms-category="リーク" data-cms-replace="true"><div class="empty-state"><strong>記事を読み込んでいます</strong></div></div></section></div>`;
   const d=categoryData[type]||categoryData.story;
-  return `${pageHero(d.title,d.desc,d.title)}<div class="container"><section class="page-section page-stack"><div class="section-card"><div class="meta-row"><span class="status-pill info">発売前カテゴリ</span><span class="status-pill ready">${d.status}</span></div><h2 style="margin-top:10px">このカテゴリで確認できること</h2><p>${d.desc}。未発表の名称、数値、条件は推測で補わず、公式発表または発売後の確認まで保留します。</p></div><div class="subcategory-list">${d.sections.map((item,index)=>`<a class="subcategory-card" href="#search/${encodeURIComponent(item.query)}" data-route="search/${encodeURIComponent(item.query)}"><span><span class="badge">${String(index+1).padStart(2,"0")}</span><h3>${item.title}</h3><p>${item.desc}</p></span><span class="chevron">›</span></a>`).join("")}</div><div class="data-list">${dataCard("confirmed","公式発表一覧","公式に公開されている情報を中心に確認")}${dataCard("latest","このカテゴリの新着","更新された内容を区分別に確認")}${dataCard("categories","カテゴリ一覧へ戻る","別の入口から探し直す")}</div></section></div>`;
+  return `${pageHero(d.title,d.desc,d.title)}<div class="container"><section class="page-section page-stack"><div class="section-card"><div class="meta-row"><span class="status-pill info">発売前カテゴリ</span><span class="status-pill ready">${d.status}</span></div><h2 style="margin-top:10px">このカテゴリで確認できること</h2><p>${d.desc}。未発表の名称、数値、条件は推測で補わず、公式発表または発売後の確認まで保留します。</p></div><div class="subcategory-list">${d.sections.map((item,index)=>`<a class="subcategory-card" href="/search/?q=${encodeURIComponent(item.query)}"><span><span class="badge">${String(index+1).padStart(2,"0")}</span><h3>${item.title}</h3><p>${item.desc}</p></span><span class="chevron">›</span></a>`).join("")}</div><div class="data-list">${dataCard("confirmed","公式発表一覧","公式に公開されている情報を中心に確認")}${dataCard("latest","このカテゴリの新着","更新された内容を区分別に確認")}${dataCard("categories","カテゴリ一覧へ戻る","別の入口から探し直す")}</div></section></div>`;
 }
 
 function regionCard(region){return `<a class="region-card region-filterable" data-type="${region.type}" data-search="${escapeAttr(region.title+" "+region.desc+" "+region.keywords)}" href="/map/${region.id}/"><span>${region.label}</span><strong>${region.title}</strong><p>${region.desc}</p><div class="meta-row"><span class="status-pill">${region.status}</span></div></a>`}
@@ -75,11 +75,11 @@ function renderAbout(){
 }
 
 function renderSources(){
-  return renderLegalPage("出典・引用方針","公式発表、外部情報、画像、引用をどのように区別して掲載するかを定めます",`<h2>優先する情報源</h2><p>公式サイト、公式ニュース、公式サポート、権利元が運営する公式アカウントを優先します。第三者の記事を参照する場合は、元の発表へさかのぼれるかを確認します。</p><h2>出典の表示</h2><p>記事内の重要な事実には、情報源の名称、公開日、確認日を分けて表示します。リンク先が変更または削除された場合は、その状態も更新対象にします。</p><h2>引用の範囲</h2><p>引用は説明に必要な最小限にとどめ、本文の代わりになる量を転載しません。引用部分とサイト側の説明が混ざらない見た目にします。</p><h2>画像・映像</h2><p>権利元の利用条件を確認し、必要な範囲で使用します。出所が不明な画像や、第三者が加工した素材を公式画像として扱いません。</p><h2>未確認情報</h2><p>出典が不明確なリーク、推測、伝聞は公式情報と同じ一覧に混ぜず、掲載する場合も未確認であることを明示します。</p>`);
+  return renderLegalPage("出典・引用方針","公式発表、外部情報、画像、引用をどのように区別して掲載するかを定めます",`<h2>優先する情報源</h2><p>公式サイト、公式ニュース、公式サポート、権利元が運営する公式アカウントを優先します。第三者の記事を参照する場合は、元の発表へさかのぼれるかを確認します。</p><h2>出典の表示</h2><p>記事内の重要な事実には、情報源の名称と参照先を表示します。リンク先が変更または削除された場合は、その状態も確認対象にします。</p><h2>引用の範囲</h2><p>引用は説明に必要な最小限にとどめ、本文の代わりになる量を転載しません。引用部分とサイト側の説明が混ざらない見た目にします。</p><h2>画像・映像</h2><p>権利元の利用条件を確認し、必要な範囲で使用します。出所が不明な画像や、第三者が加工した素材を公式画像として扱いません。</p><h2>未確認情報</h2><p>出典が不明確なリーク、推測、伝聞は公式情報と同じ一覧に混ぜず、掲載する場合も未確認であることを明示します。</p>`);
 }
 
 function renderCorrections(){
-  return renderLegalPage("訂正・更新方針","誤情報や古い情報を発見した時の確認・修正・履歴保存の流れです",`<h2>報告の受付</h2><p>ページ名、問題のある箇所、正しいと考える内容、確認できる参照先を受け付けます。感想と事実誤認を分けて確認します。</p><h2>確認手順</h2><p>公式情報、記事内の条件、更新日時を再確認し、必要に応じて複数の画面や資料を照合します。確認できない内容を根拠が不十分なまま公式発表扱いへ変更しません。</p><h2>修正の表示</h2><p>結論が変わる修正、条件が変わる修正、読者の行動に影響する修正は、更新日と修正内容を残します。表記ゆれや軽微な誤字は履歴へ残さない場合があります。</p><h2>古い情報</h2><p>仕様変更や提供終了で役割を失ったページは、削除だけでなく、現状と代替ページへの導線を表示します。</p>`);
+  return renderLegalPage("訂正・更新方針","誤情報や古い情報を発見した時の確認・修正の流れです",`<h2>報告の受付</h2><p>ページ名、問題のある箇所、正しいと考える内容、確認できる参照先を受け付けます。感想と事実誤認を分けて確認します。</p><h2>確認手順</h2><p>公式情報と記事内の条件を再確認し、必要に応じて複数の画面や資料を照合します。確認できない内容を根拠が不十分なまま公式発表扱いへ変更しません。</p><h2>修正の表示</h2><p>結論、条件、読者の行動に影響する誤りは本文を訂正し、必要な場合は訂正内容も明示します。</p><h2>古い情報</h2><p>仕様変更や提供終了で役割を失ったページは、削除だけでなく、現状と代替ページへの導線を表示します。</p>`);
 }
 
 function renderDisclaimer(){

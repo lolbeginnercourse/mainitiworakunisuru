@@ -5,20 +5,18 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ORIGIN = "https://mainitiworakunisuru.com";
 const SITE_NAME = "GTA6インフォ";
+const DEFAULT_IMAGE = `${ORIGIN}/assets/images/og-default.png`;
 
 const nav = [
   ["/", "ホーム"],
-  ["/news/", "最新情報"],
-  ["/official/", "公式発表"],
+  ["/release/", "最新・公式情報"],
   ["/category/", "情報カテゴリ"],
   ["/map/", "舞台・地域"],
   ["/vehicles/", "登場車両"]
 ];
 
 const categoryLinks = [
-  ["/news/", "最新情報", "新しい公式発表や確認内容の入口"],
-  ["/official/", "公式発表", "一次情報で確認できた内容"],
-  ["/release/", "発売・商品情報", "発売日、対応機種、予約、必要容量"],
+  ["/release/", "最新・公式・発売情報", "新しい発表、発売日、対応機種、予約、必要容量"],
   ["/characters/", "登場人物", "公式公開された人物と組織"],
   ["/map/", "舞台・地域", "Vice Cityなど公式公開地域"],
   ["/vehicles/", "登場車両", "車両の確認状態と公式情報"],
@@ -50,19 +48,23 @@ const facts = `<dl class="seo-facts">
 const pages = [
   {
     slug: "news",
-    title: "GTA6最新情報｜公式発表と確認状況",
-    description: "GTA6の発売日、対応機種、人物、舞台などの最新情報を、公式確認済み・公式未発表・未確認情報に分けて整理します。",
-    h1: "GTA6の最新情報",
-    lead: "GTA6に関する新しい発表や変更点を、情報の確度が分かる形で確認するためのページです。公式情報はRockstar Gamesなどの一次情報を優先し、報道、リーク、予測とは分けて扱います。",
-    body: `<section><h2>現在の重要情報</h2>${facts}</section><section><h2>情報の入口</h2>${cards(categoryLinks.slice(1, 6))}</section><section><h2>確認時の注意</h2><p>公開日が新しいだけでは最新情報とは限りません。記事内の情報確認日と出典を確認し、公式発表後に内容が変わった場合は訂正方針に沿って更新します。</p></section>`
+    title: "GTA6最新ニュース一覧｜公式発表・報道・未確認情報の更新履歴",
+    description: "GTA6の新しい発表や変更点を日付順に並べ、公式発表・報道・未確認情報の区分と詳細ページへのリンクを掲載します。",
+    h1: "GTA6最新ニュース",
+    lead: "GTA6について新しく分かったことと、以前の情報から変わった点を時系列で確認するページです。発売情報の固定まとめは発売・商品情報、一次情報の記録は公式発表へ分けています。",
+    status: "情報整理",
+    sources: [["Rockstar Games Newswire", "https://www.rockstargames.com/newswire"]],
+    body: `<section><h2>ニュース一覧</h2><ol class="seo-timeline"><li><time datetime="2026-06-25">2026年6月25日</time><div><span class="seo-label official">公式発表</span><h3>GTA6の予約受付が開始</h3><p>PlayStation 5とXbox Series X|S向け商品の予約受付開始を確認しました。価格、エディション、容量の注意点は発売・商品情報へ集約しています。</p><a href="/release/">発売・商品情報を確認する ›</a></div></li></ol></section><section><h2>このページに掲載する内容</h2><ul class="seo-list"><li>新しい公式発表と、以前の情報からの変更点</li><li>発表日または確認できる出来事の日付</li><li>公式・報道・未確認の区分</li><li>情報源と詳しい解説ページへのリンク</li></ul><p class="seo-note">発売日や対応機種の固定情報は<a href="/release/">発売・商品情報</a>、Rockstar Gamesの発表記録は<a href="/official/">公式発表一覧</a>で確認できます。</p></section>`
   },
   {
     slug: "official",
-    title: "GTA6公式発表まとめ｜発売日・人物・舞台",
-    description: "Rockstar Games、Take-Two Interactive、PlayStation、Xboxの公式情報で確認できるGTA6の発売日、人物、舞台を整理します。",
-    h1: "GTA6の公式発表まとめ",
-    lead: "このページでは公式サイト、公式Newswire、各プラットフォームの公式ストアで確認できる情報を優先します。映像から推測した内容や匿名投稿は、公式発表として扱いません。",
-    body: `<section><h2>公式に確認できる主要情報</h2>${facts}</section><section><h2>公式参照先</h2><ul class="seo-list"><li><a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Rockstar Games GTA VI公式サイト</a></li><li><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">Rockstar Games Newswire</a></li></ul></section><section><h2>関連ページ</h2>${cards([["/release/","発売・商品情報","発売日、対応機種、予約を確認"],["/characters/","登場人物","公式公開された人物を確認"],["/map/","舞台・地域","公式公開された地域を確認"]])}</section>`
+    title: "GTA6公式発表まとめ｜Rockstar Gamesの発表を時系列で確認",
+    description: "Rockstar Gamesなどの一次情報で確認できるGTA6の公式発表を、発表元、内容、変更点、参照URLとともに整理します。",
+    h1: "GTA6の公式発表一覧",
+    lead: "Rockstar Games公式サイト、公式Newswire、各プラットフォームの公式ストアで確認できる発表だけを記録します。映像からの推測や匿名投稿はこの一覧に含めません。",
+    status: "公式確認済み",
+    sources: [["Rockstar Games GTA VI公式サイト", "https://www.rockstargames.com/VI"], ["Rockstar Games Newswire", "https://www.rockstargames.com/newswire"]],
+    body: `<section><h2>公式発表の記録</h2><ol class="seo-timeline"><li><time datetime="2026-06-25">2026年6月25日</time><div><span class="seo-label official">Rockstar Games・公式ストア</span><h3>予約受付を開始</h3><p>PlayStation 5とXbox Series X|S向け商品の予約受付開始を確認しました。購入条件の詳細は発売・商品情報に分離しています。</p><a href="/release/">購入前の確認事項を見る ›</a></div></li></ol></section><section><h2>公式参照先</h2><ul class="seo-list"><li><a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Rockstar Games GTA VI公式サイト</a></li><li><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">Rockstar Games Newswire</a></li></ul></section><section><h2>分野別に確認</h2>${cards([["/release/","発売・商品情報","発売日、価格、機種、予約を確認"],["/characters/","登場人物","公式公開された人物を確認"],["/map/","舞台・地域","公式公開された地域を確認"]])}</section>`
   },
   {
     slug: "category",
@@ -74,11 +76,13 @@ const pages = [
   },
   {
     slug: "release",
-    title: "GTA6発売日・対応機種・予約情報",
-    description: "GTA6の発売予定日、PS5・Xbox Series X|S対応、PC版の発表状況、予約、価格、必要容量を公式情報優先で整理します。",
-    h1: "GTA6の発売・商品情報",
-    lead: "購入前に確認したい発売日、対応機種、予約状況をまとめています。未発表の容量やPC版情報は推測で確定せず、公式発表があるまで未発表として表示します。",
-    body: `<section><h2>現在確認できる情報</h2>${facts}</section><section><h2>購入前に確認すること</h2><ul class="seo-list"><li>PS5またはXbox Series X|S向けの商品であること</li><li>正式な必要容量は未発表であること</li><li>予約特典や自動更新条件を購入画面で確認すること</li><li>パッケージ商品の収録形式を販売店ページで確認すること</li></ul></section><section><h2>公式情報の確認先</h2><p><a href="/official/">GTA6の公式発表まとめ</a>から、Rockstar Games公式サイトと公式Newswireへの参照先を確認できます。</p></section>`
+    title: "GTA6最新・公式・発売情報｜発売日・対応機種・価格・予約状況",
+    description: "GTA6の新しい公式発表、発売日、PS5・Xbox Series X|S対応、国内価格、予約、必要容量、PC版の状況をまとめて確認できます。",
+    h1: "GTA6の最新・公式・発売情報",
+    lead: "新しい発表と購入前に必要な発売日、対応機種、価格、予約、容量を一つのページへ集約しています。情報源と確認状態を示し、未発表事項は推測で確定しません。",
+    status: "公式情報を優先",
+    sources: [["Rockstar Games GTA VI公式サイト", "https://www.rockstargames.com/VI"], ["PlayStation Store", "https://store.playstation.com/"], ["Xbox Store", "https://www.xbox.com/games/store"]],
+    body: `<section><h2>発売日と対応機種</h2><dl class="seo-table"><div><dt>発売予定日</dt><dd><strong>2026年11月19日</strong> <span class="seo-label official">公式確認済み</span></dd></div><div><dt>PlayStation 5</dt><dd>対応</dd></div><div><dt>Xbox Series X|S</dt><dd>対応</dd></div><div><dt>PlayStation 4・Xbox One</dt><dd>対応発表なし</dd></div><div><dt>PC版</dt><dd>発売日・必要スペックともに未発表</dd></div></dl></section><section><h2>価格と予約状況</h2><dl class="seo-table"><div><dt>予約受付</dt><dd>2026年6月25日から受付</dd></div><div><dt>スタンダード版</dt><dd>9,800円</dd></div><div><dt>アルティメット版</dt><dd>12,280円</dd></div><div><dt>アルティメット版アップグレード</dt><dd>2,480円</dd></div></dl><p class="seo-note">価格、内容、販売地域、特典は購入時に各公式ストアで再確認してください。</p></section><section><h2>必要容量</h2><p><strong>正式なインストール容量は未発表です。</strong>発売前に最低250GB、余裕を持つなら300〜350GB以上という数値は、過去作品と更新データを考慮した準備目安であり、GTA6の公式容量ではありません。</p></section><section><h2>予約前に確認すること</h2><ul class="seo-list"><li>購入する機種とストアの地域が合っているか</li><li>エディションごとの収録内容とアップグレード条件</li><li>予約特典の期限とGTA+などの自動更新条件</li><li>パッケージ商品の収録形式</li><li>事前ダウンロード時に表示される正式容量</li></ul></section><section><h2>関連する公式情報</h2><p>発表元と発表履歴は<a href="/official/">公式発表一覧</a>、新しい変更点は<a href="/news/">最新ニュース</a>で確認できます。</p></section>`
   },
   {
     slug: "characters",
@@ -149,7 +153,7 @@ const pages = [
     description: "GTA6インフォが公式確認済み、報道情報、未確認情報、リーク、予測・考察を区別して掲載する基準を説明します。",
     h1: "編集・掲載方針",
     lead: "情報の確度が読者に伝わるよう、記事内の主張を次の区分で整理します。確定情報と予測を同じ表現で混同しません。",
-    body: `<section><h2>情報区分</h2><dl class="seo-table"><div><dt>公式確認済み</dt><dd>Rockstar Games、Take-Two Interactive、PlayStation、Xboxなどの公式情報で確認できた内容</dd></div><div><dt>報道情報</dt><dd>信頼できる報道機関が報じているが、公式発表されていない内容</dd></div><div><dt>未確認情報</dt><dd>出所や一次資料を確認できない内容</dd></div><div><dt>予測・考察</dt><dd>公式情報や過去作品を基にした独自の分析</dd></div><div><dt>リーク</dt><dd>公式発表前に外部へ流出した可能性がある情報</dd></div></dl></section><section><h2>記事制作の基準</h2><ul class="seo-list"><li>一次情報を優先し、参照URLを掲載する</li><li>情報確認日を明示する</li><li>不明な内容を断定しない</li><li>誤りが分かった場合は訂正する</li><li>他サイトの文章を言い換えただけの記事を作らない</li></ul></section><section><h2>AIの利用</h2><p>文章整理、構成案、校正などにAIを使用する場合があります。掲載前に人間が情報源と内容を確認し、未確認の生成内容をそのまま公開しません。</p></section>`
+    body: `<section><h2>情報区分</h2><dl class="seo-table"><div><dt>公式確認済み</dt><dd>Rockstar Games、Take-Two Interactive、PlayStation、Xboxなどの公式情報で確認できた内容</dd></div><div><dt>報道情報</dt><dd>信頼できる報道機関が報じているが、公式発表されていない内容</dd></div><div><dt>未確認情報</dt><dd>出所や一次資料を確認できない内容</dd></div><div><dt>予測・考察</dt><dd>公式情報や過去作品を基にした独自の分析</dd></div><div><dt>リーク</dt><dd>公式発表前に外部へ流出した可能性がある情報</dd></div></dl></section><section><h2>記事制作の基準</h2><ul class="seo-list"><li>一次情報を優先し、参照URLを掲載する</li><li>情報の区分と主要出典を明示する</li><li>不明な内容を断定しない</li><li>誤りが分かった場合は訂正する</li><li>他サイトの文章を言い換えただけの記事を作らない</li></ul></section><section><h2>AIの利用</h2><p>文章整理、構成案、校正などにAIを使用する場合があります。掲載前に人間が情報源と内容を確認し、未確認の生成内容をそのまま公開しません。</p></section>`
   },
   {
     slug: "source-policy",
@@ -164,7 +168,7 @@ const pages = [
     title: "訂正・更新方針｜GTA6インフォ",
     description: "GTA6インフォが記事の誤り、公式発表による変更、軽微な誤字をどのように訂正・更新するかを説明します。",
     h1: "訂正・更新方針",
-    lead: "誤りや新しい公式発表を確認した場合、変更の重要度に応じて本文と更新内容を修正します。更新していない記事の日付だけを変更しません。",
+    lead: "誤りや新しい公式発表を確認した場合、変更の重要度に応じて本文と内容を修正します。",
     body: `<section><h2>訂正の手順</h2><ol class="seo-steps"><li><strong>根拠を再確認</strong><span>公式発表や一次資料を確認します。</span></li><li><strong>本文を修正</strong><span>誤りと影響範囲を特定して修正します。</span></li><li><strong>変更内容を記録</strong><span>重大な変更は訂正内容を記事内に明示します。</span></li></ol></section><section><h2>修正の区別</h2><p>誤字や表記ゆれなどの軽微な修正と、発売日・対応機種など内容に関わる修正を区別します。情報を削除する場合は、必要に応じて理由を残します。</p></section>`
   },
   {
@@ -173,7 +177,7 @@ const pages = [
     description: "GTA6インフォにおける個人情報、Cookie、問い合わせ情報、外部リンク、広告・アクセス解析の扱いを説明します。",
     h1: "プライバシーポリシー",
     lead: "このページでは、サイト利用時に取り扱う可能性がある情報と、その利用目的を説明します。",
-    body: `<section><h2>現在利用している外部サービス</h2><p>現在、このサイトの公開コードにはGoogle Analytics、広告配信、アフィリエイト用スクリプトを設置していません。導入した場合は、実際の利用内容に合わせてこのページを更新します。</p></section><section><h2>Cookieと端末内データ</h2><p>表示設定などを保存するため、ブラウザのローカルストレージを使用する場合があります。ブラウザ設定から削除できます。</p></section><section><h2>個人情報</h2><p>問い合わせ窓口を設置した場合、返信や本人確認に必要な範囲で名前、メールアドレス、対象URL、問い合わせ内容を扱います。法令に基づく場合を除き、本人の同意なく第三者へ提供しません。</p></section><section><h2>外部リンクと免責</h2><p>外部サイトで行われる情報収集は、リンク先のプライバシーポリシーに従います。当サイトはRockstar GamesおよびTake-Two Interactiveとは関係のない非公式ファンサイトです。</p></section><section><h2>制定・改定</h2><p>制定日：2026年7月16日</p></section>`
+    body: `<section><h2>現在利用している外部サービス</h2><p>現在、このサイトの公開コードにはGoogle Analytics、広告配信、アフィリエイト用スクリプトを設置していません。導入した場合は、実際の利用内容に合わせてこのページを更新します。</p></section><section><h2>Cookieと端末内データ</h2><p>表示設定などを保存するため、ブラウザのローカルストレージを使用する場合があります。ブラウザ設定から削除できます。</p></section><section><h2>個人情報</h2><p>問い合わせ窓口を設置した場合、返信や本人確認に必要な範囲で名前、メールアドレス、対象URL、問い合わせ内容を扱います。法令に基づく場合を除き、本人の同意なく第三者へ提供しません。</p></section><section><h2>外部リンクと免責</h2><p>外部サイトで行われる情報収集は、リンク先のプライバシーポリシーに従います。当サイトはRockstar GamesおよびTake-Two Interactiveとは関係のない非公式ファンサイトです。</p></section>`
   },
   {
     slug: "contact",
@@ -183,8 +187,48 @@ const pages = [
     lead: "記事訂正、情報提供、著作権・商標に関する連絡先を案内するページです。",
     robots: "noindex,follow",
     body: `<section><h2>お問い合わせ窓口について</h2><p>現在、公開できる送信先とスパム対策の設定が完了していないため、問い合わせフォームは公開していません。連絡先を偽って掲載せず、受信・返信できる窓口を用意した後に公開します。</p></section><section><h2>公開時に受け付ける内容</h2><ul class="seo-list"><li>記事内容の訂正</li><li>情報提供</li><li>著作権・商標に関する連絡</li><li>その他のサイト運営に関する連絡</li></ul></section>`
+  },
+  {
+    slug: "authors/editorial-team",
+    title: "GTA6インフォ編集部｜執筆・情報確認",
+    description: "GTA6インフォ編集部の役割、記事公開前の確認手順、公式英語情報の整理方法、訂正対応を説明します。",
+    h1: "GTA6インフォ編集部",
+    lead: "GTA6インフォで記事の執筆と情報確認を担当する編集名義です。実名や経歴を作らず、現在公開できる運営方法と確認手順を明示します。",
+    body: `<section><h2>担当する作業</h2><ul class="seo-list"><li>Rockstar Gamesなどの一次情報を確認する</li><li>公式情報、報道、未確認情報、リーク、考察を分類する</li><li>英語原文と日本語記事の固有名詞・日付・数値を照合する</li><li>公開後に公式発表が変わった場合は本文と変更履歴を更新する</li></ul></section><section><h2>公開している運営情報</h2><dl class="seo-table"><div><dt>運営形態</dt><dd>個人運営</dd></div><div><dt>執筆・確認名義</dt><dd>GTA6インフォ編集部</dd></div><div><dt>実名</dt><dd>非公開</dd></div><div><dt>プレイ歴・使用機種</dt><dd>現在未掲載</dd></div><div><dt>外部プロフィール</dt><dd>現在未掲載</dd></div></dl><p class="seo-note">未掲載の経歴や専門性を推測で補いません。追加で公開できる情報が決まった場合に更新します。</p></section><section><h2>訂正について</h2><p>誤りを確認した場合の対応は<a href="/corrections/">訂正・更新方針</a>に従います。訂正依頼と権利関係の連絡先は<a href="/contact/">お問い合わせ</a>で案内します。</p></section>`
   }
 ];
+
+const releaseUnifiedSections = `<section><h2>最新の変更</h2><ol class="seo-timeline"><li><time datetime="2026-06-25">2026年6月25日</time><div><span class="seo-label official">公式発表</span><h3>予約受付を開始</h3><p>PlayStation 5とXbox Series X|S向け商品の予約受付開始を確認しました。</p></div></li></ol></section><section><h2>公式参照先</h2><ul class="seo-list"><li><a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Rockstar Games GTA VI公式サイト</a></li><li><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">Rockstar Games Newswire</a></li><li><a href="https://store.playstation.com/" target="_blank" rel="noopener noreferrer">PlayStation Store</a></li><li><a href="https://www.xbox.com/games/store" target="_blank" rel="noopener noreferrer">Xbox Store</a></li></ul><p class="seo-note">公式発表、固定の発売情報、購入前の注意をこのページでまとめて更新します。旧「最新情報」「公式発表」URLからもこのページへ移動します。</p></section>`;
+const obsoleteReleaseLinks = `<section><h2>関連する公式情報</h2><p>発表元と発表履歴は<a href="/official/">公式発表一覧</a>、新しい変更点は<a href="/news/">最新ニュース</a>で確認できます。</p></section>`;
+const aboutTrustSection = `<section><h2>執筆と確認の体制</h2><p>記事は<a href="/authors/editorial-team/">GTA6インフォ編集部</a>名義で執筆と情報確認を行います。固有名詞、日付、数値は公式英語ページと照合し、公式情報、報道、未確認情報、リーク、考察を記事上で区別します。</p><p>運営者の実名、GTAシリーズのプレイ歴、使用機種、外部SNSは現在公開していません。未公開の経歴を作らず、公開できる情報が決まった段階で追記します。</p></section>`;
+
+const articleSlugs = new Set(["release", "characters", "vehicles", "systems", "online", "leaks", "guide"]);
+const redirectedSlugs = new Set(["news", "official"]);
+const publishedAt = "2026-07-16";
+const defaultSources = [["Rockstar Games GTA VI公式サイト", "https://www.rockstargames.com/VI"], ["編集・掲載方針", "/editorial-policy/"]];
+
+function articleMeta(page) {
+  if (!articleSlugs.has(page.slug)) return "";
+  const sources = page.sources || defaultSources;
+  return `<aside class="seo-article-meta" aria-label="記事情報">
+    <div><span class="seo-label official">${esc(page.status || "公式情報を優先")}</span></div>
+    <p>執筆・確認：<a href="/authors/editorial-team/">GTA6インフォ編集部</a></p>
+    <p>主要出典：${sources.map(([name, href]) => `<a href="${href}"${href.startsWith("http") ? ' target="_blank" rel="noopener noreferrer"' : ""}>${esc(name)}</a>`).join("・")}</p>
+  </aside>`;
+}
+
+function articleFooter(page) {
+  if (!articleSlugs.has(page.slug)) return "";
+  const canonical = `${ORIGIN}/${page.slug}/`;
+  return `<section class="seo-article-footer"><h2>執筆・訂正</h2><dl class="seo-table"><div><dt>執筆・確認</dt><dd><a href="/authors/editorial-team/">GTA6インフォ編集部</a></dd></div><div><dt>訂正依頼</dt><dd><a href="/contact/?type=correction&amp;page=${encodeURIComponent(canonical)}">この記事について連絡する</a></dd></div></dl></section>`;
+}
+
+function pageBody(page) {
+  return page.body
+    .replace(obsoleteReleaseLinks, "")
+    .replaceAll('href="/news/"', 'href="/release/"')
+    .replaceAll('href="/official/"', 'href="/release/"');
+}
 
 function schemaFor(page, canonical) {
   const schemas = [
@@ -194,12 +238,28 @@ function schemaFor(page, canonical) {
       { "@type": "ListItem", position: 2, name: page.h1, item: canonical }
     ] }
   ];
+  if (articleSlugs.has(page.slug)) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": page.slug === "news" ? "NewsArticle" : "Article",
+      headline: page.h1,
+      description: page.description,
+      datePublished: publishedAt,
+      dateModified: publishedAt,
+      author: { "@type": "Organization", name: "GTA6インフォ編集部", url: `${ORIGIN}/authors/editorial-team/` },
+      publisher: { "@type": "Organization", name: SITE_NAME, url: `${ORIGIN}/` },
+      mainEntityOfPage: canonical,
+      image: DEFAULT_IMAGE,
+      inLanguage: "ja"
+    });
+  }
   return schemas.map((schema) => `<script type="application/ld+json">${JSON.stringify(schema).replaceAll("<", "\\u003c")}</script>`).join("\n");
 }
 
 function pageHTML(page) {
   const canonical = `${ORIGIN}/${page.slug}/`;
   const robots = page.robots || "index,follow,max-image-preview:large";
+  const metadata = articleMeta(page);
   return `<!doctype html>
 <html lang="ja">
 <head>
@@ -208,15 +268,18 @@ function pageHTML(page) {
 <meta name="description" content="${esc(page.description)}">
 <meta name="robots" content="${robots}">
 <link rel="canonical" href="${canonical}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="${articleSlugs.has(page.slug) ? "article" : "website"}">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="${SITE_NAME}">
 <meta property="og:title" content="${esc(page.title)}">
 <meta property="og:description" content="${esc(page.description)}">
 <meta property="og:url" content="${canonical}">
+<meta property="og:image" content="${DEFAULT_IMAGE}">
+<meta property="og:image:alt" content="GTA6インフォのトップページ">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${esc(page.title)}">
 <meta name="twitter:description" content="${esc(page.description)}">
+<meta name="twitter:image" content="${DEFAULT_IMAGE}">
 <title>${esc(page.title.includes(SITE_NAME) ? page.title : `${page.title}｜${SITE_NAME}`)}</title>
 <link rel="stylesheet" href="/assets/css/00-tokens-base.css">
 <link rel="stylesheet" href="/assets/css/11-seo-static.css">
@@ -232,12 +295,13 @@ ${schemaFor(page, canonical)}
   <div class="seo-container">
     <nav class="seo-breadcrumb" aria-label="パンくず"><a href="/">ホーム</a><span aria-hidden="true">›</span><span aria-current="page">${esc(page.h1)}</span></nav>
     <header class="seo-page-hero"><p>GTA6インフォ</p><h1>${esc(page.h1)}</h1><div>${esc(page.lead)}</div></header>
-    <div class="seo-content">${page.body}</div>
+${metadata ? `    ${metadata}\n` : ""}
+    <div class="seo-content">${pageBody(page)}${page.slug === "release" ? releaseUnifiedSections : ""}${page.slug === "about" ? aboutTrustSection : ""}${articleFooter(page)}</div>
   </div>
 </main>
 <footer class="seo-footer"><div class="seo-container seo-footer-grid">
   <div><strong>${SITE_NAME}</strong><p>GTA6の公式情報と未確認情報を分けて整理する非公式ファンサイトです。</p></div>
-  <nav aria-label="サイト情報"><a href="/about/">運営者情報</a><a href="/editorial-policy/">編集・掲載方針</a><a href="/source-policy/">出典・引用方針</a><a href="/corrections/">訂正・更新方針</a><a href="/privacy-policy/">プライバシーポリシー</a></nav>
+  <nav aria-label="サイト情報"><a href="/about/">運営者情報</a><a href="/authors/editorial-team/">執筆・確認者</a><a href="/editorial-policy/">編集・掲載方針</a><a href="/source-policy/">出典・引用方針</a><a href="/corrections/">訂正・更新方針</a><a href="/contact/">お問い合わせ</a><a href="/privacy-policy/">プライバシーポリシー</a></nav>
   <p class="seo-disclaimer">当サイトはRockstar GamesおよびTake-Two Interactiveとは関係ありません。ゲーム名、会社名、製品名などは各権利者に帰属します。</p>
 </div></footer>
 </body>
@@ -252,7 +316,7 @@ for (const page of pages) {
 
 const sitemapPaths = [
   "",
-  ...pages.filter((page) => !page.robots?.includes("noindex")).map((page) => page.slug),
+  ...pages.filter((page) => !page.robots?.includes("noindex") && !redirectedSlugs.has(page.slug)).map((page) => page.slug),
   "map",
   "map/vice-city",
   "map/leonida-keys",

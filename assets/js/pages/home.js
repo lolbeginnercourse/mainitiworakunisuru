@@ -21,5 +21,5 @@ const renderHomeWithoutSeoIntro=renderHome;
 renderHome=function(){
   return renderHomeWithoutSeoIntro()
     .replace('<p class="countdown-label">GTA6発売まで</p>','<h1>GTA6の気になる最新情報をわかりやすく整理</h1><p class="countdown-label">GTA6発売まで</p>')
-    .replace('href="#confirmed" data-route="confirmed"','href="/official/"');
+    .replace('href="#confirmed" data-route="confirmed"','href="/release/"');
 };
