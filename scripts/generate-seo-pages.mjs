@@ -230,12 +230,6 @@ function articleMeta(page) {
   </aside>`;
 }
 
-function articleFooter(page) {
-  if (!articleSlugs.has(page.slug)) return "";
-  const canonical = `${ORIGIN}/${page.slug}/`;
-  return `<section class="seo-article-footer"><h2>執筆・訂正</h2><dl class="seo-table"><div><dt>執筆・確認</dt><dd><a href="/authors/editorial-team/">GTA6インフォ編集部</a></dd></div><div><dt>訂正依頼</dt><dd><a href="/contact/?type=correction&amp;page=${encodeURIComponent(canonical)}">この記事について連絡する</a></dd></div></dl></section>`;
-}
-
 function pageBody(page) {
   return page.body
     .replace(obsoleteReleaseLinks, "")
@@ -309,7 +303,7 @@ ${schemaFor(page, canonical)}
     <nav class="seo-breadcrumb" aria-label="パンくず"><a href="/">ホーム</a><span aria-hidden="true">›</span><span aria-current="page">${esc(page.h1)}</span></nav>
     <header class="seo-page-hero"><p>GTA6インフォ</p><h1>${esc(page.h1)}</h1><div>${esc(page.lead)}</div></header>
 ${metadata ? `    ${metadata}\n` : ""}
-    <div class="seo-content">${pageBody(page)}${page.slug === "release" ? releaseUnifiedSections : ""}${page.slug === "about" ? aboutTrustSection : ""}${articleFooter(page)}</div>
+    <div class="seo-content">${pageBody(page)}${page.slug === "release" ? releaseUnifiedSections : ""}${page.slug === "about" ? aboutTrustSection : ""}</div>
   </div>
 </main>
 <footer class="seo-footer"><div class="seo-container seo-footer-grid">
