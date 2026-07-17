@@ -40,6 +40,25 @@ function cmsPlainText(value) {
   return (element.textContent || "").replace(/\s+/g, " ").trim();
 }
 
+function formatCmsRichText(value) {
+  const template = document.createElement("template");
+  template.innerHTML = String(value || "");
+
+  template.content.querySelectorAll("table").forEach((table, index) => {
+    if (table.parentElement?.classList.contains("cms-table-scroll")) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "cms-table-scroll";
+    wrapper.setAttribute("role", "region");
+    wrapper.setAttribute("aria-label", table.querySelector("caption")?.textContent?.trim() || `記事内の表 ${index + 1}`);
+    wrapper.tabIndex = 0;
+    table.before(wrapper);
+    wrapper.append(table);
+  });
+
+  return template.innerHTML;
+}
+
 function cmsThumbnail(item) {
   const media = item?.GAZOU || item?.thumbnail || item?.eyecatch || item?.image;
   if (typeof media === "string") return media;
@@ -96,7 +115,7 @@ async function hydrateCmsArticle(id) {
     const item = await response.json();
     if (!target.isConnected) return;
     const title = escapeHTML(item.name || "無題の記事");
-    const body = item.ritti || (item.honbunn ? `<p>${escapeHTML(item.honbunn)}</p>` : "<p>本文を表示できません。</p>");
+    const body = formatCmsRichText(item.ritti || (item.honbunn ? `<p>${escapeHTML(item.honbunn)}</p>` : "<p>本文を表示できません。</p>"));
     const backLink = document.querySelector("#cms-article .nav-back") || document.querySelector(".article-main > .nav-back");
     if (backLink && cmsCategories(item).includes("リーク")) {
       backLink.href = "#category/leaks";
