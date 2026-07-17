@@ -120,6 +120,9 @@
 .character-accordion[open] .character-chevron{transform:rotate(90deg)}
 .character-accordion-body{padding:14px 16px 16px;border-top:1px solid var(--line);background:#fff}
 .character-accordion-body p{margin:0;color:var(--text);font-size:13px;line-height:1.8}
+.character-accordion-body p+p{margin-top:10px}
+.character-accordion-body h4{margin:18px 0 7px;font-size:14px;line-height:1.5}
+.character-accordion-body ul{display:grid;gap:5px;margin:10px 0;padding-left:22px;color:var(--text);font-size:13px;line-height:1.7}
 .character-accordion-body a{display:inline-flex;margin-top:12px;color:var(--brand);font-size:12px;font-weight:800;text-underline-offset:3px}
 .meta-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .map-tools{display:grid;gap:8px}

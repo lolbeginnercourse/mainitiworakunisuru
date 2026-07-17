@@ -12,7 +12,7 @@ function renderCategories(){
 }
 
 function characterAccordion(person,index){
-  return `<details class="character-accordion"><summary><span class="badge">${String(index+1).padStart(2,"0")}</span><span class="character-summary-copy"><strong>${escapeHTML(person.name)}</strong><small>${escapeHTML(person.note)}</small></span><span class="character-chevron" aria-hidden="true">›</span></summary><div class="character-accordion-body"><p>${escapeHTML(person.detail)}</p><a href="https://www.rockstargames.com/VI/only-in-leonida" target="_blank" rel="noopener noreferrer">公式People &amp; Placesで確認する ↗</a></div></details>`;
+  return `<details class="character-accordion"><summary><span class="badge">${String(index+1).padStart(2,"0")}</span><span class="character-summary-copy"><strong>${escapeHTML(person.name)}</strong><small>${escapeHTML(person.note)}</small></span><span class="character-chevron" aria-hidden="true">›</span></summary><div class="character-accordion-body">${person.detailHtml}<a href="https://www.rockstargames.com/VI/only-in-leonida" target="_blank" rel="noopener noreferrer">公式People &amp; Placesで確認する ↗</a></div></details>`;
 }
 
 function renderCharactersCategory(){
