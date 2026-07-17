@@ -36,6 +36,19 @@ const cards = (items) => `<div class="seo-card-grid">${items.map(([href, title, 
   <a class="seo-link-card" href="${href}"><strong>${esc(title)}</strong><span>${esc(text)}</span><em>確認する <span aria-hidden="true">›</span></em></a>`).join("")}
 </div>`;
 
+const characterProfiles = [
+  ["Jason Duval", "主要人物として公式プロフィール公開済み", "主要人物として公式プロフィールが公開されています。人物像やLuciaとの関係は、公式に公開された範囲で整理します。"],
+  ["Lucia Caminos", "主要人物として公式プロフィール公開済み", "主要人物として公式プロフィールが公開されています。人物像やJasonとの関係は、公式に公開された範囲で整理します。"],
+  ["Cal Hampton", "公式People & Places掲載", "Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"],
+  ["Boobie Ike", "公式People & Places掲載", "Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"],
+  ["Dre'Quan Priest", "公式People & Places掲載", "Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"],
+  ["Real Dimez", "公式People & Places掲載", "Rockstar Gamesの公式People & Placesに掲載されています。公式に示された人物・組織との関係を確認して追記します。"],
+  ["Raul Bautista", "公式People & Places掲載", "Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"],
+  ["Brian Heder", "公式People & Places掲載", "Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"],
+];
+
+const characterAccordions = () => `<div class="seo-character-list">${characterProfiles.map(([name, note, detail], index) => `<details class="seo-character"><summary><span>${String(index + 1).padStart(2, "0")}</span><span><strong>${esc(name)}</strong><small>${esc(note)}</small></span><i aria-hidden="true">›</i></summary><div><p>${esc(detail)}</p><a href="https://www.rockstargames.com/VI/only-in-leonida" target="_blank" rel="noopener noreferrer">公式People &amp; Placesで確認する ↗</a></div></details>`).join("")}</div>`;
+
 const facts = `<dl class="seo-facts">
   <div><dt>発売予定日</dt><dd><strong>2026年11月19日</strong><span class="seo-label official">公式確認済み</span></dd></div>
   <div><dt>対応機種</dt><dd>PlayStation 5・Xbox Series X|S <span class="seo-label official">公式確認済み</span></dd></div>
@@ -90,7 +103,7 @@ const pages = [
     description: "GTA6で公式公開されているJason Duval、Lucia Caminosなどの登場人物を、公式プロフィールと関連地域から整理します。",
     h1: "GTA6の登場人物",
     lead: "Rockstar Gamesの公式ページで名前とプロフィールが公開されている人物を中心に整理します。映像に映っただけで名前が確定していない人物や、匿名投稿の名称は公式人物一覧へ混ぜません。",
-    body: `<section><h2>中心人物</h2>${cards([["/official/","Jason Duval","公式発表の確認先を見る"],["/official/","Lucia Caminos","公式発表の確認先を見る"]])}</section><section><h2>人物情報の掲載基準</h2><p>人物名、所属、関係性は公式プロフィールの記載範囲を優先します。ストーリー上の役割や結末につながる内容は、公式発表であってもネタバレ表示を分けます。</p></section><section><h2>関連する舞台</h2><p><a href="/map/">GTA6の舞台・地域一覧</a>では、人物と関連する公式公開地域を確認できます。</p></section>`
+    body: `<section><h2>人物を選んで情報を見る</h2><p>人物名を押すと、同じページ内で説明文が開きます。</p>${characterAccordions()}</section><section><h2>人物情報の掲載基準</h2><p>人物名、所属、関係性は公式プロフィールの記載範囲を優先します。ストーリー上の役割や結末につながる内容は、公式発表であってもネタバレ表示を分けます。</p></section><section><h2>関連する舞台</h2><p><a href="/map/">GTA6の舞台・地域一覧</a>では、人物と関連する公式公開地域を確認できます。</p></section>`
   },
   {
     slug: "vehicles",

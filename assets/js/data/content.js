@@ -80,14 +80,14 @@ const regions = [
 ];
 
 const officialPeople = [
-  {name:"Jason Duval",note:"主要人物として公式プロフィール公開済み"},
-  {name:"Lucia Caminos",note:"主要人物として公式プロフィール公開済み"},
-  {name:"Cal Hampton",note:"公式People & Places掲載"},
-  {name:"Boobie Ike",note:"公式People & Places掲載"},
-  {name:"Dre'Quan Priest",note:"公式People & Places掲載"},
-  {name:"Real Dimez",note:"公式People & Places掲載"},
-  {name:"Raul Bautista",note:"公式People & Places掲載"},
-  {name:"Brian Heder",note:"公式People & Places掲載"}
+  {name:"Jason Duval",note:"主要人物として公式プロフィール公開済み",detail:"主要人物として公式プロフィールが公開されています。人物像やLuciaとの関係は、公式に公開された範囲で整理します。"},
+  {name:"Lucia Caminos",note:"主要人物として公式プロフィール公開済み",detail:"主要人物として公式プロフィールが公開されています。人物像やJasonとの関係は、公式に公開された範囲で整理します。"},
+  {name:"Cal Hampton",note:"公式People & Places掲載",detail:"Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"},
+  {name:"Boobie Ike",note:"公式People & Places掲載",detail:"Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"},
+  {name:"Dre'Quan Priest",note:"公式People & Places掲載",detail:"Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"},
+  {name:"Real Dimez",note:"公式People & Places掲載",detail:"Rockstar Gamesの公式People & Placesに掲載されています。公式に示された人物・組織との関係を確認して追記します。"},
+  {name:"Raul Bautista",note:"公式People & Places掲載",detail:"Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"},
+  {name:"Brian Heder",note:"公式People & Places掲載",detail:"Rockstar Gamesの公式People & Placesに掲載されている人物です。プロフィールと人物関係は、公式情報を確認して追記します。"}
 ];
 
 const vehicleData = [];

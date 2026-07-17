@@ -11,9 +11,19 @@ function renderCategories(){
   return `${pageHero("情報カテゴリ","発売前の公式情報と、発売後に検証する攻略項目を分けて探せます","情報カテゴリ")}<div class="container"><section class="page-section page-stack"><nav class="category-grid">${Object.entries(categoryData).map(([key,d])=>categoryCard(`category/${key}`,d.icon,d.title,d.desc)).join("")}${categoryCard("map","pin","舞台・地域","公式公開された地域を確認")}${categoryCard("vehicles","car","登場車両情報","公式名称と映像確認を分離")}</nav></section></div>`;
 }
 
+function characterAccordion(person,index){
+  return `<details class="character-accordion"><summary><span class="badge">${String(index+1).padStart(2,"0")}</span><span class="character-summary-copy"><strong>${escapeHTML(person.name)}</strong><small>${escapeHTML(person.note)}</small></span><span class="character-chevron" aria-hidden="true">›</span></summary><div class="character-accordion-body"><p>${escapeHTML(person.detail)}</p><a href="https://www.rockstargames.com/VI/only-in-leonida" target="_blank" rel="noopener noreferrer">公式People &amp; Placesで確認する ↗</a></div></details>`;
+}
+
+function renderCharactersCategory(){
+  const d=categoryData.characters;
+  return `${pageHero(d.title,d.desc,d.title)}<div class="container"><section class="page-section page-stack"><div class="section-card"><div class="meta-row"><span class="status-pill info">発売前カテゴリ</span><span class="status-pill ready">${d.status}</span></div><h2 style="margin-top:10px">人物を選んで情報を見る</h2><p>人物名を押すと、同じページ内で説明文が開きます。内容は公式に公開された範囲で整理します。</p></div><div class="character-accordion-list">${officialPeople.map(characterAccordion).join("")}</div><div class="data-list">${dataCard("confirmed","公式発表一覧","公式に公開されている情報を中心に確認")}${dataCard("categories","カテゴリ一覧へ戻る","別の入口から探し直す")}</div></section></div>`;
+}
+
 function renderCategory(type){
   if(type==="release")return renderReleaseArticle();
   if(type==="leaks")return `${pageHero("リーク・未確認情報","公式発表前の情報を公式情報と分けて掲載します","リーク・未確認情報")}<div class="container"><section class="page-section page-stack"><div class="news-list" data-cms-category="リーク" data-cms-replace="true"><div class="empty-state"><strong>記事を読み込んでいます</strong></div></div></section></div>`;
+  if(type==="characters")return renderCharactersCategory();
   const d=categoryData[type]||categoryData.story;
   return `${pageHero(d.title,d.desc,d.title)}<div class="container"><section class="page-section page-stack"><div class="section-card"><div class="meta-row"><span class="status-pill info">発売前カテゴリ</span><span class="status-pill ready">${d.status}</span></div><h2 style="margin-top:10px">このカテゴリで確認できること</h2><p>${d.desc}。未発表の名称、数値、条件は推測で補わず、公式発表または発売後の確認まで保留します。</p></div><div class="subcategory-list">${d.sections.map((item,index)=>`<a class="subcategory-card" href="/search/?q=${encodeURIComponent(item.query)}"><span><span class="badge">${String(index+1).padStart(2,"0")}</span><h3>${item.title}</h3><p>${item.desc}</p></span><span class="chevron">›</span></a>`).join("")}</div><div class="data-list">${dataCard("confirmed","公式発表一覧","公式に公開されている情報を中心に確認")}${dataCard("latest","このカテゴリの新着","更新された内容を区分別に確認")}${dataCard("categories","カテゴリ一覧へ戻る","別の入口から探し直す")}</div></section></div>`;
 }
