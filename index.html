@@ -29,7 +29,11 @@ const legacyRoutes={
   "#region/ambrosia":"/map/ambrosia/",
   "#region/mount-kalaga":"/map/mount-kalaga/"
 };
-if(legacyRoutes[location.hash])location.replace(legacyRoutes[location.hash]);
+const legacyCmsMatch=location.hash.match(/^#cms\/([^/?#]+)/);
+const legacyCategoryRoutes={"#category/leaks":"/leaks/","#latest":"/articles/","#category/release":"/release/","#category/characters":"/characters/"};
+if(legacyCmsMatch)location.replace(`/articles/${encodeURIComponent(decodeURIComponent(legacyCmsMatch[1]))}/`);
+else if(legacyCategoryRoutes[location.hash])location.replace(legacyCategoryRoutes[location.hash]);
+else if(legacyRoutes[location.hash])location.replace(legacyRoutes[location.hash]);
 </script>
 <link rel="stylesheet" href="assets/css/00-tokens-base.css">
 <link rel="stylesheet" href="assets/css/01-header-drawer.css">
@@ -118,6 +122,7 @@ if(legacyRoutes[location.hash])location.replace(legacyRoutes[location.hash]);
       <div class="section-heading"><div><h2>目的から探す</h2><p>各ページは通常のHTMLリンクから直接開けます</p></div></div>
       <div class="quick-grid">
         <a class="quick-card" href="/release/"><span><strong>最新・公式・発売情報</strong><small>新しい発表、発売日、機種、予約、容量</small></span></a>
+        <a class="quick-card" href="/articles/"><span><strong>最新記事</strong><small>公開された記事を新しい順に確認</small></span></a>
         <a class="quick-card" href="/characters/"><span><strong>登場人物</strong><small>公式公開された人物</small></span></a>
         <a class="quick-card" href="/map/"><span><strong>舞台・地域</strong><small>Vice Cityなどの公式地域</small></span></a>
         <a class="quick-card" href="/vehicles/"><span><strong>登場車両</strong><small>公式名称と映像確認</small></span></a>

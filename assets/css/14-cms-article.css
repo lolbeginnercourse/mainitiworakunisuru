@@ -1,0 +1,32 @@
+.cms-server-page .seo-header{position:sticky}
+.cms-article-container{padding-bottom:56px}
+.cms-article-hero{border-bottom:0;padding-bottom:22px}
+.cms-article-hero .seo-label-row{margin-bottom:12px}
+.cms-article-summary{max-width:850px!important;color:#3f4552!important;font-size:17px!important}
+.cms-visible-dates{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;color:var(--seo-muted);font-size:13px}
+.cms-visible-dates a{color:var(--seo-link);font-weight:700}
+.cms-hero-image{overflow:hidden;margin:0 0 22px;border:1px solid var(--seo-border);border-radius:10px;background:#e9edf5;aspect-ratio:16/9}
+.cms-hero-image img{display:block;width:100%;height:100%;object-fit:cover}
+.cms-article-toc{margin:0 0 18px;padding:20px 22px;border:1px solid var(--seo-border);border-radius:10px;background:#fff}
+.cms-article-toc strong{font-size:17px}.cms-article-toc ol{display:grid;gap:7px;margin:11px 0 0;padding-left:22px}.cms-article-toc li.level-3{margin-left:18px}.cms-article-toc a{color:var(--seo-link);font-weight:700;text-underline-offset:3px}
+.cms-article-content{padding-top:0}
+.cms-article-body{overflow-wrap:anywhere;color:#282d38}
+.cms-article-body>*:first-child{margin-top:0}.cms-article-body>*:last-child{margin-bottom:0}
+.cms-article-body h2{scroll-margin-top:92px;margin:36px 0 14px;padding-left:13px;border-left:4px solid var(--seo-brand);font-size:25px;line-height:1.45}
+.cms-article-body h3{scroll-margin-top:92px;margin:28px 0 10px;font-size:19px;line-height:1.5}
+.cms-article-body p{margin:0 0 18px;color:#343a47;line-height:1.9}
+.cms-article-body ul,.cms-article-body ol{display:grid;gap:8px;margin:12px 0 22px;padding-left:25px}
+.cms-article-body blockquote{margin:20px 0;padding:16px 18px;border-left:4px solid var(--seo-brand);background:#f7f5fc;color:#3f4552}
+.cms-article-body a{color:var(--seo-link);font-weight:700;text-underline-offset:3px}
+.cms-article-body img{display:block;max-width:100%;height:auto;margin:22px auto;border-radius:8px}
+.cms-article-body table{display:block;width:100%;max-width:100%;overflow-x:auto;border-collapse:collapse;border:1px solid var(--seo-border);border-radius:8px;background:#fff;-webkit-overflow-scrolling:touch}
+.cms-article-body th,.cms-article-body td{min-width:150px;padding:12px 14px;border-right:1px solid var(--seo-border);border-bottom:1px solid var(--seo-border);text-align:left;vertical-align:top}
+.cms-article-body th{background:#f4f2fb;color:#252936;font-weight:800}.cms-article-body tr:last-child td{border-bottom:0}.cms-article-body th:last-child,.cms-article-body td:last-child{border-right:0}
+.cms-server-list{display:grid;gap:12px;padding:28px 0 56px}
+.cms-server-card{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px;align-items:center;padding:14px;border:1px solid var(--seo-border);border-radius:10px;background:#fff;color:var(--seo-text);text-decoration:none}
+.cms-server-card:hover{border-color:#b7a3ee;box-shadow:0 9px 24px rgba(27,21,56,.07)}
+.cms-server-card>img,.cms-list-placeholder{display:grid;width:220px;aspect-ratio:16/9;place-items:center;border-radius:8px;object-fit:cover;background:linear-gradient(135deg,#6335bb,#a88ce8);color:#fff;font-size:34px;font-weight:900}
+.cms-server-card>span{display:grid;gap:7px;min-width:0}.cms-server-card .seo-label-row{margin:0}.cms-server-card strong{font-size:18px;line-height:1.5}.cms-server-card p{margin:0;color:var(--seo-muted);font-size:14px}.cms-server-card em{color:var(--seo-brand);font-size:13px;font-style:normal;font-weight:800}
+@media(max-width:760px){
+  .cms-server-page .seo-header{position:static}.cms-article-container{padding-bottom:32px}.cms-article-summary{font-size:15px!important}.cms-visible-dates{align-items:flex-start;flex-direction:column;gap:5px}.cms-article-toc{padding:17px}.cms-article-body h2{scroll-margin-top:18px;margin-top:30px;font-size:22px}.cms-article-body h3{scroll-margin-top:18px;font-size:18px}.cms-article-body p{line-height:1.85}.cms-article-body th,.cms-article-body td{min-width:138px;padding:11px 12px}.cms-server-list{padding-top:18px}.cms-server-card{grid-template-columns:110px minmax(0,1fr);gap:12px;padding:10px}.cms-server-card>img,.cms-list-placeholder{width:110px}.cms-server-card strong{font-size:15px}.cms-server-card p{display:none}.cms-server-card .seo-label{font-size:10px}
+}

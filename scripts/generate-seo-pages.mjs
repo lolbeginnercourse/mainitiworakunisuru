@@ -323,6 +323,7 @@ for (const page of pages) {
 
 const sitemapPaths = [
   "",
+  "articles",
   ...pages.filter((page) => !page.robots?.includes("noindex") && !redirectedSlugs.has(page.slug)).map((page) => page.slug),
   "map",
   "map/vice-city",
@@ -334,7 +335,7 @@ const sitemapPaths = [
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemapPaths.map((path) => `  <url><loc>${ORIGIN}/${path ? `${path}/` : ""}</loc><lastmod>2026-07-16</lastmod></url>`).join("\n")}
+${sitemapPaths.map((path) => `  <url><loc>${ORIGIN}/${path ? `${path}/` : ""}</loc><lastmod>2026-07-18</lastmod></url>`).join("\n")}
 </urlset>\n`;
 await writeFile(join(ROOT, "sitemap.xml"), sitemap, "utf8");
 

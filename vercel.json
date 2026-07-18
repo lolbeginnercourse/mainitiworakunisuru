@@ -25,6 +25,28 @@
       "dest": "/api/search"
     },
     {
+      "src": "^/articles$",
+      "status": 308,
+      "headers": { "Location": "/articles/" }
+    },
+    {
+      "src": "^/articles/$",
+      "dest": "/api/articles"
+    },
+    {
+      "src": "^/articles/([^/]+)$",
+      "status": 308,
+      "headers": { "Location": "/articles/$1/" }
+    },
+    {
+      "src": "^/articles/([^/]+)/$",
+      "dest": "/api/article?id=$1"
+    },
+    {
+      "src": "^/leaks/$",
+      "dest": "/api/articles?category=リーク&hub=leaks"
+    },
+    {
       "src": "^/(news|official)/?$",
       "status": 308,
       "headers": {
@@ -81,8 +103,12 @@
       "status": 404
     },
     {
-      "src": "^/(robots\\.txt|sitemap\\.xml)$",
-      "dest": "/$1"
+      "src": "^/robots\\.txt$",
+      "dest": "/robots.txt"
+    },
+    {
+      "src": "^/sitemap\\.xml$",
+      "dest": "/api/sitemap"
     },
     {
       "src": "^/index\\.html$",

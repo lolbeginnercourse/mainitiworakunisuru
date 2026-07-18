@@ -1,3 +1,5 @@
+import { articlePath, articleSummary, cmsCategories, fetchCmsContents } from "../lib/cms-server.js";
+
 const ORIGIN = "https://mainitiworakunisuru.com";
 
 const pages = [
@@ -31,14 +33,29 @@ const pages = [
 
 const escapeHtml = (value = "") => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 
-export default function handler(request, response) {
+export default async function handler(request, response) {
   if (request.method !== "GET" && request.method !== "HEAD") {
     response.setHeader("Allow", "GET, HEAD");
     return response.status(405).end("Method not allowed");
   }
   const query = String(request.query.q || "").trim().slice(0, 100);
   const terms = query.toLocaleLowerCase("ja").split(/[\s,、]+/).filter(Boolean);
-  const results = terms.length ? pages.filter((page) => {
+  let searchablePages = pages;
+  try {
+    const contents = await fetchCmsContents(100);
+    const cmsPages = contents.map((item) => ({
+      url: articlePath(item),
+      title: item.name || "無題の記事",
+      description: articleSummary(item, 110),
+      category: cmsCategories(item).join("・") || "記事",
+      keywords: `${item.name || ""} ${cmsCategories(item).join(" ")} ${articleSummary(item, 180)}`,
+      informationStatus: cmsCategories(item).includes("リーク") ? "未確認情報を含む" : "情報整理"
+    }));
+    searchablePages = [...cmsPages, ...pages];
+  } catch {
+    searchablePages = pages;
+  }
+  const results = terms.length ? searchablePages.filter((page) => {
     const haystack = `${page.title} ${page.description} ${page.category} ${page.keywords}`.toLocaleLowerCase("ja");
     return terms.every((term) => haystack.includes(term));
   }) : [];

@@ -10,12 +10,14 @@ const read = (path) => readFile(join(root, path), "utf8");
 const sitemap = await read("sitemap.xml");
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 const titles = new Map();
+const dynamicPaths = new Set(["/articles/"]);
 assert(urls.length === new Set(urls).size, "sitemap.xmlに重複URLがあります");
 assert(!urls.some((url) => /\/(news|official)\/$/.test(url)), "転送URLがsitemap.xmlに残っています");
 assert(!urls.some((url) => /\/search\//.test(url)), "検索結果ページがsitemap.xmlに含まれています");
 
 for (const url of urls) {
   const pathname = new URL(url).pathname;
+  if (dynamicPaths.has(pathname)) continue;
   const file = pathname === "/" ? "index.html" : `${pathname.replace(/^\//, "")}index.html`;
   try {
     await stat(join(root, file));
@@ -59,6 +61,8 @@ const catchAll = config.routes.find((route) => route.src === "^/.*$");
 assert(catchAll?.status === 404, "不明URLのステータスが404ではありません");
 assert(config.routes.some((route) => route.src === "^/(news|official)/?$" && route.status === 308), "旧3ページ統合用の転送がありません");
 assert(config.routes.some((route) => route.src === "^/search/$" && route.dest === "/api/search"), "検索ルートがありません");
+assert(config.routes.some((route) => route.src === "^/articles/([^/]+)/$" && route.dest === "/api/article?id=$1"), "CMS記事ルートがありません");
+assert(config.routes.some((route) => route.src === "^/sitemap\\.xml$" && route.dest === "/api/sitemap"), "動的サイトマップルートがありません");
 
 if (failures.length) {
   console.error(failures.map((failure) => `- ${failure}`).join("\n"));
