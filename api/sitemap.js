@@ -1,4 +1,4 @@
-import { ORIGIN, articlePath, escapeHtml, fetchCmsContents, isoDate } from "../lib/cms-server.js";
+import { ORIGIN, articlePath, escapeHtml, fetchCmsListing, isoDate } from "../lib/cms-server.js";
 
 const staticPaths = [
   "", "category/", "articles/", "release/", "characters/", "vehicles/", "systems/", "online/", "leaks/", "guide/",
@@ -12,7 +12,7 @@ export default async function handler(request, response) {
     return response.status(405).end();
   }
   let items = [];
-  try { items = await fetchCmsContents(100); } catch { items = []; }
+  try { items = await fetchCmsListing(100); } catch { items = []; }
   const staticEntries = staticPaths.map((path) => `<url><loc>${ORIGIN}/${path}</loc><lastmod>2026-07-18</lastmod></url>`);
   const articleEntries = items.map((item) => {
     const lastmod = isoDate(item.revisedAt || item.updatedAt || item.publishedAt || item.createdAt).slice(0, 10);

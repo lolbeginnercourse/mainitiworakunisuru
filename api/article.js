@@ -9,7 +9,7 @@ import {
   escapeJson,
   externalSources,
   fetchCmsContent,
-  fetchCmsContents,
+  fetchCmsListing,
   formatDate,
   imageVariant,
   isoDate,
@@ -113,8 +113,10 @@ export default async function handler(request, response) {
     return response.status(405).end("Method not allowed");
   }
   try {
-    const item = await fetchCmsContent(clean(request.query.id));
-    const allItems = await fetchCmsContents(100);
+    const [item, allItems] = await Promise.all([
+      fetchCmsContent(clean(request.query.id)),
+      fetchCmsListing(100)
+    ]);
     const categories = new Set(cmsCategories(item));
     const related = allItems
       .filter((entry) => entry.id !== item.id && cmsCategories(entry).some((category) => categories.has(category)))
