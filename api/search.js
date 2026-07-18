@@ -1,4 +1,4 @@
-import { articlePath, cmsCategories, fetchCmsListing } from "../lib/cms-server.js";
+import { articlePath, articleSummary, cmsCategories, fetchCmsContents } from "../lib/cms-server.js";
 
 const ORIGIN = "https://mainitiworakunisuru.com";
 
@@ -42,13 +42,13 @@ export default async function handler(request, response) {
   const terms = query.toLocaleLowerCase("ja").split(/[\s,、]+/).filter(Boolean);
   let searchablePages = pages;
   try {
-    const contents = await fetchCmsListing(100);
+    const contents = terms.length ? await fetchCmsContents(100) : [];
     const cmsPages = contents.map((item) => ({
       url: articlePath(item),
       title: item.name || "無題の記事",
-      description: `${cmsCategories(item).join("・") || "GTA6"}の記事です。`,
+      description: articleSummary(item, 110),
       category: cmsCategories(item).join("・") || "記事",
-      keywords: `${item.name || ""} ${cmsCategories(item).join(" ")}`,
+      keywords: `${item.name || ""} ${cmsCategories(item).join(" ")} ${articleSummary(item, 180)}`,
       informationStatus: cmsCategories(item).includes("リーク") ? "未確認情報を含む" : "情報整理"
     }));
     searchablePages = [...cmsPages, ...pages];

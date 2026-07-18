@@ -22,7 +22,8 @@ export default async function handler(request, response) {
         const imageMarkup = image.url
           ? `<img src="${escapeHtml(imageVariant(image.url, 480))}" width="${image.width}" height="${image.height}" alt="${escapeHtml(item.name || "記事")}のサムネイル" loading="lazy" decoding="async">`
           : `<span class="cms-list-placeholder" aria-hidden="true">G</span>`;
-        return `<a class="cms-server-card" href="${articlePath(item)}">${imageMarkup}<span><span class="seo-label-row">${cmsCategories(item).slice(0, 2).map((value) => `<span class="seo-label${value === "リーク" ? " leak" : ""}">${escapeHtml(value)}</span>`).join("")}</span><strong>${escapeHtml(item.name || "無題の記事")}</strong><em>記事を読む <span aria-hidden="true">›</span></em></span></a>`;
+        const cardDescription = `${cmsCategories(item).join("・") || "GTA6"}の記事です。`;
+        return `<a class="cms-server-card" href="${articlePath(item)}">${imageMarkup}<span><span class="seo-label-row">${cmsCategories(item).slice(0, 2).map((value) => `<span class="seo-label${value === "リーク" ? " leak" : ""}">${escapeHtml(value)}</span>`).join("")}</span><strong>${escapeHtml(item.name || "無題の記事")}</strong><p>${escapeHtml(cardDescription)}</p><em>記事を読む <span aria-hidden="true">›</span></em></span></a>`;
       }).join("")
       : `<div class="seo-search-empty"><h2>現在公開中の記事はありません</h2><p>公開後にこの一覧へ自動で追加されます。</p></div>`;
     const schema = { "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: canonical, inLanguage: "ja", mainEntity: { "@type": "ItemList", itemListElement: items.map((item, index) => ({ "@type": "ListItem", position: index + 1, url: `${ORIGIN}${articlePath(item)}`, name: item.name })) } };

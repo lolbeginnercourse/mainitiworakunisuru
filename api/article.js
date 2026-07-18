@@ -63,7 +63,10 @@ function articleHtml(item, relatedItems) {
     ? `<ul class="seo-list">${sources.map((source) => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)} ↗</a></li>`).join("")}</ul>`
     : `<p>本文中の記載内容と<a href="/source-policy/">出典・引用方針</a>を確認してください。一次情報への参照が不足している箇所は、確認でき次第補います。</p>`;
   const related = relatedItems.length
-    ? `<section><h2>関連する記事</h2><div class="seo-card-grid">${relatedItems.map((entry) => `<a class="seo-link-card" href="${articlePath(entry)}"><strong>${escapeHtml(entry.name || "記事")}</strong><span>${escapeHtml(articleSummary(entry, 74))}</span><em>記事を読む <span aria-hidden="true">›</span></em></a>`).join("")}</div></section>`
+    ? `<section><h2>関連する記事</h2><div class="seo-card-grid">${relatedItems.map((entry) => {
+      const relatedSummary = articleSummary(entry, 74) || `${cmsCategories(entry).join("・") || "GTA6"}の記事です。`;
+      return `<a class="seo-link-card" href="${articlePath(entry)}"><strong>${escapeHtml(entry.name || "記事")}</strong><span>${escapeHtml(relatedSummary)}</span><em>記事を読む <span aria-hidden="true">›</span></em></a>`;
+    }).join("")}</div></section>`
     : "";
   const articleSchema = {
     "@context": "https://schema.org",
