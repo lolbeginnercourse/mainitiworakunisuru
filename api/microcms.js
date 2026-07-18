@@ -19,8 +19,7 @@ export default async function handler(request, response) {
     return response.status(503).json({ error: "CMS is not configured" });
   }
 
-  const contentId = clean(request.query.id);
-  if (contentId && withdrawnContentIds.has(contentId)) {
+  if (clean(request.query.id)) {
     return response.status(404).json({ error: "Content not found" });
   }
   const listingFields = [
@@ -38,9 +37,7 @@ export default async function handler(request, response) {
     orders: "-publishedAt",
     fields: listingFields
   });
-  const path = contentId
-    ? `${encodeURIComponent(endpoint)}/${encodeURIComponent(contentId)}`
-    : `${encodeURIComponent(endpoint)}?${listQuery}`;
+  const path = `${encodeURIComponent(endpoint)}?${listQuery}`;
 
   try {
     const cmsResponse = await fetch(`https://${domain}.microcms.io/api/v1/${path}`, {

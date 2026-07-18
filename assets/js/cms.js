@@ -40,25 +40,6 @@ function cmsPlainText(value) {
   return (element.textContent || "").replace(/\s+/g, " ").trim();
 }
 
-function formatCmsRichText(value) {
-  const template = document.createElement("template");
-  template.innerHTML = String(value || "");
-
-  template.content.querySelectorAll("table").forEach((table, index) => {
-    if (table.parentElement?.classList.contains("cms-table-scroll")) return;
-
-    const wrapper = document.createElement("div");
-    wrapper.className = "cms-table-scroll";
-    wrapper.setAttribute("role", "region");
-    wrapper.setAttribute("aria-label", table.querySelector("caption")?.textContent?.trim() || `記事内の表 ${index + 1}`);
-    wrapper.tabIndex = 0;
-    table.before(wrapper);
-    wrapper.append(table);
-  });
-
-  return template.innerHTML;
-}
-
 function cmsThumbnail(item) {
   const media = item?.GAZOU || item?.thumbnail || item?.eyecatch || item?.image;
   if (typeof media === "string") return media;
@@ -114,36 +95,5 @@ async function hydrateCmsListings() {
         list.innerHTML = `<div class="empty-state"><strong>記事を読み込めませんでした</strong><p>時間をおいて、もう一度開いてください。</p></div>`;
       }
     });
-  }
-}
-
-function renderCmsArticle(id) {
-  return `<div class="container page-section"><article class="article-main"><a class="nav-back" href="#latest" data-route="latest">‹ 最新情報へ戻る</a><div id="cms-article"><div class="section-card"><h1>記事を読み込んでいます</h1></div></div></article></div>`;
-}
-
-async function hydrateCmsArticle(id) {
-  const target = document.querySelector("#cms-article");
-  if (!target) return;
-  if (withdrawnCmsContentIds.has(id)) {
-    target.innerHTML = `<div class="empty-state"><strong>この記事は公開を終了しました</strong><p>最新情報の一覧から、ほかの記事をご確認ください。</p></div>`;
-    return;
-  }
-  try {
-    const response = await fetch(`/api/microcms?id=${encodeURIComponent(id)}`);
-    if (!response.ok) throw new Error("CMS request failed");
-    const item = await response.json();
-    if (!target.isConnected) return;
-    const title = escapeHTML(item.name || "無題の記事");
-    const body = formatCmsRichText(item.ritti || (item.honbunn ? `<p>${escapeHTML(item.honbunn)}</p>` : "<p>本文を表示できません。</p>"));
-    const backLink = document.querySelector("#cms-article .nav-back") || document.querySelector(".article-main > .nav-back");
-    if (backLink && cmsCategories(item).includes("リーク")) {
-      backLink.href = "#category/leaks";
-      backLink.dataset.route = "category/leaks";
-      backLink.textContent = "‹ リーク・未確認情報へ戻る";
-    }
-    target.innerHTML = `<div class="article-kicker"><span class="badge">${escapeHTML(cmsCategories(item)[0] || "記事")}</span></div><h1>${title}</h1><div class="article-body cms-article-body">${body}</div>`;
-    document.title = `${item.name || "記事"}｜GTA6インフォ`;
-  } catch {
-    if (target.isConnected) target.innerHTML = `<div class="empty-state"><strong>記事を読み込めませんでした</strong><p>時間をおいて、もう一度開いてください。</p></div>`;
   }
 }

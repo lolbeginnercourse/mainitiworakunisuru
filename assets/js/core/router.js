@@ -20,7 +20,11 @@ function render(){
   else if(route==="beginner")html=renderBeginner();
   else if(route==="search")html=renderSearch(parts.slice(1).join("/"));
   else if(route==="article")html=renderArticle(parts[1]||"generic");
-  else if(route==="cms")html=renderCmsArticle(parts[1]||"");
+  else if(route==="cms"){
+    const contentId=parts[1]||"";
+    location.replace(`/articles/${encodeURIComponent(contentId)}/`);
+    return;
+  }
   else if(route==="about")html=renderAbout();
   else if(route==="guide")html=renderGuide();
   else if(route==="sources")html=renderSources();
@@ -38,5 +42,4 @@ function render(){
   if(!firstRender)main.focus({preventScroll:true});
   firstRender=false;
   hydrateCmsListings();
-  if(route==="cms")hydrateCmsArticle(parts[1]||"");
 }

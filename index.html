@@ -19,22 +19,7 @@
 <meta name="twitter:description" content="GTA6の発売日、対応機種、公式発表、登場人物、舞台、車両、リーク情報を、情報の確度が分かる形で整理します。">
 <meta name="twitter:image" content="https://mainitiworakunisuru.com/assets/images/og-default.png">
 <title>GTA6インフォ｜発売日・公式発表・登場人物・舞台の最新情報</title>
-<script>
-const legacyRoutes={
-  "#map":"/map/",
-  "#region/vice-city":"/map/vice-city/",
-  "#region/leonida-keys":"/map/leonida-keys/",
-  "#region/grassrivers":"/map/grassrivers/",
-  "#region/port-gellhorn":"/map/port-gellhorn/",
-  "#region/ambrosia":"/map/ambrosia/",
-  "#region/mount-kalaga":"/map/mount-kalaga/"
-};
-const legacyCmsMatch=location.hash.match(/^#cms\/([^/?#]+)/);
-const legacyCategoryRoutes={"#category/leaks":"/leaks/","#latest":"/articles/","#category/release":"/release/","#category/characters":"/characters/"};
-if(legacyCmsMatch)location.replace(`/articles/${encodeURIComponent(decodeURIComponent(legacyCmsMatch[1]))}/`);
-else if(legacyCategoryRoutes[location.hash])location.replace(legacyCategoryRoutes[location.hash]);
-else if(legacyRoutes[location.hash])location.replace(legacyRoutes[location.hash]);
-</script>
+<script src="/assets/js/core/legacy-redirects.js"></script>
 <link rel="stylesheet" href="assets/css/00-tokens-base.css">
 <link rel="stylesheet" href="assets/css/01-header-drawer.css">
 <link rel="stylesheet" href="assets/css/02-controls-cards.css">
