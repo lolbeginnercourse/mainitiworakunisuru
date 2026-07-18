@@ -19,8 +19,12 @@ export default async function handler(request, response) {
     return response.status(503).json({ error: "CMS is not configured" });
   }
 
+  const queryKeys = Object.keys(request.query || {});
   if (clean(request.query.id)) {
     return response.status(404).json({ error: "Content not found" });
+  }
+  if (queryKeys.length) {
+    return response.status(400).json({ error: "Unsupported query" });
   }
   const listingFields = [
     "id",
