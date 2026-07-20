@@ -85,6 +85,11 @@ assert(!/(?:javascript:|xlink:href|<svg|<iframe|<meta)/i.test(hostileRichText), 
 const safeRichText = sanitizeRichText('<table><tr><td><a href="https://example.org/">内容</a></td></tr></table>');
 assert(/<table>/.test(safeRichText) && /href="https:\/\/example\.org\/"/.test(safeRichText), "CMS本文の安全な表・リンクが壊れています");
 
+const articleCss = await read("assets/css/14-cms-article.css");
+assert(articleCss.includes(".cms-server-card>img,.cms-list-placeholder{display:grid;width:220px;height:124px"), "記事一覧の画像に横長の固定寸法がありません");
+assert(articleCss.includes(".seo-home-latest .cms-server-list{grid-template-columns:1fr"), "トップの記事一覧が横長1列レイアウトではありません");
+assert(articleCss.includes(".seo-home-latest-card>img,.seo-home-latest-card>.cms-list-placeholder{width:110px;height:74px}"), "スマホの記事画像に固定寸法がありません");
+
 if (failures.length) {
   console.error(failures.map((failure) => `- ${failure}`).join("\n"));
   process.exit(1);
