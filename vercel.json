@@ -56,25 +56,37 @@
       "dest": "/api/article?id=$1"
     },
     {
-      "src": "^/leaks/$",
-      "dest": "/api/articles?category=リーク&hub=leaks"
-    },
-    {
-      "src": "^/(news|official)/?$",
-      "status": 308,
+      "src": "^/(guide|news|official)/?$",
+      "status": 301,
       "headers": {
         "Location": "/release/"
       }
     },
     {
-      "src": "^/(news|official|category|release|characters|vehicles|systems|online|leaks|guide|about|editorial-policy|source-policy|corrections|privacy-policy|contact)$",
+      "src": "^/(systems|leaks)/?$",
+      "dest": "/410.html",
+      "status": 410,
+      "headers": {
+        "Cache-Control": "public, max-age=3600",
+        "X-Robots-Tag": "noindex, follow"
+      }
+    },
+    {
+      "src": "^/(characters|online)/$",
+      "dest": "/$1/index.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, follow"
+      }
+    },
+    {
+      "src": "^/(category|release|characters|vehicles|online|about|editorial-policy|source-policy|corrections|privacy-policy|contact)$",
       "status": 308,
       "headers": {
         "Location": "/$1/"
       }
     },
     {
-      "src": "^/(news|official|category|release|characters|vehicles|systems|online|leaks|guide|about|editorial-policy|source-policy|corrections|privacy-policy|contact)/$",
+      "src": "^/(category|release|vehicles|about|editorial-policy|source-policy|corrections|privacy-policy|contact)/$",
       "dest": "/$1/index.html"
     },
     {

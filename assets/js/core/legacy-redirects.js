@@ -9,10 +9,10 @@ const legacyRoutes = {
 };
 
 const legacyCategoryRoutes = {
-  "#category/leaks": "/leaks/",
+"#category/leaks": "/articles/",
   "#latest": "/articles/",
   "#category/release": "/release/",
-  "#category/characters": "/characters/"
+"#category/characters": "/articles/"
 };
 
 function redirectLegacyHash() {

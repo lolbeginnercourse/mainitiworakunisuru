@@ -12,6 +12,7 @@ import {
   verificationClass,
   verificationLabel
 } from "../lib/cms-server.js";
+import { isCrawlEntryContent } from "../lib/index-control.js";
 
 const releaseAt = new Date("2026-11-19T00:00:00+09:00");
 
@@ -117,7 +118,7 @@ function homeHtml(items) {
 <a class="seo-skip" href="#main">本文へ移動</a>
 <header class="seo-header"><div class="seo-container seo-header-inner">
   <a class="seo-brand" href="/"><span>G</span><strong>GTA6インフォ<small>日本語・非公式情報サイト</small></strong></a>
-  <nav aria-label="主要メニュー"><a href="/" aria-current="page">ホーム</a><a href="/articles/">最新記事</a><a href="/release/">発売情報</a><a href="/characters/">人物</a><a href="/map/">舞台・地域</a><a href="/search/">検索</a></nav>
+  <nav aria-label="主要メニュー"><a href="/" aria-current="page">ホーム</a><a href="/articles/">最新記事</a><a href="/release/">発売情報</a><a href="/map/">舞台・地域</a><a href="/vehicles/">登場車両</a><a href="/search/">検索</a></nav>
 </div></header>
 <main id="main">
   <section class="seo-growth-hero"><div class="seo-container seo-growth-hero-grid">
@@ -142,10 +143,9 @@ function homeHtml(items) {
     <section class="seo-home-purpose"><header><p>PURPOSE</p><h2>知りたいことから選ぶ</h2></header><div class="seo-card-grid">
       <a class="seo-link-card" href="/release/"><strong>発売日・予約を確認</strong><span>価格、対応機種、特典、必要容量</span><em>発売情報へ ›</em></a>
       <a class="seo-link-card" href="/articles/"><strong>新しい情報を確認</strong><span>公開中の記事を新しい順に見る</span><em>最新記事へ ›</em></a>
-      <a class="seo-link-card" href="/characters/"><strong>人物を調べる</strong><span>公式プロフィールと関係</span><em>人物一覧へ ›</em></a>
       <a class="seo-link-card" href="/map/"><strong>舞台・地域を調べる</strong><span>Vice Cityを含む公式公開地域</span><em>地域一覧へ ›</em></a>
       <a class="seo-link-card" href="/vehicles/"><strong>車両を調べる</strong><span>公式名称と映像確認を分ける</span><em>車両情報へ ›</em></a>
-      <a class="seo-link-card" href="/leaks/"><strong>リークの確度を確認</strong><span>公式情報、報道、未確認を分離</span><em>検証記事へ ›</em></a>
+      <a class="seo-link-card" href="/editorial-policy/"><strong>情報の確認基準を見る</strong><span>公式、報道、未確認、考察を分離</span><em>編集方針へ ›</em></a>
     </div></section>
     <section class="seo-home-latest"><header><div><p>LATEST</p><h2>最新記事</h2></div><a href="/articles/">すべての記事を見る ›</a></header><div class="cms-server-list">${latest}</div></section>
     <section class="seo-content seo-home-policy"><section><h2>情報の見分け方</h2><p>公式確認済み、報道、公式映像での確認、リーク、考察を文字ラベルで区別します。判断基準は<a href="/editorial-policy/">編集・掲載方針</a>、情報源の扱いは<a href="/source-policy/">出典・引用方針</a>で確認できます。</p></section></section>
@@ -153,7 +153,7 @@ function homeHtml(items) {
 </main>
 <footer class="seo-footer"><div class="seo-container seo-footer-grid">
   <div><strong>GTA6インフォ</strong><p>公式情報と未確認情報を分けて整理する非公式ファンサイトです。</p></div>
-  <nav><a href="/articles/">最新記事</a><a href="/release/">発売情報</a><a href="/characters/">登場人物</a><a href="/map/">舞台・地域</a><a href="/about/">運営者情報</a><a href="/contact/">お問い合わせ</a></nav>
+  <nav><a href="/articles/">最新記事</a><a href="/release/">発売情報</a><a href="/vehicles/">登場車両</a><a href="/map/">舞台・地域</a><a href="/about/">運営者情報</a><a href="/contact/">お問い合わせ</a></nav>
 </div></footer>
 </body>
 </html>`;
@@ -167,7 +167,7 @@ export default async function handler(request, response) {
 
   let items = [];
   try {
-    items = await fetchCmsListing(8);
+    items = (await fetchCmsListing(12)).filter(isCrawlEntryContent).slice(0, 8);
   } catch {
     items = [];
   }

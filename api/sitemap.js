@@ -1,10 +1,5 @@
 import { ORIGIN, articlePath, escapeHtml, fetchCmsIndex, isoDate } from "../lib/cms-server.js";
-
-const staticPaths = [
-  "", "category/", "articles/", "release/", "characters/", "vehicles/", "leaks/", "guide/",
-  "about/", "editorial-policy/", "source-policy/", "corrections/", "privacy-policy/", "authors/editorial-team/", "map/",
-  "map/vice-city/", "map/leonida-keys/", "map/grassrivers/", "map/port-gellhorn/", "map/ambrosia/", "map/mount-kalaga/"
-];
+import { INDEXABLE_STATIC_PATHS, isIndexableContent } from "../lib/index-control.js";
 
 export default async function handler(request, response) {
   if (request.method !== "GET" && request.method !== "HEAD") {
@@ -13,8 +8,8 @@ export default async function handler(request, response) {
   }
   let items = [];
   try { items = await fetchCmsIndex(100); } catch { items = []; }
-  const staticEntries = staticPaths.map((path) => `<url><loc>${ORIGIN}/${path}</loc></url>`);
-  const articleEntries = items.map((item) => {
+  const staticEntries = INDEXABLE_STATIC_PATHS.map((path) => `<url><loc>${ORIGIN}/${path}</loc></url>`);
+  const articleEntries = items.filter(isIndexableContent).map((item) => {
     const lastmod = isoDate(item.revisedAt || item.updatedAt || item.publishedAt || item.createdAt).slice(0, 10);
     return `<url><loc>${escapeHtml(`${ORIGIN}${articlePath(item)}`)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</url>`;
   });
