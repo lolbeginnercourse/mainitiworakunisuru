@@ -1,4 +1,4 @@
-import { ORIGIN, articlePath, cmsCategories, cmsImage, escapeHtml, escapeJson, fetchCmsListing, imageVariant } from "../lib/cms-server.js";
+import { ORIGIN, articlePath, articleSummary, cmsCategories, cmsImage, escapeHtml, escapeJson, fetchCmsListing, formatDate, imageVariant, verificationClass, verificationLabel } from "../lib/cms-server.js";
 
 export default async function handler(request, response) {
   if (request.method !== "GET" && request.method !== "HEAD") {
@@ -22,8 +22,10 @@ export default async function handler(request, response) {
         const imageMarkup = image.url
           ? `<img src="${escapeHtml(imageVariant(image.url, 480))}" width="${image.width}" height="${image.height}" alt="${escapeHtml(item.name || "記事")}のサムネイル" loading="lazy" decoding="async">`
           : `<span class="cms-list-placeholder" aria-hidden="true">G</span>`;
-        const cardDescription = `${cmsCategories(item).join("・") || "GTA6"}の記事です。`;
-        return `<a class="cms-server-card" href="${articlePath(item)}">${imageMarkup}<span><span class="seo-label-row">${cmsCategories(item).slice(0, 2).map((value) => `<span class="seo-label${value === "リーク" ? " leak" : ""}">${escapeHtml(value)}</span>`).join("")}</span><strong>${escapeHtml(item.name || "無題の記事")}</strong><p>${escapeHtml(cardDescription)}</p><em>記事を読む <span aria-hidden="true">›</span></em></span></a>`;
+        const cardDescription = articleSummary(item, 90) || `${cmsCategories(item).join("・") || "GTA6"}の記事です。`;
+        const published = formatDate(item.publishedAt || item.createdAt);
+        const modified = formatDate(item.revisedAt || item.updatedAt);
+        return `<a class="cms-server-card" href="${articlePath(item)}">${imageMarkup}<span><span class="seo-label-row"><span class="seo-label ${verificationClass(item)}">${escapeHtml(verificationLabel(item))}</span>${cmsCategories(item).slice(0, 1).map((value) => `<span class="seo-label${value === "リーク" ? " leak" : ""}">${escapeHtml(value)}</span>`).join("")}${published ? `<time datetime="${escapeHtml(item.publishedAt || item.createdAt)}">${escapeHtml(published)}</time>` : ""}${modified && modified !== published ? `<small>更新 ${escapeHtml(modified)}</small>` : ""}</span><strong>${escapeHtml(item.name || "無題の記事")}</strong><p>${escapeHtml(cardDescription)}</p><em>記事を読む <span aria-hidden="true">›</span></em></span></a>`;
       }).join("")
       : `<div class="seo-search-empty"><h2>現在公開中の記事はありません</h2><p>公開後にこの一覧へ自動で追加されます。</p></div>`;
     const schema = { "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: canonical, inLanguage: "ja", mainEntity: { "@type": "ItemList", itemListElement: items.map((item, index) => ({ "@type": "ListItem", position: index + 1, url: `${ORIGIN}${articlePath(item)}`, name: item.name })) } };

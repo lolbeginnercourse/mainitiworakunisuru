@@ -16,6 +16,7 @@ const nav = [
 ];
 
 const categoryLinks = [
+  ["/articles/", "最新記事", "公開された記事を新しい順に確認"],
   ["/release/", "最新・公式・発売情報", "新しい発表、発売日、対応機種、予約、必要容量"],
   ["/characters/", "登場人物", "公式公開された人物と組織"],
   ["/map/", "舞台・地域", "Vice Cityなど公式公開地域"],
@@ -122,6 +123,7 @@ const pages = [
   },
   {
     slug: "systems",
+    robots: "noindex,follow",
     title: "GTA6ゲームシステム情報｜公式発表と未発表項目",
     description: "GTA6のNPC、警察、所持品、武器、建物、経済などのゲームシステムを、公式確認済みと未発表に分けます。",
     h1: "GTA6のゲームシステム",
@@ -130,6 +132,7 @@ const pages = [
   },
   {
     slug: "online",
+    robots: "noindex,follow",
     title: "GTA6オンライン情報｜公式発表の確認状況",
     description: "GTA6のオンライン要素について、提供時期、対応機種、参加条件などの公式発表状況を整理します。",
     h1: "GTA6のオンライン情報",
@@ -150,7 +153,7 @@ const pages = [
     description: "GTA6を購入する前に、発売日、対応機種、予約条件、必要容量、公式情報と未確認情報の違いを確認できます。",
     h1: "GTA6の発売前ガイド",
     lead: "予約や購入の前に確認しておきたい情報を、迷いにくい順番でまとめています。販売店の表示だけでなく、Rockstar Gamesと各プラットフォームの公式案内も確認してください。",
-    body: `<section><h2>確認する順番</h2><ol class="seo-steps"><li><strong>対応機種を確認</strong><span>PS5またはXbox Series X|S向けかを確認します。</span></li><li><strong>エディションを確認</strong><span>本編と追加コンテンツの違いを販売ページで確認します。</span></li><li><strong>空き容量を確認</strong><span>正式容量は発表後に再確認します。</span></li><li><strong>予約特典を確認</strong><span>期限、自動更新、地域制限を確認します。</span></li></ol></section><section><h2>関連ページ</h2>${cards([["/release/","発売・商品情報","発売日と対応機種を確認"],["/official/","公式発表","一次情報の参照先を確認"],["/source-policy/","出典・引用方針","情報源の優先順位を確認"]])}</section>`
+    body: `<section><h2>購入前に確認する順番</h2><ol class="seo-steps"><li><strong>対応機種を確認</strong><span>PS5またはXbox Series X|S向けの商品かを確認します。旧世代機やPC版は、公式発表の有無を分けて判断します。</span></li><li><strong>エディションを確認</strong><span>ゲーム本編、追加コンテンツ、予約特典の違いを公式の商品ページで確認します。</span></li><li><strong>空き容量を確認</strong><span>正式容量が未発表の間は推定値を確定情報として扱わず、事前ダウンロード開始前後に再確認します。</span></li><li><strong>予約条件を確認</strong><span>特典の期限、地域制限、サブスクリプションの自動更新、キャンセル条件を確認します。</span></li></ol></section><section><h2>公式ページと販売ページを分けて見る</h2><p>発売日や対応機種の基準は、<a href="https://www.rockstargames.com/VI/" target="_blank" rel="noopener noreferrer">Rockstar Games GTA VI公式サイト</a>です。価格、予約特典、ダウンロード条件は、利用するPlayStationまたはXboxの公式商品ページでも確認してください。販売店の説明だけで判断せず、機種、地域、商品形式が自分の環境と一致しているかを照合します。</p></section><section><h2>容量は公式発表後に確定する</h2><p>必要容量が公式ストアへ掲載されるまでは、SNSや動画の数字を正式容量として扱いません。準備用の空き容量と、ゲーム本体の正式な必要容量は別の情報です。発売前に本体ストレージを整理するときも、ほかのゲームや録画データを急いで削除せず、公式表示を確認してから最終調整してください。</p></section><section><h2>予約特典と自動更新の注意</h2><p>予約特典は購入日、販売地域、エディションによって条件が変わる場合があります。無料期間が付くサービスは、期間終了後の自動更新条件も確認します。パッケージ商品を選ぶ場合は、ディスクかダウンロードコードか、発送日とプレイ開始日が同じかも販売ページで確認してください。</p></section><section><h2>次に確認するページ</h2>${cards([["/release/","発売・商品情報","発売日、価格、機種、予約、必要容量を確認"],["/articles/","最新記事","公開後に変更された情報を確認"],["/source-policy/","出典・引用方針","情報源の優先順位を確認"]])}</section>`
   },
   {
     slug: "about",
@@ -335,7 +338,7 @@ const sitemapPaths = [
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemapPaths.map((path) => `  <url><loc>${ORIGIN}/${path ? `${path}/` : ""}</loc><lastmod>2026-07-18</lastmod></url>`).join("\n")}
+${sitemapPaths.map((path) => `  <url><loc>${ORIGIN}/${path ? `${path}/` : ""}</loc></url>`).join("\n")}
 </urlset>\n`;
 await writeFile(join(ROOT, "sitemap.xml"), sitemap, "utf8");
 

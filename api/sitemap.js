@@ -1,7 +1,7 @@
-import { ORIGIN, articlePath, escapeHtml, fetchCmsListing, isoDate } from "../lib/cms-server.js";
+import { ORIGIN, articlePath, escapeHtml, fetchCmsIndex, isoDate } from "../lib/cms-server.js";
 
 const staticPaths = [
-  "", "category/", "articles/", "release/", "characters/", "vehicles/", "systems/", "online/", "leaks/", "guide/",
+  "", "category/", "articles/", "release/", "characters/", "vehicles/", "leaks/", "guide/",
   "about/", "editorial-policy/", "source-policy/", "corrections/", "privacy-policy/", "authors/editorial-team/", "map/",
   "map/vice-city/", "map/leonida-keys/", "map/grassrivers/", "map/port-gellhorn/", "map/ambrosia/", "map/mount-kalaga/"
 ];
@@ -12,8 +12,8 @@ export default async function handler(request, response) {
     return response.status(405).end();
   }
   let items = [];
-  try { items = await fetchCmsListing(100); } catch { items = []; }
-  const staticEntries = staticPaths.map((path) => `<url><loc>${ORIGIN}/${path}</loc><lastmod>2026-07-18</lastmod></url>`);
+  try { items = await fetchCmsIndex(100); } catch { items = []; }
+  const staticEntries = staticPaths.map((path) => `<url><loc>${ORIGIN}/${path}</loc></url>`);
   const articleEntries = items.map((item) => {
     const lastmod = isoDate(item.revisedAt || item.updatedAt || item.publishedAt || item.createdAt).slice(0, 10);
     return `<url><loc>${escapeHtml(`${ORIGIN}${articlePath(item)}`)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</url>`;
