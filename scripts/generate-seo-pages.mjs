@@ -10,7 +10,7 @@ const DEFAULT_IMAGE = `${ORIGIN}/assets/images/og-default.png`;
 const nav = [
   ["/", "ホーム"],
   ["/release/", "最新・公式情報"],
-  ["/category/", "情報カテゴリ"],
+  ["/articles/", "最新記事"],
   ["/map/", "舞台・地域"],
   ["/vehicles/", "登場車両"]
 ];
@@ -18,13 +18,8 @@ const nav = [
 const categoryLinks = [
   ["/articles/", "最新記事", "公開された記事を新しい順に確認"],
   ["/release/", "最新・公式・発売情報", "新しい発表、発売日、対応機種、予約、必要容量"],
-  ["/characters/", "登場人物", "公式公開された人物と組織"],
   ["/map/", "舞台・地域", "Vice Cityなど公式公開地域"],
-  ["/vehicles/", "登場車両", "車両の確認状態と公式情報"],
-  ["/systems/", "ゲームシステム", "発売前に確認できる仕様"],
-  ["/online/", "オンライン", "公式発表と未発表項目"],
-  ["/leaks/", "リーク・未確認情報", "確定情報と分離して確認"],
-  ["/guide/", "発売前ガイド", "購入前に確認する順番"]
+  ["/vehicles/", "登場車両", "車両の確認状態と公式情報"]
 ];
 
 const esc = (value = "") => String(value)
@@ -78,10 +73,11 @@ const pages = [
     lead: "Rockstar Games公式サイト、公式Newswire、各プラットフォームの公式ストアで確認できる発表だけを記録します。映像からの推測や匿名投稿はこの一覧に含めません。",
     status: "公式確認済み",
     sources: [["Rockstar Games GTA VI公式サイト", "https://www.rockstargames.com/VI"], ["Rockstar Games Newswire", "https://www.rockstargames.com/newswire"]],
-    body: `<section><h2>公式発表の記録</h2><ol class="seo-timeline"><li><time datetime="2026-06-25">2026年6月25日</time><div><span class="seo-label official">Rockstar Games・公式ストア</span><h3>予約受付を開始</h3><p>PlayStation 5とXbox Series X|S向け商品の予約受付開始を確認しました。購入条件の詳細は発売・商品情報に分離しています。</p><a href="/release/">購入前の確認事項を見る ›</a></div></li></ol></section><section><h2>公式参照先</h2><ul class="seo-list"><li><a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Rockstar Games GTA VI公式サイト</a></li><li><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">Rockstar Games Newswire</a></li></ul></section><section><h2>分野別に確認</h2>${cards([["/release/","発売・商品情報","発売日、価格、機種、予約を確認"],["/characters/","登場人物","公式公開された人物を確認"],["/map/","舞台・地域","公式公開された地域を確認"]])}</section>`
+    body: `<section><h2>公式発表の記録</h2><ol class="seo-timeline"><li><time datetime="2026-06-25">2026年6月25日</time><div><span class="seo-label official">Rockstar Games・公式ストア</span><h3>予約受付を開始</h3><p>PlayStation 5とXbox Series X|S向け商品の予約受付開始を確認しました。購入条件の詳細は発売・商品情報に分離しています。</p><a href="/release/">購入前の確認事項を見る ›</a></div></li></ol></section><section><h2>公式参照先</h2><ul class="seo-list"><li><a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener noreferrer">Rockstar Games GTA VI公式サイト</a></li><li><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">Rockstar Games Newswire</a></li></ul></section><section><h2>分野別に確認</h2>${cards([["/release/","発売・商品情報","発売日、価格、機種、予約を確認"],["/articles/","最新記事","公開中の記事を確認"],["/map/","舞台・地域","公式公開された地域を確認"]])}</section>`
   },
   {
     slug: "category",
+    robots: "noindex,follow",
     title: "GTA6情報カテゴリ一覧｜公式・発売・人物・舞台",
     description: "GTA6の最新情報、公式発表、発売情報、登場人物、舞台、車両、ゲームシステム、リークを目的別に探せます。",
     h1: "GTA6の情報カテゴリ",
@@ -100,6 +96,7 @@ const pages = [
   },
   {
     slug: "characters",
+    robots: "noindex,follow",
     title: "GTA6登場人物｜公式公開キャラクター一覧",
     description: "GTA6で公式公開されているJason Duval、Lucia Caminosなどの登場人物を、公式プロフィールと関連地域から整理します。",
     h1: "GTA6の登場人物",
@@ -119,7 +116,7 @@ const pages = [
 <section><h2>実在する自動車メーカーは登場する？</h2><p>GTA6の車両には、現実の車を思わせるデザインが採用される可能性があります。ただし、実在メーカー名がそのまま使われることを意味するものではありません。</p><dl class="seo-table"><div><dt>Grotti</dt><dd>フェラーリ系を連想させる架空ブランド</dd></div><div><dt>Vapid</dt><dd>フォード系を連想させる架空ブランド</dd></div><div><dt>Dinka</dt><dd>ホンダ系を連想させる架空ブランド</dd></div></dl><p class="seo-note">Ferrari、Ford、Toyota、Hondaなどが正式名称のまま登場するという意味ではありません。「実在車に似たデザイン」「実在メーカーを思わせる架空ブランド」と表現するのが正確です。</p></section>
 <section><h2>全メーカーと全車両はまだ未発表</h2><p>Rockstar Gamesは、GTA6に登場する全車両や全メーカーの一覧をまだ発表していません。現在確認できるのは、公式サイトや公式画像に車両名が掲載された一部のメーカーのみです。</p><p>街中を走る一般車、警察車両、トラック、カスタムカー、バイク、ボートなどを含む完全な車両リストは未発表です。トレーラーやスクリーンショットには過去作のメーカーや車種に見える車両もありますが、外見だけを基にした特定には推測が含まれます。</p></section>
 <section><h2>確認できるメーカーまとめ</h2><dl class="seo-table"><div><dt>公式確認済みの自動車メーカー</dt><dd><strong>Grotti・Vapid</strong></dd></div><div><dt>バイクで確認</dt><dd><strong>Dinka</strong></dd></div><div><dt>ボートで確認</dt><dd><strong>Shitzu</strong></dd></div><div><dt>実在する日本メーカー</dt><dd>正式名称での登場は未発表</dd></div><div><dt>そのほかの日本車風ブランド</dt><dd>Karin・Annis・MaibatsuはGTA6での登場未発表</dd></div></dl><p>今後、新しい公式画像や車両情報が公開されれば、確認できるメーカーが増える可能性があります。</p></section>
-<section><h2>関連情報</h2>${cards([["/official/","公式発表","一次情報を確認"],["/systems/","ゲームシステム","車両を含むシステム情報"],["/map/","舞台・地域","車両が登場する地域"]])}</section>`
+<section><h2>関連情報</h2>${cards([["/release/","最新・公式情報","一次情報を確認"],["/articles/","最新記事","公開中の記事を確認"],["/map/","舞台・地域","車両が登場する地域"]])}</section>`
   },
   {
     slug: "systems",
@@ -128,7 +125,7 @@ const pages = [
     description: "GTA6のNPC、警察、所持品、武器、建物、経済などのゲームシステムを、公式確認済みと未発表に分けます。",
     h1: "GTA6のゲームシステム",
     lead: "NPC、警察、所持品、武器、建物、経済などの仕様を扱うカテゴリです。発売前映像から分かる範囲と、操作感や数値など発売後の検証が必要な内容を分けます。",
-    body: `<section><h2>扱う情報</h2>${cards([["/vehicles/","車両","公式名称と映像確認を分離"],["/online/","オンライン","提供時期と仕様の発表状況"],["/official/","公式発表","現在の一次情報を確認"]])}</section><section><h2>発売前に断定しない情報</h2><p>NPCの行動パターン、警察AI、武器性能、経済バランス、建物へ入れる条件などは、公式な仕様説明または発売後の再現確認がない限り確定情報として掲載しません。</p></section>`
+    body: `<section><h2>扱う情報</h2>${cards([["/vehicles/","車両","公式名称と映像確認を分離"],["/articles/","最新記事","公開中の記事を確認"],["/release/","公式発表","現在の一次情報を確認"]])}</section><section><h2>発売前に断定しない情報</h2><p>NPCの行動パターン、警察AI、武器性能、経済バランス、建物へ入れる条件などは、公式な仕様説明または発売後の再現確認がない限り確定情報として掲載しません。</p></section>`
   },
   {
     slug: "online",
@@ -219,7 +216,7 @@ const obsoleteReleaseLinks = `<section><h2>関連する公式情報</h2><p>発�
 const aboutTrustSection = `<section><h2>執筆と確認の体制</h2><p>記事は<a href="/authors/editorial-team/">GTA6インフォ編集部</a>名義で執筆と情報確認を行います。固有名詞、日付、数値は公式英語ページと照合し、公式情報、報道、未確認情報、リーク、考察を記事上で区別します。</p><p>GTA2からGTA5までをPlayStationシリーズとPCでプレイしています。運営者の実名は公開していません。</p></section>`;
 
 const articleSlugs = new Set(["release", "characters", "vehicles", "systems", "online", "leaks", "guide"]);
-const redirectedSlugs = new Set(["news", "official"]);
+const redirectedSlugs = new Set(["guide", "news", "official", "systems", "leaks"]);
 const publishedAt = "2026-07-16";
 const defaultSources = [["Rockstar Games GTA VI公式サイト", "https://www.rockstargames.com/VI"], ["編集・掲載方針", "/editorial-policy/"]];
 
@@ -241,6 +238,7 @@ function pageBody(page) {
 }
 
 function schemaFor(page, canonical) {
+  if (page.robots?.includes("noindex")) return "";
   const schemas = [
     { "@context": "https://schema.org", "@type": "WebPage", name: page.h1, description: page.description, url: canonical, inLanguage: "ja", isPartOf: { "@type": "WebSite", name: SITE_NAME, url: `${ORIGIN}/` } },
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [

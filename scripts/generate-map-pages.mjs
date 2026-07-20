@@ -59,7 +59,7 @@ function shellStart(current = "map") {
     <nav class="desktop-nav" aria-label="主要メニュー">
       <a href="/">ホーム</a>
       <a href="/release/">最新・公式情報</a>
-      <a href="/category/">情報カテゴリ</a>
+      <a href="/articles/">最新記事</a>
       <a href="/map/"${current === "map" ? ' aria-current="page"' : ""}>舞台・地域</a>
       <a href="/vehicles/">登場車両</a>
     </nav>
@@ -75,10 +75,10 @@ function shellStart(current = "map") {
   <nav class="drawer-nav">
     <a href="/">ホーム<span>›</span></a>
     <a href="/release/">最新・公式・発売情報<span>›</span></a>
-    <a href="/category/">情報カテゴリ<span>›</span></a>
+    <a href="/articles/">最新記事<span>›</span></a>
     <a href="/map/" aria-current="page">舞台・地域<span>›</span></a>
     <a href="/vehicles/">登場車両情報<span>›</span></a>
-    <a href="/guide/">発売前ガイド<span>›</span></a>
+    <a href="/release/">発売情報<span>›</span></a>
     <a href="/search/">サイト内検索<span>›</span></a>
   </nav>
   <p class="drawer-note">本サイトはRockstar GamesおよびTake-Two Interactiveとは関係のない非公式ファンサイトです。</p>
@@ -247,7 +247,7 @@ ${shellEnd()}`;
 }
 
 function notFoundPage() {
-  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><title>ページが見つかりません｜${SITE.name}</title><link rel="stylesheet" href="/assets/css/00-tokens-base.css"><link rel="stylesheet" href="/assets/css/09-map-static.css"></head><body><main class="not-found-page"><div><p>404</p><h1>ページが見つかりません</h1><p>URLが変更されたか、まだ公開されていないページです。</p><nav><a href="/">ホームへ戻る</a><a href="/search/">サイト内検索</a><a href="/release/">最新・公式情報を見る</a><a href="/category/">情報カテゴリを見る</a><a href="/contact/">お問い合わせ</a></nav></div></main></body></html>`;
+  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><title>ページが見つかりません｜${SITE.name}</title><link rel="stylesheet" href="/assets/css/00-tokens-base.css"><link rel="stylesheet" href="/assets/css/09-map-static.css"></head><body><main class="not-found-page"><div><p>404</p><h1>ページが見つかりません</h1><p>URLが変更されたか、まだ公開されていないページです。</p><nav><a href="/">ホームへ戻る</a><a href="/search/">サイト内検索</a><a href="/release/">最新・公式情報を見る</a><a href="/articles/">最新記事を見る</a><a href="/contact/">お問い合わせ</a></nav></div></main></body></html>`;
 }
 
 async function output(path, content) {

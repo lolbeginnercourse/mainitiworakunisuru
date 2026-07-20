@@ -1,7 +1,8 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { sanitizeRichText } from "../lib/cms-server.js";
+import { ARTICLE_DESCRIPTIONS, sanitizeRichText } from "../lib/cms-server.js";
+import { auditHtmlLinks } from "../lib/link-audit.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const failures = [];
@@ -13,7 +14,7 @@ const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]
 const titles = new Map();
 const dynamicPaths = new Set(["/", "/articles/"]);
 assert(urls.length === new Set(urls).size, "sitemap.xmlに重複URLがあります");
-const controlledPaths = ["guide", "news", "official", "systems", "leaks", "characters", "online"];
+const controlledPaths = ["category", "guide", "news", "official", "systems", "leaks", "characters", "online"];
 assert(!urls.some((url) => new RegExp(`/(${controlledPaths.join("|")})/$`).test(url)), "統合・終了・保留URLがsitemap.xmlに残っています");
 assert(!urls.some((url) => /\/search\//.test(url)), "検索結果ページがsitemap.xmlに含まれています");
 
@@ -42,6 +43,7 @@ for (const url of urls) {
     assert(!hrefs.some((href) => !href || href === "#"), `${file}: 空または#だけのリンクがあります`);
     assert(!hrefs.some((href) => href.startsWith("http://")), `${file}: HTTPリンクがあります`);
     assert(!hrefs.some((href) => href.includes("www.mainitiworakunisuru.com")), `${file}: www版URLがあります`);
+    failures.push(...auditHtmlLinks(html, file));
   } catch {
     failures.push(`${file}: sitemap掲載ファイルがありません`);
   }
@@ -65,6 +67,11 @@ for (const slug of ["characters", "online"]) {
   assert(!urls.some((url) => new URL(url).pathname === `/${slug}/`), `${slug}: 保留ページがsitemap.xmlに含まれています`);
 }
 
+const categoryHtml = await read("category/index.html");
+assert(/<meta name="robots" content="noindex,follow"/.test(categoryHtml), "category: 保留ページがnoindexではありません");
+assert(!categoryHtml.includes("application/ld+json"), "category: 保留ページに構造化データが残っています");
+assert(!urls.some((url) => new URL(url).pathname === "/category/"), "category: sitemap.xmlに含まれています");
+
 const retired = await read("410.html");
 assert(/<meta name="robots" content="noindex,follow"/.test(retired), "410.htmlがnoindexではありません");
 assert(!retired.includes('rel="canonical"'), "410.htmlにcanonicalがあります");
@@ -76,6 +83,8 @@ assert(catchAll?.status === 404, "不明URLのステータスが404ではあり�
 assert(config.routes.some((route) => route.src === "^/(guide|news|official)/?$" && route.status === 301 && route.headers?.Location === "/release/"), "統合3ページの301転送がありません");
 assert(config.routes.some((route) => route.src === "^/(systems|leaks)/?$" && route.status === 410 && route.dest === "/410.html"), "終了2ページの410応答がありません");
 assert(config.routes.some((route) => route.src === "^/(characters|online)/$" && /noindex/i.test(route.headers?.["X-Robots-Tag"] || "")), "保留2ページのX-Robots-Tagがありません");
+assert(config.routes.some((route) => route.src === "^/category/$" && /noindex/i.test(route.headers?.["X-Robots-Tag"] || "")), "categoryのX-Robots-Tagがありません");
+assert(config.routes.some((route) => route.src === "^/vice-city/?$" && route.status === 301 && route.headers?.Location === "/map/vice-city/"), "vice-cityの1ホップ301転送がありません");
 assert(config.routes.some((route) => route.src === "^/search/$" && route.dest === "/api/search"), "検索ルートがありません");
 assert(config.routes.some((route) => route.src === "^/articles/([^/]+)/$" && route.dest === "/api/article?id=$1"), "CMS記事ルートがありません");
 assert(config.routes.some((route) => route.src === "^/sitemap\\.xml$" && route.dest === "/api/sitemap"), "動的サイトマップルートがありません");
@@ -108,11 +117,21 @@ const targetSourcePrefixes = /^(?:guide|news|official|systems|leaks|characters|o
 for (const file of await listSourceFiles()) {
   if (targetSourcePrefixes.test(file) || file === "lib/index-control.js") continue;
   const source = await read(file);
-  assert(!/href=["']\/(?:guide|news|official|systems|leaks|characters|online)\//.test(source), `${file}: 統合・終了・保留ページへの内部リンクがあります`);
+  assert(!/href=["']\/(?:category|guide|news|official|systems|leaks|characters|online)\//.test(source), `${file}: 統合・終了・保留ページへの内部リンクがあります`);
 }
 
 const robots = await read("robots.txt");
-assert(!/(?:guide|news|official|systems|leaks|characters|online)/.test(robots), "robots.txtで状態管理対象URLをブロックしています");
+assert(!/(?:category|guide|news|official|systems|leaks|characters|online)/.test(robots), "robots.txtで状態管理対象URLをブロックしています");
+
+const descriptions = Object.values(ARTICLE_DESCRIPTIONS);
+assert(descriptions.length === 11, "公開中11記事の個別descriptionが揃っていません");
+assert(descriptions.length === new Set(descriptions).size, "記事descriptionが重複しています");
+for (const [id, description] of Object.entries(ARTICLE_DESCRIPTIONS)) {
+  assert(description.length >= 80 && description.length <= 120, `${id}: descriptionが80〜120文字ではありません`);
+  assert(!/[、,]\s*$|…\s*$/u.test(description), `${id}: descriptionが文の途中で終わっています`);
+}
+
+assert(config.buildCommand === "node scripts/audit-site.mjs && node scripts/audit-cms-links.mjs", "Vercelの公開前リンク検査が設定されていません");
 
 const hostileRichText = sanitizeRichText('<a href=javascript:alert(1)>x</a><svg><a xlink:href=javascript:alert(2)>y</a></svg><iframe src=x /><meta http-equiv="refresh" content="0;url=https://example.com">');
 assert(!/(?:javascript:|xlink:href|<svg|<iframe|<meta)/i.test(hostileRichText), "CMS本文の危険なHTMLが除去されていません");

@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "node scripts/audit-site.mjs && node scripts/audit-cms-links.mjs",
   "routes": [
     {
       "src": "^/(.*)$",
@@ -56,6 +57,13 @@
       "dest": "/api/article?id=$1"
     },
     {
+      "src": "^/vice-city/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/map/vice-city/"
+      }
+    },
+    {
       "src": "^/(guide|news|official)/?$",
       "status": 301,
       "headers": {
@@ -68,6 +76,13 @@
       "status": 410,
       "headers": {
         "Cache-Control": "public, max-age=3600",
+        "X-Robots-Tag": "noindex, follow"
+      }
+    },
+    {
+      "src": "^/category/$",
+      "dest": "/category/index.html",
+      "headers": {
         "X-Robots-Tag": "noindex, follow"
       }
     },
@@ -86,7 +101,7 @@
       }
     },
     {
-      "src": "^/(category|release|vehicles|about|editorial-policy|source-policy|corrections|privacy-policy|contact)/$",
+      "src": "^/(release|vehicles|about|editorial-policy|source-policy|corrections|privacy-policy|contact)/$",
       "dest": "/$1/index.html"
     },
     {
