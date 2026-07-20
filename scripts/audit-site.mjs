@@ -1,6 +1,7 @@
 import { readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { sanitizeRichText } from "../lib/cms-server.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const failures = [];
@@ -78,6 +79,11 @@ const articleApi = await read("api/article.js");
 assert(articleApi.includes("h2Count >= 4"), "記事目次の表示条件がありません");
 assert(articleApi.includes("relatedArticleScore"), "関連記事が意味的に選ばれていません");
 assert(articleApi.includes("主要出典・確認方法"), "記事に出典欄がありません");
+
+const hostileRichText = sanitizeRichText('<a href=javascript:alert(1)>x</a><svg><a xlink:href=javascript:alert(2)>y</a></svg><iframe src=x /><meta http-equiv="refresh" content="0;url=https://example.com">');
+assert(!/(?:javascript:|xlink:href|<svg|<iframe|<meta)/i.test(hostileRichText), "CMS本文の危険なHTMLが除去されていません");
+const safeRichText = sanitizeRichText('<table><tr><td><a href="https://example.org/">内容</a></td></tr></table>');
+assert(/<table>/.test(safeRichText) && /href="https:\/\/example\.org\/"/.test(safeRichText), "CMS本文の安全な表・リンクが壊れています");
 
 if (failures.length) {
   console.error(failures.map((failure) => `- ${failure}`).join("\n"));
