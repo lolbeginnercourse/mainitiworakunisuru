@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mainitiworakunisuru.com/sitemap.xml
